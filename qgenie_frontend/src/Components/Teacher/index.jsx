@@ -16,8 +16,8 @@ function TeacherLayout() {
     return (
         <div id="TeacherLayout" className="flex flex-row">
             <aside className={collapse ? "border-r-3 border-gray-600 w-2/13 h-screen flex-col p-1.5 bg-emerald-900" : "border-r-3 border-gray-600 w-1/20 h-screen flex-col p-2.5 bg-emerald-900"} >
-                {collapse ? <img src="../public/quizzy_horizontal.png" alt="quizzy-logo" className="w-10/12"/>
-                          : <img src="../public/quizzy_logo.png" alt="quizzy-logo" className="w-12/12"/>
+                {collapse ? <img src="../public/Qgenie_horizontal.png" alt="Qgenie-logo" className="w-10/12"/>
+                          : <img src="../public/Qgenie_logo.png" alt="Qgenie-logo" className="w-12/12"/>
                 }
 
                 <section className="flex-col h-10/12 p-1.5 pt-5 w-11/12">

@@ -1,0 +1,20 @@
+import React from 'react';
+
+function Home() {
+  return (
+    <div id="Home" className="p-10 flex flex-col gap-9 w-150"> 
+      <div className="text-6xl font-bold text-white text-shadow-lg/30">Welcome to <span className="text-green-500 text-8xl">Qgenie</span> Assess </div>
+      <div className="text-4xl text-gray-300 text-shadow-lg/30 ">Think. Test. Grow.</div>
+      <div className="flex flex-col gap-4 mt-8">
+        <button onClick={() => window.location.href = '/teacher/dashboard'} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-100">
+          Get Started as Teacher
+        </button>
+        <button onClick={() => window.location.href = '/student/dashboard'} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-100">
+          Get Started as Student
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default Home;

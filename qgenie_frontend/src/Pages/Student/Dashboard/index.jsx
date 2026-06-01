@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { headingUpdate } from "../../../Redux/Slices/TeacherLayout";
+import { headingUpdate } from "../../../Redux/Slices/StudentLayoutSlice";
 
-function TeacherDashboard() {
+function StudentDashboard() {
     let dispatch = useDispatch();
     
     useEffect(() => {
@@ -10,10 +10,10 @@ function TeacherDashboard() {
     },[dispatch]);
 
     return (
-        <div id="TeacherDashboard">
-            <h1>TeacherDashboard</h1>
+        <div id="StudentDashboard">
+            <h1>StudentDashboard</h1>
         </div>
     )
 }
 
-export default TeacherDashboard;
+export default StudentDashboard;

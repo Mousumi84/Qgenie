@@ -2,18 +2,18 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { headingUpdate } from "../../../Redux/Slices/TeacherLayoutSlice";
 
-function TeacherDashboard() {
+function TeacherSubmission() {
     let dispatch = useDispatch();
     
     useEffect(() => {
-        dispatch(headingUpdate({heading:"Dashboard", subheading:"This is the place where you can manage your dashboard"}));
+        dispatch(headingUpdate({heading:"Submission", subheading:"View all submissions here"}));
     },[dispatch]);
 
     return (
-        <div id="TeacherDashboard">
-            <h1>TeacherDashboard</h1>
+        <div id="TeacherSubmission">
+            <h1>TeacherSubmission</h1>
         </div>
     )
 }
 
-export default TeacherDashboard;
+export default TeacherSubmission;

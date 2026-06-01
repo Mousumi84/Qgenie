@@ -22,9 +22,9 @@ function TeacherLayout() {
         role="teacher"
       />
 
-      <main className={collapse ? " w-11/13" : " w-19/20"}>
+      <main className={collapse ? " w-11/13 absolute right-0" : " w-19/20 absolute right-0"}>
         <Header heading={heading} subheading={subheading} role="teacher" />
-        <div className="p-4">
+        <div className="p-4 relative top-16">
           <Outlet />
         </div>
       </main>

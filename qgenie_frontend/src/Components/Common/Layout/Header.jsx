@@ -18,7 +18,7 @@ const currentStyle = styles[role];
 console.log(currentStyle);
 
     return(
-        <header className={`px-4 py-1 border-b-2 ${currentStyle.border} ${currentStyle.bgColor} items-center`}>
+        <header className={`px-4 py-1 border-b-2 ${currentStyle.border} ${currentStyle.bgColor} items-center fixed r-0 w-full z-10`}>
             <strong className={`text-2xl ${currentStyle.headingText}`}>{heading}</strong>
             <p className={`text-l ${currentStyle.subheadingText}`}>{subheading}</p>
         </header>

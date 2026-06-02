@@ -1,9 +1,28 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { headingUpdate } from "../../../Redux/Slices/StudentLayoutSlice";
+import { Table } from "antd";   
 
 function StudentAssessment() {
     let dispatch = useDispatch();
+    
+    const columns = [
+        {
+          title: 'Tittle',
+          dataIndex: 'tittle',
+          key: 'tittle',
+        },
+        {
+          title: 'Subject',
+          dataIndex: 'subject',
+          key: 'subject',
+        },
+        {
+          title: 'Actions',
+          dataIndex: 'actions',
+          key: 'actions',
+        },
+    ];
     
     useEffect(() => {
         dispatch(headingUpdate({heading:"Assessment", subheading:"Give and manage your assessments here"}));
@@ -11,7 +30,7 @@ function StudentAssessment() {
 
     return (
         <div id="StudentAssessment">
-            <h1>StudentAssessment</h1>
+            <Table dataSource={[]} columns={columns} />
         </div>
     )
 }

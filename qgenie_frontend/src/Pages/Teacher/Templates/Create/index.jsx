@@ -80,7 +80,7 @@ function TeacherTemplatesCreate() {
                     <Input placeholder="Enter a subject" />
                 </Form.Item>
                 <Form.Item name="gradelevel" label="Grade Level">
-                    <Select options={gradeoption} placeholder="Select an template option" />
+                    <Select options={gradeoption} placeholder="Select an grade option" />
                 </Form.Item>
                 <Form.Item name="description" label="Description">
                     <Input.TextArea placeholder="Enter an assessment description" />

@@ -32,12 +32,7 @@ function TeacherAssessment() {
   ];
 
   useEffect(() => {
-    dispatch(
-      headingUpdate({
-        heading: "Assessment",
-        subheading: "Create and manage your assessments here",
-      }),
-    );
+    dispatch( headingUpdate({ heading: "Assessment", subheading: "Create and manage your assessments here"}));
   }, [dispatch]);
 
   return (

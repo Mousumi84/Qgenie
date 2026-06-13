@@ -1,36 +1,39 @@
-const express = require("express");
-require("dotenv").config();
-const mongoose = require("mongoose");
+import express from "express";
+import { configDotenv } from "dotenv";
+import mongoose from "mongoose";
 
-//constants
+// File import
+import TeacherAuthRouter from "./Routers/TeacherRouters/AuthRouter.js";
+import StudentAuthRouter from "./Routers/StudentRouters/AuthRouter.js";
+import TemplateRouter from "./Routers/TeacherRouters/TemplateRouter.js";
+import AssessmentRouter from "./Routers/TeacherRouters/AssessmentRouter.js";
+
+// Constats & Initialization:
 const app = express();
-let PORT = process.env.PORT || 5001;
+configDotenv();
+const PORT = process.env.PORT || 5001;
 
-//file-import
-
-// JSON body parsing
+// Middleware & json parse
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// MongoDB connection
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+// MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+.then(() => console.log("✔️ MongoDB connected"))
+.catch((er) => console.log("❌ Failed to connect MongoDB",er));
 
-// Example route
-app.get("/", (req, res) => {
-  res.json({ message: "Qgenie API is up." });
+// Route Handler
+app.get("/", (req,res) => {
+  res.send("Application Working")
 });
+app.use("/teacher",TeacherAuthRouter);
+app.use("/student",StudentAuthRouter);
+app.use("/template",TemplateRouter);
+app.use("/assessment",AssessmentRouter);
 
-// Error handler middleware (see below)
-// const errorHandler = require('./middleware/errorHandler');
-// app.use(errorHandler);
-
+// Listener
 app.listen(PORT, () => {
-  console.log(`server running at:`);
-  console.log(`http://localhost:${PORT}`);
+  console.log("Server is running");
+  console.log(`http://localhost:${PORT}`)
 });
+

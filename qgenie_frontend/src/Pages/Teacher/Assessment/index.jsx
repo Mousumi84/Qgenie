@@ -15,11 +15,6 @@ function TeacherAssessment() {
       key: "title",
     },
     {
-      title: "Subject",
-      dataIndex: "subject",
-      key: "subject",
-    },
-    {
       title: "Template",
       dataIndex: "template",
       key: "template",

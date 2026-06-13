@@ -35,7 +35,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
           </Route>
 
-          <Route element={<ProtectedRoute />}>              {/* <ProtectedTeacherRoute />}> */}
+          <Route element={<ProtectedRoute />}>
             <Route element={<TeacherLayout />}>
               <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
               <Route path="/teacher/templates" element={<TeacherTemplatesPage />} />
@@ -46,7 +46,7 @@ function App() {
             </Route>
           </Route>
 
-          <Route element={<ProtectedRoute />}>              {/* <ProtectedStudentRoute />}> */}
+          <Route element={<ProtectedRoute />}>
             <Route element={<StudentLayout />}>
               <Route path="/student/dashboard" element={<StudentDashboard />} />
               <Route path="/student/assessments" element={<StudentAssessment />} />

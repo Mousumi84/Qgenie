@@ -7,8 +7,8 @@ const AssessmentRouter = express.Router();
 AssessmentRouter.post("/create", createAssessmentController);   // isAuth
 AssessmentRouter.post("/createAi", createAssessmentusingAIController);   // isAuth
 AssessmentRouter.post("/edit/:id", editAssessmentController);   // isAuth
-AssessmentRouter.get("/getAllAssessments", getAllAssessmentController);   // isAuth
-AssessmentRouter.get("/getAssessment/:id", getAssessmentByIdController);   // isAuth
+AssessmentRouter.get("/getAll", getAllAssessmentController);   // isAuth
+AssessmentRouter.get("/get/:id", getAssessmentByIdController);   // isAuth
 AssessmentRouter.delete("/delete", deleteAssessmentController);   // isAuth
 
 export default AssessmentRouter;

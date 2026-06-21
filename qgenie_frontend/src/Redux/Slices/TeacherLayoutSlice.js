@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import APIStatus from "../../Utils/APIStats";
 
 const TeacherLayoutElementsSlices = createSlice({
-    name: "templates",
+    name: "teacher",
     initialState: {
         collapse: true,
         heading: "",
@@ -14,7 +15,6 @@ const TeacherLayoutElementsSlices = createSlice({
         headingUpdate: (state,action) => {
             state.heading = action.payload.heading;
             state.subheading = action.payload.subheading;
-
         }
     }
 });

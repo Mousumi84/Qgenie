@@ -1,9 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 function ProtectedRoute() {
-    const token = true;                 // localStorage.getItem("studentToken") || localStorage.getItem("teacherToken");
-
-    console.log("ProtectedRoute: token =", token);
+    const token = localStorage.getItem("studentToken") || localStorage.getItem("teacherToken");
 
     return token ? <Outlet /> : <Navigate to="/login" replace />;
 }

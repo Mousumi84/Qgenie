@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const StudentLayoutElementsSlices = createSlice({
-    name: "dashboard",
+    name: "student",
     initialState: {
         collapse: true,
         heading: "",
@@ -14,7 +14,6 @@ const StudentLayoutElementsSlices = createSlice({
         headingUpdate: (state,action) => {
             state.heading = action.payload.heading;
             state.subheading = action.payload.subheading;
-
         }
     }
 });

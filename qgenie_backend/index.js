@@ -1,6 +1,7 @@
 import express from "express";
 import { configDotenv } from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors";
 
 // File import
 import TeacherAuthRouter from "./Routers/TeacherRouters/AuthRouter.js";
@@ -16,6 +17,10 @@ const PORT = process.env.PORT || 5001;
 // Middleware & json parse
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}))
 
 // MongoDB
 mongoose.connect(process.env.MONGODB_URI)

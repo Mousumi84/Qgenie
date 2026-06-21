@@ -2,6 +2,7 @@ import React, { lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import Welcome from "./Components/Common/Home/Welcome";
+import { Toaster } from "react-hot-toast";
 
 const Login = lazy(() => import("./Components/Common/Auth/Login"));
 const Signup = lazy(() => import("./Components/Common/Auth/Signup"));
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <div id="app">
+      <Toaster />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} >

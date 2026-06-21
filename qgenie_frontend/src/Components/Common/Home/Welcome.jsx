@@ -5,7 +5,7 @@ function Welcome() {
   let navigate = useNavigate();
 
   const handleTeacherClick = () => {
-    const teacherToken = true;  // localStorage.getItem("teacherToken");
+    const teacherToken = localStorage.getItem("teacherToken");
 
     if (teacherToken) {
         navigate("/teacher/dashboard");
@@ -15,7 +15,7 @@ function Welcome() {
   };
 
   const handleStudentClick = () => {
-    const studentToken = true;     // localStorage.getItem("studentToken");
+    const studentToken = localStorage.getItem("studentToken");
 
     if (studentToken) {
         navigate("/student/dashboard");

@@ -4,6 +4,13 @@ const createTemplateController = async (req,res) => {
     console.log("Create Template");
     let templateInput = req.body;
 
+    if(!templateInput) {
+        return res.send({
+            status: 400,
+            message: "Required fields are missing",
+        });
+    }
+
     try {
         const data = await saveTemplateInputs({templateInput});
         
@@ -25,7 +32,6 @@ const editTemplateController = async (req,res) => {
     console.log("Edit Template",req.params.id,req.body);
     let id = req.params.id;
     let templateInput = req.body;
-    console.log(id,templateInput)
 
     try {
         const data = await editTemplateInputs({id, templateInput});

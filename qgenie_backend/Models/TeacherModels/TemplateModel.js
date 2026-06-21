@@ -20,27 +20,12 @@ const editTemplateInputs = ({id, templateInput}) => {
             title: templateInput.title,
             subject: templateInput.subject,
             gradelevel: templateInput.gradelevel,
+            description: templateInput.description,
+            questionTypeTemplate: templateInput.questionTypeTemplate,
         };
 
-        templateInput.questionTypeTemplate.map((item,index) => {
-            update[`questionTypeTemplate.${index}.type`] = item.type;
-
-            update[`questionTypeTemplate.${index}.questionCount`] = item.questionCount;
-
-            update[`questionTypeTemplate.${index}.marksperQtn`] = item.marksperQtn;
-
-            update[`questionTypeTemplate.${index}.difficultyLevel`] = item.difficultyLevel;
-
-            update[`questionTypeTemplate.${index}.aiprompt`] = item.aiprompt;
-
-            update[`questionTypeTemplate.${index}.options`] = item.options;
-        });
-        
-        console.log("edit template",id,update);
-
-
         try {
-            const DBdata = await TemplateModel.findByIdAndUpdate(id,{ $set: update },{ new: true});
+            const DBdata = await TemplateModel.findByIdAndUpdate(id, update,{ new: true});
             console.log("TemplateModel line- 22",DBdata);
             
             resolve(DBdata)

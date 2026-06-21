@@ -15,12 +15,7 @@ function TeacherLayout() {
 
   return (
     <div id="TeacherLayout" className="flex flex-row">
-      <Sidebar
-        Elements={teacherElements}
-        collapse={collapse}
-        collapsefun={collapsefun}
-        role="teacher"
-      />
+      <Sidebar Elements={teacherElements} collapse={collapse} collapsefun={collapsefun} role="teacher" />
 
       <main className={collapse ? " w-11/13 absolute right-0" : " w-19/20 absolute right-0"}>
         <Header heading={heading} subheading={subheading} role="teacher" />

@@ -1,4 +1,4 @@
-const createAssessmentController = (req,res) => {
+const createAssessmentController = async (req,res) => {
     let { title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation} = req.body;
     let { sampleAnswer, sampleOptions} = req.body;
 
@@ -7,7 +7,7 @@ const createAssessmentController = (req,res) => {
 
         return res.send({
             status: 200,
-            message: "",
+            message: "Assessment created successfully",
         })
     } catch (error) {
         return res.send({
@@ -18,7 +18,7 @@ const createAssessmentController = (req,res) => {
     }
 }
 
-const createAssessmentusingAIController = (req,res) => {
+const createAssessmentusingAIController = async (req,res) => {
     try {
 
 
@@ -35,7 +35,7 @@ const createAssessmentusingAIController = (req,res) => {
     }
 }
 
-const editAssessmentController = (req,res) => {
+const editAssessmentController = async (req,res) => {
     try {
 
 
@@ -52,7 +52,7 @@ const editAssessmentController = (req,res) => {
     }
 }
 
-const getAllAssessmentController = (req,res) => {
+const getAllAssessmentController = async (req,res) => {
     try {
 
 
@@ -69,7 +69,7 @@ const getAllAssessmentController = (req,res) => {
     }
 }
 
-const getAssessmentByIdController = (req,res) => {
+const getAssessmentByIdController = async (req,res) => {
     try {
 
 
@@ -86,7 +86,7 @@ const getAssessmentByIdController = (req,res) => {
     }
 }
 
-const deleteAssessmentController = (req,res) => {
+const deleteAssessmentController = async (req,res) => {
     try {
 
 

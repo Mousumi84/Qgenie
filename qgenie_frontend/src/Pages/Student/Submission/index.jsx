@@ -39,8 +39,16 @@ function StudentSubmission() {
         },
         {
           title: 'Actions',
-          dataIndex: 'actions',
           key: 'actions',
+          width: "120px",
+                      render: () => {
+                          return(
+                              <div className="flex flex-row gap-4">
+                                  <MdOutlineModeEditOutline />
+                                  <MdOutlineDeleteOutline />
+                              </div>
+                          )
+                      }
         },
     ];
     

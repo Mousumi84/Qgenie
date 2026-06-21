@@ -8,6 +8,6 @@ TeacherAuthRouter.post("/editProfile", isAuth, teacherEditProfileController);
 TeacherAuthRouter.post("/confirmAccess", teacherConfirmAccessController);
 TeacherAuthRouter.post("/resetPassword", teacherUpdatePasswordController);
 TeacherAuthRouter.post("/login", teacherLoginController);
-TeacherAuthRouter.post("/logout", isAuth, teacherLogoutController); 
+TeacherAuthRouter.post("/logout", teacherLogoutController); //isAuth
 
 export default TeacherAuthRouter;

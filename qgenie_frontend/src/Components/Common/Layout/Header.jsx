@@ -15,7 +15,6 @@ function Header({heading, subheading,role}) {
     };
 
 const currentStyle = styles[role];
-console.log(currentStyle);
 
     return(
         <header className={`px-4 py-1 border-b-2 ${currentStyle.border} ${currentStyle.bgColor} items-center fixed r-0 w-full z-10`}>

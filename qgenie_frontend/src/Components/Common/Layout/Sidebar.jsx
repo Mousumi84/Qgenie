@@ -19,8 +19,8 @@ function Sidebar({Elements, collapse, collapsefun, role}) {
       },
     };
 
-const currentStyle = styles[role];
-console.log(currentStyle);
+    const currentStyle = styles[role];
+
 
     return (
         <aside className={collapse ? `border-r-3 ${currentStyle.border} w-2/13 h-screen flex-col p-1.5 ${currentStyle.bgColor} fixed` : `border-r-3 ${currentStyle.border} w-1/20 h-screen flex-col p-1.5 ${currentStyle.bgColor} fixed`} >

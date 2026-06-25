@@ -21,12 +21,14 @@ const editTemplateInputs = ({id, templateInput}) => {
             subject: templateInput.subject,
             gradelevel: templateInput.gradelevel,
             description: templateInput.description,
-            questionTypeTemplate: templateInput.questionTypeTemplate,
+            questionTypeTemplate: templateInput.questionTypeTemplate || null,
         };
+
+        console.log("UPDATE",update)
 
         try {
             const DBdata = await TemplateModel.findByIdAndUpdate(id, update,{ new: true});
-            console.log("TemplateModel line- 22",DBdata);
+            console.log("TemplateModel line- 31",DBdata);
             
             resolve(DBdata)
         } catch (error) {
@@ -40,7 +42,7 @@ const getTemplates = () => {
     return new Promise(async (resolve,reject) => {
         try {
             const DBdata = await TemplateModel.find();
-            console.log("TemplateModel line- 36",DBdata);
+            console.log("TemplateModel line- 45",DBdata);
             
             resolve(DBdata)
         } catch (error) {
@@ -53,7 +55,7 @@ const getTemplateById = ({id}) => {
     return new Promise(async (resolve,reject) => {
         try {
             const DBdata = await TemplateModel.findById(id);
-            console.log("TemplateModel line- 49",DBdata);
+            console.log("TemplateModel line- 58",DBdata);
             
             resolve(DBdata)
         } catch (error) {
@@ -66,7 +68,7 @@ const deleteTemplateById = ({id}) => {
     return new Promise(async (resolve,reject) => {
         try {
             const DBdata = await TemplateModel.findByIdAndDelete(id);
-            console.log("TemplateModel line- 62",DBdata);
+            console.log("TemplateModel line- 72",DBdata);
             
             resolve(DBdata)
         } catch (error) {

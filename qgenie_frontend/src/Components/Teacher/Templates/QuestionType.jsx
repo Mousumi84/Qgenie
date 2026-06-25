@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, InputNumber, Radio, Row, Col, Checkbox } from 'antd';
 
-function QuestionType({ type, index, onRemove }) { 
+function QuestionType({ type, index, id, onRemove }) { 
 
     let optionsOptn = [
         { label: "Include Hints", value: "IH" },
@@ -9,16 +9,24 @@ function QuestionType({ type, index, onRemove }) {
         { label: "Shuffle Options", value: "SO" },
         { label: "Enable Negative Marking", value: "ENM" },
     ];
+    let quesTypeOpt = [
+        { label: "Multiple Choice Question", value: "MCQ" },
+        { label: "Multiple Select Question", value: "MSQ" },
+        { label: "True / False", value: "TRUE_FALSE" },
+        { label: "Fill in the Blank", value: "FILL_BLANK" },
+        { label: "Short Answer Question", value: "SAQ" },
+        { label: "Long Answer Question", value: "LAQ" }, 
+    ];
 
+    let heading = quesTypeOpt.filter((i) => i.value === type )[0]?.label;
+
+    console.log(id);
+    
     return (
         <div className='border border-dashed border-gray-300 p-4 rounded-md relative'>
-            <button type="button" className="absolute top-2 right-2 text-red-500 hover:text-red-700" onClick={() => onRemove(index)}>
-                ✕
-            </button>
+            <button type="button" className="absolute top-2 right-2 text-red-500 hover:text-red-700" onClick={() => onRemove(id)}>✕</button>
 
-            <h3 className="font-semibold text-lg mb-4">
-                {type.label}
-            </h3>
+            <h3 className="font-semibold text-lg mb-4">{heading}</h3>
 
             <Form.Item label="Question Count" name={["questionTypeTemplate", index, "questionCount"]}>
                 <InputNumber min={0} max={100} className="w-full" />

@@ -29,10 +29,10 @@ const QuestionPaperSchema = new mongoose.Schema({
 const AssessmentSchema = new mongoose.Schema({
     title: {
         type: String,
-        require: true,
+        required: true,
     },
     template: {
-        type: Schema.Type.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Template",
         required: true,
     },
@@ -60,7 +60,7 @@ const AssessmentSchema = new mongoose.Schema({
 // Check Question Type on  ["MCQ", "MSQ","TRUE_FALSE","FILL_BLANK", "SAQ", "LAQ"]
 
 AssessmentSchema.path('questions').discriminator(
-    "MCQ", new Schema({
+    "MCQ", new mongoose.Schema({
         sampleOptions: {
             type: [{
                 label: {
@@ -78,7 +78,7 @@ AssessmentSchema.path('questions').discriminator(
 );
 
 AssessmentSchema.path('questions').discriminator(
-    "MSQ", new Schema({
+    "MSQ", new mongoose.Schema({
         sampleOptions: {
             type: [{
                 label: {
@@ -96,30 +96,16 @@ AssessmentSchema.path('questions').discriminator(
 );
 
 AssessmentSchema.path('questions').discriminator(
-    "TRUE_FALSE", new Schema({
+    "TRUE_FALSE", new mongoose.Schema({
         sampleOptions: {
-            true: {
-                type: Boolean,
-                required: true,
-                isCorrect: {
-                    type: Boolean,
-                    default: false,
-                }
-            },
-            false: {
-                type: Boolean,
-                required: true,
-                isCorrect: {
-                    type: Boolean,
-                    default: false,
-                }
-            },
+            type: Boolean,
+            required: true,
         }
     }) 
 );
 
 AssessmentSchema.path('questions').discriminator(
-    "FILL_BLANK", new Schema({
+    "FILL_BLANK", new mongoose.Schema({
         sampleAnswer: {
             type: [String],
             required: true,
@@ -128,7 +114,7 @@ AssessmentSchema.path('questions').discriminator(
 );
 
 AssessmentSchema.path('questions').discriminator(
-    "SAQ", new Schema({
+    "SAQ", new mongoose.Schema({
         sampleAnswer: {
             type: String,
             required: true,
@@ -137,7 +123,7 @@ AssessmentSchema.path('questions').discriminator(
 );
 
 AssessmentSchema.path('questions').discriminator(
-    "LAQ", new Schema({
+    "LAQ", new mongoose.Schema({
         sampleAnswer: {
             type: String,
             required: true,

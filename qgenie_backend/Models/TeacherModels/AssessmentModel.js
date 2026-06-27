@@ -1,4 +1,4 @@
-import AssessmentModel from "../../Schemas/TeacherSchemas/AssessmentSchema";
+import AssessmentModel from "../../Schemas/TeacherSchemas/AssessmentSchema.js";
 
 
 
@@ -62,7 +62,7 @@ const fetchAllAssessments = () => {
     return new Promise(async (Resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.find();
-            console.log("AssessmentModel line- 36",DBdata);
+            console.log("AssessmentModel line- 65",DBdata);
 
             Resolve(DBdata);
         } catch (error) {
@@ -75,7 +75,7 @@ const fetchAssessmentById = ({id}) => {
     return new Promise(async (Resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.findById(id);
-            console.log("AssessmentModel line- 36",DBdata);
+            console.log("AssessmentModel line- 78",DBdata);
 
             Resolve(DBdata);
         } catch (error) {
@@ -88,7 +88,7 @@ const deleteAssessment = ({id}) => {
     return new Promise(async (Resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.findByIdAndDelete(id);
-            console.log("AssessmentModel line- 36",DBdata);
+            console.log("AssessmentModel line- 91",DBdata);
 
             Resolve(DBdata);
         } catch (error) {

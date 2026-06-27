@@ -1,3 +1,5 @@
+import { deleteAssessment, fetchAllAssessments, fetchAssessmentById } from "../../Models/TeacherModels/AssessmentModel.js";
+
 const createAssessmentController = async (req,res) => {
     let { title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation} = req.body;
     let { sampleAnswer, sampleOptions} = req.body;
@@ -54,11 +56,12 @@ const editAssessmentController = async (req,res) => {
 
 const getAllAssessmentController = async (req,res) => {
     try {
-
+        let data = await fetchAllAssessments();
 
         return res.send({
             status: 200,
-            message: "",
+            message: "Data fetched",
+            data: data,
         })
     } catch (error) {
         return res.send({
@@ -70,12 +73,15 @@ const getAllAssessmentController = async (req,res) => {
 }
 
 const getAssessmentByIdController = async (req,res) => {
-    try {
+    let id = req.params.id;
 
+    try {
+        let data = await fetchAssessmentById({id});
 
         return res.send({
             status: 200,
-            message: "",
+            message: "Data fetched",
+            data: data,
         })
     } catch (error) {
         return res.send({
@@ -87,12 +93,14 @@ const getAssessmentByIdController = async (req,res) => {
 }
 
 const deleteAssessmentController = async (req,res) => {
-    try {
+    let id = req.params.id;
 
+    try {
+        let data = await deleteAssessment({id});
 
         return res.send({
             status: 200,
-            message: "",
+            message: "Assessment deleted successfully",
         })
     } catch (error) {
         return res.send({

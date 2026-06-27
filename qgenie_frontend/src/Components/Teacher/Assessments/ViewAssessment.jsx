@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-const ViewTemplateDetails = ({id, setViewDetails}) => {
+const ViewAssessmentDetails = ({id, setViewDetails}) => {
     const [record, setRecord] = useState();
 
     let quesTypeOpt = [
@@ -37,6 +37,8 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
     useEffect(() => {
         fetchtemplateDetails();
     },[]);
+
+    console.log(record)
 
     return (
         <div id="viewTemp">
@@ -114,4 +116,4 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
     )
 }
 
-export default ViewTemplateDetails;
+export default ViewAssessmentDetails;

@@ -26,9 +26,9 @@ const QuestionTypeSchema = new mongoose.Schema({
         ],
     }
 },
-{
-    _id: false
-}
+// {
+//     _id: false
+// }
 );
 
 const TemplateSchema = new mongoose.Schema({

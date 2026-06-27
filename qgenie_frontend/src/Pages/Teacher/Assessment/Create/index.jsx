@@ -40,10 +40,6 @@ function TeacherAssessmentCreate() {
         }
     }
 
-    const onChange = checked => {
-        console.log(`switch to ${checked}`);
-    };
-
     const selectTempFun = async (id) => {
         console.log(id);
         try {

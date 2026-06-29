@@ -41,7 +41,8 @@ const AssessmentSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["Pending", "Published", "Done", "Cancel"]
+        enum: ["Pending", "Published", "Done", "Cancel"],
+        default: "Pending",
     },
     publishedAt: {
         type: Date
@@ -90,14 +91,14 @@ AssessmentSchema.path('questions').discriminator(
                     default: false,
                 },
             }],
-            validate: (e) => e.length === 4,
+            validate: (e) => e.length === 6,
         }
     }) 
 );
 
 AssessmentSchema.path('questions').discriminator(
     "TRUE_FALSE", new mongoose.Schema({
-        sampleOptions: {
+        sampleAnswer: {
             type: Boolean,
             required: true,
         }

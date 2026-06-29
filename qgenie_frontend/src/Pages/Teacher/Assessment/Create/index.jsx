@@ -7,6 +7,12 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import MCQQuestions from "../../../../Components/Teacher/Assessments/MCQQuestions.jsx";
+import MSQQuestions from "../../../../Components/Teacher/Assessments/MSQQuestions.jsx";
+import TFQQuestions from "../../../../Components/Teacher/Assessments/TFQuestions.jsx";
+import FUQuestions from "../../../../Components/Teacher/Assessments/FillUpQuestions.jsx";
+import SAQQuestions from "../../../../Components/Teacher/Assessments/SAQQuestions.jsx";
+import LAQQuestions from "../../../../Components/Teacher/Assessments/LAQQuestions.jsx";
 
 function TeacherAssessmentCreate() {
     let location = useLocation();
@@ -119,17 +125,39 @@ function TeacherAssessmentCreate() {
     return (
         <div id="TeacherAssessmentCreate">
             <div className="border border-green-100 rounded-lg p-4">
-                <Form labelCol={{ span: 5 }} labelAlign="left" wrapperCol={{ span: 20 }} layout="horizontal" style={{ maxWidth: 1000 }} onFinish={isEdit ? editAssessment : createAssessment} >
+                <Form labelCol={{ span: 5 }} labelAlign="left" wrapperCol={{ span: 20 }} layout="horizontal" className="w-11/12 flex flex-col gap-2" onFinish={isEdit ? editAssessment : createAssessment} >
+                    {/* Title */}
                     <Form.Item name="title" label="Title" rules={[{ required: true }]}>
                         <Input placeholder="Enter an assessment title" />
                     </Form.Item>
+                    
+                    {/* Template */}
                     <Form.Item name="template" label="Template">
                         <Select options={tempDropdownOptions} placeholder="Select an template option" onSelect={(e) => selectTempFun(e)}/>
                     </Form.Item>
+
+                    {/* Description */}
                     <Form.Item name="description" label="Description">
                         <Input.TextArea placeholder="Enter an assessment description" />
                     </Form.Item>
-                    <Form.Item label={null}>
+
+                    <div className="flex flex-col gap-4">
+                        {tempSelect?.questionTypeTemplate?.map((item,index) => {  
+            
+                            return (
+                                <div key={item?._id}>
+                                    {item.type == "MCQ" && <MCQQuestions item={item} index={index} />}
+                                    {item.type == "MSQ" && <MSQQuestions item={item} index={index} />}
+                                    {item.type == "TRUE_FALSE" && <TFQQuestions item={item} index={index} />}
+                                    {item.type == "FILL_BLANK" && <FUQuestions item={item} index={index} />}
+                                    {item.type == "SAQ" && <SAQQuestions item={item} index={index} />}
+                                    {item.type == "LAQ" && <LAQQuestions item={item} index={index} />}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <Form.Item>
                         <Button type="primary" htmlType="submit">Submit</Button>
                     </Form.Item>
                 </Form>

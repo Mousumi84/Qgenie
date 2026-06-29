@@ -8,8 +8,8 @@ const saveAssessment = ({title, template, description, status, publishedAt, tota
             title: title,
             template: template,
             description: description,
-            status: status,
-            publishedAt: publishedAt,
+            // status: status,
+            // publishedAt: publishedAt,
             totalMarks: totalMarks,
             // questions: [
                 // {

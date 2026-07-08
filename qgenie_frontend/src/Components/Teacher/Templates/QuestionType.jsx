@@ -19,12 +19,11 @@ function QuestionType({ type, index, id, onRemove }) {
     ];
 
     let heading = quesTypeOpt.filter((i) => i.value === type )[0]?.label;
-
-    console.log(id);
     
     return (
         <>
             <Collapse 
+                destroyOnHidden={false}
                 items={[
                     {
                         key: "1",

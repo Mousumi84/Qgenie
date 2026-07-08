@@ -73,7 +73,7 @@ function TeacherTemplatesCreate() {
         setQuestionTypes(updated);
     
         const values = form.getFieldValue("questionTypeTemplate") || [];
-        console.log("values=>",values)
+        console.log("values=>",values);
     
         values.splice(removedIndex, 1);
     
@@ -91,8 +91,6 @@ function TeacherTemplatesCreate() {
             </div>
         );
     };
-  
-    console.log(questionTypes,form);
   
     const createTemplate = async (values) => {
 
@@ -121,11 +119,14 @@ function TeacherTemplatesCreate() {
     }
   
     const editTemplate = async (values) => {
+        let data = form.getFieldsValue(true);
+        console.log(values);
+
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/template/edit/${state?._id}`,
                 method: "POST",
-                data: values,
+                data: data,
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
             })
 

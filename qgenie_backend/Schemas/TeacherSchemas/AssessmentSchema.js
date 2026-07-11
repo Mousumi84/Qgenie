@@ -8,6 +8,10 @@ const QuestionPaperSchema = new mongoose.Schema({
     question: {
         type: String,
     },
+    difficultyLevel: {
+        type: String,
+        enum: ["easy", "medium", "hard"],
+    },
     marks: {
         type: Number,
     },

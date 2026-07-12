@@ -94,6 +94,7 @@ const getAssessmentByIdController = async (req,res) => {
 
 const deleteAssessmentController = async (req,res) => {
     let id = req.params.id;
+    console.log("Delete assessment:", id);
 
     try {
         let data = await deleteAssessment({id});

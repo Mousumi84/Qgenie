@@ -4,11 +4,11 @@ import { createAssessmentController, createAssessmentusingAIController, deleteAs
 
 const AssessmentRouter = express.Router();
 
-AssessmentRouter.post("/create", createAssessmentController);   // isAuth
+AssessmentRouter.post("/create",isAuth, createAssessmentController);
 AssessmentRouter.post("/createAi", createAssessmentusingAIController);   // isAuth
 AssessmentRouter.post("/edit/:id", editAssessmentController);   // isAuth
 AssessmentRouter.get("/getAll", isAuth, getAllAssessmentController);
 AssessmentRouter.get("/get/:id", isAuth, getAssessmentByIdController);
-AssessmentRouter.delete("/delete", isAuth, deleteAssessmentController);
+AssessmentRouter.post("/delete/:id", isAuth, deleteAssessmentController);
 
 export default AssessmentRouter;

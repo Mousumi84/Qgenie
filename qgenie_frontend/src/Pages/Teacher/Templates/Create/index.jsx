@@ -160,15 +160,22 @@ function TeacherTemplatesCreate() {
                 description: state.description,
                 questionTypeTemplate: state.questionTypeTemplate,
             } : {}}>
+                {/* Title */}
                 <Form.Item name="title" label="Title" rules={[{ required: true }]}>
                     <Input placeholder="Enter template title" />
                 </Form.Item>
+
+                {/* Subject */}
                 <Form.Item name="subject" label="Subject">
                     <Input placeholder="Enter a subject" />
                 </Form.Item>
+
+                {/* Grade Level */}
                 <Form.Item name="gradelevel" label="Grade Level">
                     <Select options={gradeoption} placeholder="Select an grade option"/>
                 </Form.Item>
+                
+                {/* Description */}
                 <Form.Item name="description" label="Description">
                     <Input.TextArea placeholder="Enter template description" />
                 </Form.Item>

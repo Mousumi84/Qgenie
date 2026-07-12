@@ -1,13 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { headingUpdate } from "../../../Redux/Slices/TeacherLayoutSlice";
-import { Button, Table } from "antd";
+import { Button, Table, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { BiExpandAlt } from "react-icons/bi";
 import { MdDelete, MdEdit } from "react-icons/md";
+import ViewAssessmentDetails from "../../../Components/Teacher/Assessments/ViewAssessment";
+
+    let {confirm} = Modal;
 
 function TeacherAssessmentPage() {
     const [AssmData, setAssmData] = useState();
@@ -23,24 +26,15 @@ function TeacherAssessmentPage() {
             dataIndex: "title",
             key: "title",
         },
-        // {
-        //     title: "Template",
-        //     dataIndex: "template",
-        //     key: "template",
-        // },
         {
-            title: "Created On",
-            dataIndex: "createdAt",
-            key: "createdAt",
-            render: (createdAt) => {
-                const date = new Date(createdAt);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return `${day}/${month}/${year}`;
-            },
+            title: "Grade Level",
+            dataIndex: "gradelevel", 
+            key: "gradelevel",
+        },
+        {
+            title: "Subject",
+            dataIndex: "subject",
+            key: "subject",
         },
         {
             title: "Status",
@@ -57,18 +51,36 @@ function TeacherAssessmentPage() {
             },
         },
         {
+            title: "Total Marks",
+            dataIndex: "totalMarks",
+            key: "totalMarks",
+        },
+        {
             title: "Published On",
             dataIndex: "publishedAt",
             key: "publishedAt",
             render: (publishedAt) => {
                 const date = new Date(publishedAt);
-                console.log(publishedAt, date);
 
                 const day = String(date.getDate()).padStart(2, "0");
                 const month = String(date.getMonth() + 1).padStart(2, "0");
                 const year = String(date.getFullYear()).slice(-2);
 
                 return publishedAt !== null ? `${day}/${month}/${year}` : "----";
+            },
+        },
+        {
+            title: "Created On",
+            dataIndex: "createdAt",
+            key: "createdAt",
+            render: (createdAt) => {
+                const date = new Date(createdAt);
+
+                const day = String(date.getDate()).padStart(2, "0");
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const year = String(date.getFullYear()).slice(-2);
+
+                return `${day}/${month}/${year}`;
             },
         },
         {
@@ -154,7 +166,7 @@ function TeacherAssessmentPage() {
                 Create Assessment
             </Button>
             <Table columns={columns} dataSource={AssmData} rowKey="_id" />
-            {viewDetails && <ViewTemplateDetails id={viewAssmId} setViewDetails={setViewDetails} />}
+            {viewDetails && <ViewAssessmentDetails id={viewAssmId} setViewDetails={setViewDetails} />}
         </div>
     );
 }

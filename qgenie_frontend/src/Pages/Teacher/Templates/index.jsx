@@ -91,7 +91,7 @@ function TeacherTemplatesPage() {
                     if(response?.data?.status == 200) {
                         toast.success(response?.data?.message);
                         fetchTemplateData();
-                        return;
+                        return; 
                     }
         
                     toast.error(response?.data?.message);

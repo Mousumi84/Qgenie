@@ -1,132 +1,5 @@
 import mongoose from "mongoose";
 
-/*
-{
-    title: "eng",
-    template: "6a37f48b8204fa172b93b61d",
-    description: "English exam class Nursary",
-    totalMarks: 5,
-    questions: [
-       {
-            questionType: "TRUE_FALSE",
-            question: "A for Ball",
-            sampleAnswer: "false",
-            hints: "Starts with \"A\"",
-            difficultyLevel: "easy",
-            marks: 1,
-            negativeMarks: "0.5"
-       },
-       {
-            questionType: "MCQ",
-            question: "B for ...",
-            sampleOptions: [
-               { label: "Ball", isCorrect: true },
-               { label: "Cat", isCorrect: false },
-               { label: "Dog", isCorrect: false },
-               { label: "Egg", isCorrect: false  }
-           ],
-            hints: "Bat, Balloon",
-            difficultyLevel: "easy",
-            marks: 1,
-            negativeMarks: "0.5"
-       },
-       {
-            questionType: "MCQ",
-            question: "Cat have ?",
-            sampleOptions: [
-               { label: "Fur", isCorrect: true },
-               { label: "Hand", isCorrect: false },
-               { label: "Leg", isCorrect: false },
-               { label: "Wings", isCorrect: false  }
-           ],
-            hints: "Hair like in the body",
-            difficultyLevel: "medium",
-            marks: 1,
-            negativeMarks: "0.5"
-       },
-       {
-            questionType: "MCQ",
-            question: "Z for ...",
-            sampleOptions: [
-                { label: "Zebra", isCorrect: true },
-                { label: "Goat", isCorrect: false },
-                { label: "Dog", isCorrect: false },
-                { label: "Cow", isCorrect: false  }
-            ],
-            hints: "Zoo",
-            difficultyLevel: "medium",
-            marks: 1,
-            negativeMarks: "0.5"
-        },
-        {
-            questionType: "MCQ",
-            question: "Apple, Ant, Air all starts with ",
-            sampleOptions: [
-                { label: "A", isCorrect: true },
-                { label: "B", isCorrect: false },
-                { label: "C", isCorrect: false },
-                { label: "D", isCorrect: false  }
-            ],
-            difficultyLevel: "easy",
-            marks: 1,
-            negativeMarks: "0.5"
-        }
-    ]
-}
-*/
-/*
-{
-    title: "Assessment Title",
-    template: "Template ID 1634fbcmjf54326buiyf6q5drd2g368348",
-    description: "Assessment Description",
-    status: "Pending",
-    publishedAt: "2023-10-10T10:00:00.000Z",
-    totalMarks: 100,
-    questions: [ 
-        {
-            questionType: "MCQ",
-            question: "What is the capital of France?",
-            difficultyLevel: "easy",
-            marks: 5,
-            negativeMarks: 0,
-            hints: "It's a famous city.",
-            explanation: "The capital of France is Paris.",
-            sampleOptions: [
-                { label: "Paris", isCorrect: true },
-                { label: "London", isCorrect: false },
-                { label: "Berlin", isCorrect: false },
-                { label: "Madrid", isCorrect: false }
-            ]
-        },
-        {
-            questionType: "MSQ",
-            question: "What is the names of kolkata?",
-            difficultyLevel: "easy",
-            marks: 5,
-            negativeMarks: 0,
-            hints: "It's a famous city.",
-            explanation: "The capital of West Bengal is Kolkata.",
-            sampleOptions: [
-                { label: "Kolkata", isCorrect: true },
-                { label: "Calcata", isCorrect: true },
-                { label: "City of joy", isCorrect: true },
-                { label: "Madrid", isCorrect: false }
-            ]
-        },
-        {
-            questionType: "TRUE_FALSE",
-            question: "What is the capital of France?",
-            difficultyLevel: "easy",
-            marks: 5,
-            negativeMarks: 0,
-            hints: "It's a famous city.",
-            explanation: "The capital of France is Paris.",
-            sampleAnswer: true
-        },
-    ],
-}
-*/
-
 const QuestionPaperSchema = new mongoose.Schema({
     questionType: {
         type: String,
@@ -167,6 +40,12 @@ const AssessmentSchema = new mongoose.Schema({
         ref: "Template",
         required: true,
     },
+    subject: {
+        type: String,
+    },
+    gradelevel: {
+        type: String,
+    },
     description: {
         type: String
     },
@@ -182,6 +61,9 @@ const AssessmentSchema = new mongoose.Schema({
     totalMarks: {
         type: Number
     }, 
+    timeAllotted: {
+        type: Number, 
+    },
     questions: {
         type: [QuestionPaperSchema],
     }

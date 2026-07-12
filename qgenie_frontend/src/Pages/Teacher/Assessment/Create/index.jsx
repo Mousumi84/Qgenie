@@ -24,6 +24,21 @@ function TeacherAssessmentCreate() {
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
+
+    let gradeoption = [
+        { label: "Class I", value: "Class 1" },
+        { label: "Class II", value: "Class 2" },
+        { label: "Class III", value: "Class 3" },
+        { label: "Class IV", value: "Class 4" },
+        { label: "Class V", value: "Class 5" },
+        { label: "Class VI", value: "Class 6" },
+        { label: "Class VII", value: "Class 7" },
+        { label: "Class VIII", value: "Class 8" },
+        { label: "Class IX", value: "Class 9" },
+        { label: "Class X", value: "Class 10" },
+        { label: "Class XI", value: "Class 11" },
+        { label: "Class XII", value: "Class 12" },
+    ];
   
     const templateDropdown = async () => {
         try {
@@ -128,7 +143,21 @@ function TeacherAssessmentCreate() {
         dispatch( headingUpdate({ heading: "Create Assessment", subheading: "This will help you create multiple assesments" }));
     }, [dispatch]);
 
-    console.log(tempSelect)
+    function SubjectGradeUpdate() {
+        return (
+            <>
+                {/* Subject */}
+                <Form.Item name="subject" label="Subject" initialValue={tempSelect?.subject}>
+                    <Input placeholder="Enter a subject" />
+                </Form.Item>
+
+                {/* Grade Level */}
+                <Form.Item name="gradelevel" label="Grade Level" initialValue={tempSelect?.gradelevel}>
+                    <Select options={gradeoption} placeholder="Select an grade option"/>
+                </Form.Item>
+            </>
+        )
+    }
 
     let questionCount = 0;
     let prevCount = 0;
@@ -145,6 +174,13 @@ function TeacherAssessmentCreate() {
                     {/* Template */}
                     <Form.Item name="template" label="Template">
                         <Select options={tempDropdownOptions} placeholder="Select an template option" onSelect={(e) => selectTempFun(e)}/>
+                    </Form.Item>
+
+                    <SubjectGradeUpdate />
+
+                    {/* Time */}
+                    <Form.Item name="timeAllotted" label="Time Allotted">
+                        <Input placeholder="Enter time allotted in minutes" />
                     </Form.Item>
 
                     {/* Description */}

@@ -16,7 +16,7 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
         { label: "Long Answer Question", value: "LAQ" }, 
     ];
     
-    const fetchtemplateDetails = async () => {
+    const fetchTemplateDetails = async () => {
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/template/get/${id}`,
@@ -35,7 +35,7 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
     }
 
     useEffect(() => {
-        fetchtemplateDetails();
+        fetchTemplateDetails();
     },[]);
 
     return (
@@ -43,12 +43,12 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
             <Modal title={record?.title} width="60%" centered open={record} footer={() => (<></>)} onCancel={() => setViewDetails(false)}>
                 <div className="flex col gap-15">
                     <div className="flex row gap-4 w-90 pb-2">
-                        <strong>Subject :</strong>
-                        <div>{record?.subject}</div>
-                    </div>
-                    <div className="flex row gap-4 w-90 pb-2">
                         <strong>Grade Level :</strong>
                         <div>{record?.gradelevel}</div>
+                    </div>
+                    <div className="flex row gap-4 w-90 pb-2">
+                        <strong>Subject :</strong>
+                        <div>{record?.subject}</div>
                     </div>
                 </div>
                 <div>
@@ -60,10 +60,13 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
                 <div>
                     <strong className="flex gap-4 w-90 pb-3">Question Types</strong>
                     <div>
-                        {record?.questionTypeTemplate.map((item) => {
+                        {record?.questionTypeTemplate.map((item,index) => {
                         return(
                             <div key={item?._id} className="border rounded-md border-dashed border-gray-300 p-4">
-                                <div className="font-medium pb-5">{quesTypeOpt.filter((i) => i.value === item.type)[0].label}</div>
+                                <div className="flex gap-5 font-medium pb-5">
+                                    <span className="text-gray-400 text-2xl italic qwigley-regular ">{index + 1}.</span>
+                                    <strong>{quesTypeOpt.filter((i) => i.value === item.type)[0].label}</strong>
+                                </div>
                                 <div className="flex col gap-15">
                                     <div className="flex row gap-4 w-90 pb-2">
                                         <strong>Question Count :</strong>
@@ -98,12 +101,13 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
                                         <div className={item?.options.includes("ENM") ? "text-blue-600" : "text-red-600"}>{item?.options.includes("ENM") ? "Yes" : "No"}</div>
                                     </div>
                                 </div>
-                                {/* <div>
-                                    <div className="flex row gap-4">
-                                        <strong>Description :</strong>
-                                        <div>{item?.aiprompt}</div>
-                                    </div>
-                                </div> */}
+                                { item?.aiprompt && <div>
+                                                        <div className="flex row gap-4">
+                                                            <strong>AI Prompt :</strong>
+                                                            <div>{item?.aiprompt}</div>
+                                                        </div>
+                                                    </div>
+                                }
                             </div>
                         )
                     })}

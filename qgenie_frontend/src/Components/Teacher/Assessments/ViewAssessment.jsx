@@ -16,10 +16,10 @@ const ViewAssessmentDetails = ({id, setViewDetails}) => {
         { label: "Long Answer Question", value: "LAQ" }, 
     ];
     
-    const fetchtemplateDetails = async () => {
+    const fetchAssessmentDetails = async () => {
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/template/get/${id}`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/get/${id}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
             })
@@ -35,22 +35,30 @@ const ViewAssessmentDetails = ({id, setViewDetails}) => {
     }
 
     useEffect(() => {
-        fetchtemplateDetails();
+        fetchAssessmentDetails();
     },[]);
-
-    console.log(record)
 
     return (
         <div id="viewTemp">
             <Modal title={record?.title} width="60%" centered open={record} footer={() => (<></>)} onCancel={() => setViewDetails(false)}>
                 <div className="flex col gap-15">
                     <div className="flex row gap-4 w-90 pb-2">
+                        <strong>Grade Level :</strong>
+                        <div>{record?.gradelevel}</div>
+                    </div>
+                    <div className="flex row gap-4 w-90 pb-2">
                         <strong>Subject :</strong>
                         <div>{record?.subject}</div>
                     </div>
+                </div>
+                <div className="flex col gap-15">
                     <div className="flex row gap-4 w-90 pb-2">
-                        <strong>Grade Level :</strong>
-                        <div>{record?.gradelevel}</div>
+                        <strong>Total Marks :</strong>
+                        <div>{record?.totalMarks}</div>
+                    </div>
+                    <div className="flex row gap-4 w-90 pb-2">
+                        <strong>Time Allotted :</strong>
+                        <div>{record?.timeAllotted}</div>
                     </div>
                 </div>
                 <div>
@@ -60,52 +68,78 @@ const ViewAssessmentDetails = ({id, setViewDetails}) => {
                     </div>
                 </div>
                 <div>
-                    <strong className="flex gap-4 w-90 pb-3">Question Types</strong>
+                    <strong className="flex gap-4 w-90 pb-3">Questions</strong>
                     <div>
-                        {record?.questionTypeTemplate.map((item) => {
+                        {record?.questions.map((item,index) => {
                         return(
                             <div key={item?._id} className="border rounded-md border-dashed border-gray-300 p-4">
-                                <div className="font-medium pb-5">{quesTypeOpt.filter((i) => i.value === item.type)[0].label}</div>
+                                <div className="flex font-medium pb-5 gap-5">
+                                    <span className="text-gray-400 text-2xl italic qwigley-regular ">Q. {index + 1}.</span>
+                                    <strong>{item?.question}</strong>
+                                </div>
+
+                                { item?.questionType === 'TRUE_FALSE'  &&   <div className="flex row gap-4 w-90 pb-2">
+                                                                                <strong>Answer :</strong>
+                                                                                <div className="text-blue-700">{item.sampleAnswer === true ? "True" :  "False"}</div>
+                                                                            </div>
+                                }
+
+                                { ( item?.questionType === 'FILL_BLANK' || item?.questionType === 'SAQ' || item?.questionType === 'LAQ' ) &&   
+                                    <div className="flex row gap-4 w-90 pb-2">
+                                        <strong>Answer :</strong>
+                                        <div className="text-blue-700">{item?.sampleAnswer}</div>
+                                    </div>
+                                }
+
+                                { ( item?.questionType === 'MCQ' || item?.questionType === 'MSQ' ) &&   
+                                    <div>
+                                        <strong>Options :</strong>
+                                        <div className="grid grid-cols-2 ">{item?.sampleOptions.map((opt,index) => {
+                                            return ( 
+                                            <div key={opt._id} className="flex gap-5">
+                                                <span className="text-gray-400 text-2xl italic qwigley-regular ">{index + 1}.</span>
+                                                <span className="text-blue-700">{opt.label}</span> 
+                                                { opt.isCorrect && <span className="text-green-600"> (Correct Answer)</span> }
+                                            </div> 
+                                            )
+                                        })}
+                                        </div>
+                                    </div>
+                                }
+
                                 <div className="flex col gap-15">
                                     <div className="flex row gap-4 w-90 pb-2">
-                                        <strong>Question Count :</strong>
-                                        <div>{item?.questionCount}</div>
-                                    </div>
-                                    <div className="flex row gap-4 w-90 pb-2">
-                                        <strong>Marks Per Question :</strong>
-                                        <div>{item?.marksperQtn}</div>
+                                        <strong>Question Type:</strong>
+                                        <div>{quesTypeOpt.filter((i) => i.value === item?.questionType)[0]?.label}</div>
                                     </div>
                                     <div className="flex row gap-4 w-90 pb-2">
                                         <strong>Difficulty Level :</strong>
                                         <div className={item?.difficultyLevel === 'easy' ? "text-green-400" : item?.difficultyLevel === 'medium' ? "text-yellow-400" : "text-red-400" }>{item?.difficultyLevel}</div>
                                     </div>
                                 </div>
+
                                 <div className="flex col gap-15">
                                     <div className="flex row gap-4 w-90 pb-2">
-                                        <strong>Include Hints :</strong>
-                                        <div className={item?.options.includes("IH") ? "text-blue-600" : "text-red-600"}>{item?.options.includes("IH") ? "Yes" : "No"}</div>
+                                        <strong>Marks :</strong>
+                                        <div>{item?.marks}</div>
                                     </div>
                                     <div className="flex row gap-4 w-90 pb-2">
-                                        <strong>Include Explanations :</strong>
-                                        <div className={item?.options.includes("IE") ? "text-blue-600" : "text-red-600"}>{item?.options.includes("IE") ? "Yes" : "No"}</div>
+                                        <strong>Negative Marks :</strong>
+                                        <div className="text-red-400">{item?.negativeMarks}</div>
                                     </div>
                                 </div>
-                                <div className="flex col gap-15">
-                                    <div className="flex row gap-4 w-90 pb-2">
-                                        <strong>Shuffle Options :</strong>
-                                        <div className={item?.options.includes("SO") ? "text-blue-600" : "text-red-600"}>{item?.options.includes("SO") ? "Yes" : "No"}</div>
-                                    </div>
-                                    <div className="flex row gap-4 w-90 pb-2">
-                                        <strong>Enable Negative Marking :</strong>
-                                        <div className={item?.options.includes("ENM") ? "text-blue-600" : "text-red-600"}>{item?.options.includes("ENM") ? "Yes" : "No"}</div>
-                                    </div>
-                                </div>
-                                {/* <div>
-                                    <div className="flex row gap-4">
-                                        <strong>Description :</strong>
-                                        <div>{item?.aiprompt}</div>
-                                    </div>
-                                </div> */}
+
+                                { item?.hints  &&   <div className="flex row gap-4 w-90 pb-2">
+                                                        <strong>Include Hints :</strong>
+                                                        <div>{item?.hints}</div>
+                                                    </div>
+                                }
+
+                                { item?.explanation &&  <div className="flex row gap-4 w-90 pb-2">
+                                                            <strong>Include Explanations :</strong>
+                                                            <div>{item?.explanation}</div>
+                                                        </div>
+                                }
                             </div>
                         )
                     })}

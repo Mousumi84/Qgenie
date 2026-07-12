@@ -1,4 +1,4 @@
-import { Col, Form, Input, Radio, Row, Checkbox, Collapse } from "antd";
+import { Col, Form, Input, Radio, Row, Checkbox, Collapse, InputNumber } from "antd";
 
 /*
 {
@@ -13,11 +13,12 @@ import { Col, Form, Input, Radio, Row, Checkbox, Collapse } from "antd";
 }
 */
 
-const LAQQuestions = ({ item, index }) => {
-    console.log("LAQ", item);
+const LAQQuestions = ({ item, index, count, n }) => {
+    console.log("LAQ", index, n, count, item);
     let question = [];
+    let questionCount = 0;
 
-    for (let i = 0; i < item.questionCount; i++) {
+    for (let i = n; i < count; i++) {
         question.push(
             <div key={`${item.type}-question-${i + 1}`} className="border border-gray-300 bg-gray-50 p-4 rounded-md relative">
                 {/* Question Type */}
@@ -26,8 +27,8 @@ const LAQQuestions = ({ item, index }) => {
                 </Form.Item>
 
                 {/* Question */}
-                <Form.Item name={["questions", i, "question"]} label={`Question ${i + 1}`}>
-                    <Input.TextArea placeholder={`Enter question ${i + 1}`} />
+                <Form.Item name={["questions", i, "question"]} label={`Question ${++questionCount}`}>
+                    <Input.TextArea placeholder={`Enter question ${questionCount}`} />
                 </Form.Item>
 
                 {/* sampleAnswer */}
@@ -62,16 +63,17 @@ const LAQQuestions = ({ item, index }) => {
                     {/* Marks */}
                     <Col span={12}>
                         <Form.Item name={["questions", i, "marks"]} label="Marks" labelCol={{ span: 10 }} wrapperCol={{ span: 18 }} initialValue={item.marksperQtn}>
-                            <Input placeholder="Enter marks" />
+                            <InputNumber placeholder="Enter marks" />
                         </Form.Item>
                     </Col>
 
                     {/* negativeMarks */}
-                    { item.options.includes("ENM") && ( <Col span={12}>
-                                                            <Form.Item name={["questions", i, "negativeMarks"]} label="Negative Marks" labelCol={{ span: 10 }} wrapperCol={{ span: 18 }}>
-                                                                <Input placeholder="Enter negative marks" />
-                                                            </Form.Item>
-                                                        </Col>
+                    {item.options.includes("ENM") && (
+                        <Col span={12}>
+                            <Form.Item name={["questions", i, "negativeMarks"]} label="Negative Marks" labelCol={{ span: 10 }} wrapperCol={{ span: 18 }}>
+                                <InputNumber placeholder="Enter negative marks" />
+                            </Form.Item>
+                        </Col>
                     )}
                 </Row>
             </div>,
@@ -85,8 +87,14 @@ const LAQQuestions = ({ item, index }) => {
                 items={[
                     {
                         key: "1",
-                        label: (<h3 className="font-semibold text-lg" name={["questions", index, "question"]}>Long Answer Question</h3>),
-                        children: (<div style={{ display: "flex", flexDirection: "column", gap: "10px",}}>{question}</div>),
+                        label: (
+                            <div className="flex justify-between items-center">
+                                <h3 className="font-semibold text-lg">Long Answer Question</h3>
+                                <span>{`Total Questions: ${item.questionCount}`}</span>
+                                {/* <span>{`Marks: ${item.questionCount * item.marksperQtn}`}</span> */}
+                            </div>
+                        ), // name={["questions", index, "question"]}
+                        children: <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>{question}</div>,
                     },
                 ]}
             />

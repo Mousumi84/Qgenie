@@ -2,31 +2,13 @@ import AssessmentModel from "../../Schemas/TeacherSchemas/AssessmentSchema.js";
 
 
 
-const saveAssessment = ({title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation, sampleAnswer, sampleOptions}) => {
+const saveAssessment = ({AssObj}) => {
     return new Promise(async (Resolve, reject) => {
-        let AssObj = {
-            title: title,
-            template: template,
-            description: description,
-            // status: status,
-            // publishedAt: publishedAt,
-            totalMarks: totalMarks,
-            // questions: [
-                // {
-                //     questionType: ,
-                //     question: ,
-                //     marks: ,
-                //     negativeMarks: ,
-                //     hints: ,
-                //     explanation: ,
-                // }
-            // ],
-        }
-
+        console.log("AssessmentModel line- 7",AssObj);
 
         try {
             let DBdata = await AssessmentModel.create(AssObj);
-            console.log("AssessmentModel line- 36",DBdata);
+            console.log("AssessmentModel line- 11",DBdata);
 
             Resolve(DBdata);
         } catch (error) {

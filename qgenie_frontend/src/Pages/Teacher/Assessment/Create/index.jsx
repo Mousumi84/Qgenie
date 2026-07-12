@@ -63,8 +63,16 @@ function TeacherAssessmentCreate() {
     }
 
     const createAssessment = async (values) => {
+        let totalMarks = 0;
 
-        console.log(values);
+        values.questions.map((item) => {
+            totalMarks += item.marks;
+        });
+
+        values.totalMarks = totalMarks;
+
+        console.log(values)
+
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/assessment/create`,
@@ -73,9 +81,9 @@ function TeacherAssessmentCreate() {
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
             })
 
-            // console.log(response);
+            console.log(response);
 
-            if(response?.data?.status == 201) {
+            if(response?.data?.status == 200) {
                 toast.success(response?.data?.message);
                 navigate(-1);
                 return;
@@ -122,6 +130,9 @@ function TeacherAssessmentCreate() {
 
     console.log(tempSelect)
 
+    let questionCount = 0;
+    let prevCount = 0;
+
     return (
         <div id="TeacherAssessmentCreate">
             <div className="border border-green-100 rounded-lg p-4">
@@ -143,15 +154,17 @@ function TeacherAssessmentCreate() {
 
                     <div className="flex flex-col gap-4">
                         {tempSelect?.questionTypeTemplate?.map((item,index) => {  
+                            prevCount = questionCount;
+                            questionCount += item.questionCount;
             
                             return (
                                 <div key={item?._id}>
-                                    {item.type == "MCQ" && <MCQQuestions item={item} index={index} />}
-                                    {item.type == "MSQ" && <MSQQuestions item={item} index={index} />}
-                                    {item.type == "TRUE_FALSE" && <TFQQuestions item={item} index={index} />}
-                                    {item.type == "FILL_BLANK" && <FUQuestions item={item} index={index} />}
-                                    {item.type == "SAQ" && <SAQQuestions item={item} index={index} />}
-                                    {item.type == "LAQ" && <LAQQuestions item={item} index={index} />}
+                                    {item.type == "MCQ" && <MCQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
+                                    {item.type == "MSQ" && <MSQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
+                                    {item.type == "TRUE_FALSE" && <TFQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
+                                    {item.type == "FILL_BLANK" && <FUQuestions item={item} index={index} count={questionCount} n={prevCount} />}
+                                    {item.type == "SAQ" && <SAQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
+                                    {item.type == "LAQ" && <LAQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
                                 </div>
                             );
                         })}

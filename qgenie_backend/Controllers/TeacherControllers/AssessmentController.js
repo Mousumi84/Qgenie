@@ -1,11 +1,11 @@
-import { deleteAssessment, fetchAllAssessments, fetchAssessmentById } from "../../Models/TeacherModels/AssessmentModel.js";
+import { deleteAssessment, fetchAllAssessments, fetchAssessmentById, saveAssessment } from "../../Models/TeacherModels/AssessmentModel.js";
 
 const createAssessmentController = async (req,res) => {
-    let { title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation} = req.body;
-    let { sampleAnswer, sampleOptions} = req.body;
+    // console.log("create assessment", req.body);
+    let AssObj = req.body;
 
     try {
-        let data = await saveAssessment({title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation, sampleAnswer, sampleOptions});
+        let data = await saveAssessment({AssObj});
 
         return res.send({
             status: 200,

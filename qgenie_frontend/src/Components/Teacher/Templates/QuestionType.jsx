@@ -5,7 +5,6 @@ function QuestionType({ type, index, id, onRemove }) {
     let optionsOptn = [
         { label: "Include Hints", value: "IH" },
         { label: "Include Explanations", value: "IE" },
-        { label: "Shuffle Options", value: "SO" },
         { label: "Enable Negative Marking", value: "ENM" },
     ];
     let quesTypeOpt = [

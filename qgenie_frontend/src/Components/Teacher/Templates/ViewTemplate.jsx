@@ -40,7 +40,7 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
 
     return (
         <div id="viewTemp">
-            <Modal title={record?.title} width="60%" centered open={record} footer={() => (<></>)} onCancel={() => setViewDetails(false)}>
+            <Modal title={record?.title} style={{ top: 20, left: 25 }} width="70%" centered open={record} footer={() => (<></>)} onCancel={() => setViewDetails(false)}>
                 <div className="flex col gap-15">
                     <div className="flex row gap-4 w-90 pb-2">
                         <strong>Grade Level :</strong>
@@ -89,12 +89,6 @@ const ViewTemplateDetails = ({id, setViewDetails}) => {
                                     <div className="flex row gap-4 w-90 pb-2">
                                         <strong>Include Explanations :</strong>
                                         <div className={item?.options.includes("IE") ? "text-blue-600" : "text-red-600"}>{item?.options.includes("IE") ? "Yes" : "No"}</div>
-                                    </div>
-                                </div>
-                                <div className="flex col gap-15">
-                                    <div className="flex row gap-4 w-90 pb-2">
-                                        <strong>Shuffle Options :</strong>
-                                        <div className={item?.options.includes("SO") ? "text-blue-600" : "text-red-600"}>{item?.options.includes("SO") ? "Yes" : "No"}</div>
                                     </div>
                                     <div className="flex row gap-4 w-90 pb-2">
                                         <strong>Enable Negative Marking :</strong>

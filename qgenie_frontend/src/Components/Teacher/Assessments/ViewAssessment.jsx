@@ -40,7 +40,7 @@ const ViewAssessmentDetails = ({id, setViewDetails}) => {
 
     return (
         <div id="viewTemp">
-            <Modal title={record?.title} width="60%" centered open={record} footer={() => (<></>)} onCancel={() => setViewDetails(false)}>
+            <Modal title={record?.title} style={{ top: 20, left: 25 }} width="70%" centered open={record} footer={() => (<></>)} onCancel={() => setViewDetails(false)}>
                 <div className="flex col gap-15">
                     <div className="flex row gap-4 w-90 pb-2">
                         <strong>Grade Level :</strong>

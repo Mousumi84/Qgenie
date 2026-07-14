@@ -34,8 +34,8 @@ const TFQQuestions = ({ item, count, n }) => {
                 {/* sampleAnswer */}
                 <Form.Item name={["questions", i, "sampleAnswer"]} label="Answer">
                     <Radio.Group>
-                        <Radio.Button value="true">True</Radio.Button>
-                        <Radio.Button value="false">False</Radio.Button>
+                        <Radio.Button value={true}>True</Radio.Button>
+                        <Radio.Button value={false}>False</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
 

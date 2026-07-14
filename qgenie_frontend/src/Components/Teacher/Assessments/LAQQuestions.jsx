@@ -13,8 +13,8 @@ import { Col, Form, Input, Radio, Row, Checkbox, Collapse, InputNumber } from "a
 }
 */
 
-const LAQQuestions = ({ item, index, count, n }) => {
-    console.log("LAQ", index, n, count, item);
+const LAQQuestions = ({ item, count, n }) => {
+    // console.log("LAQ",  n, count, item);
     let question = [];
     let questionCount = 0;
 
@@ -83,7 +83,7 @@ const LAQQuestions = ({ item, index, count, n }) => {
     return (
         <>
             <Collapse
-                defaultActiveKey={[]}
+                destroyOnHidden={false}
                 items={[
                     {
                         key: "1",
@@ -93,7 +93,7 @@ const LAQQuestions = ({ item, index, count, n }) => {
                                 <span>{`Total Questions: ${item.questionCount}`}</span>
                                 {/* <span>{`Marks: ${item.questionCount * item.marksperQtn}`}</span> */}
                             </div>
-                        ), // name={["questions", index, "question"]}
+                        ),
                         children: <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>{question}</div>,
                     },
                 ]}

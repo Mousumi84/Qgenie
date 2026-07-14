@@ -27,11 +27,14 @@ const createAssessmentUsingAI = ({title, template, description, status, publishe
     })
 }
 
-const editAssessment = ({id, title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation, sampleAnswer, sampleOptions}) => {
+const editAssessment = ({id, assessmentInput}) => {
     return new Promise(async (Resolve, reject) => {
+        let update = assessmentInput;
+        console.log("UPDATE",update)
+
         try {
-            let DBdata = await AssessmentModel.findByIdAndUpdate();
-            console.log("AssessmentModel line- 34",DBdata);
+            let DBdata = await AssessmentModel.findByIdAndUpdate(id, update,{ new: true});
+            console.log("AssessmentModel line- 37",DBdata);
 
             Resolve(DBdata);
         } catch (error) {
@@ -44,7 +47,7 @@ const fetchAllAssessments = () => {
     return new Promise(async (Resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.find();
-            console.log("AssessmentModel line- 47",DBdata);
+            console.log("AssessmentModel line- 50",DBdata);
 
             Resolve(DBdata);
         } catch (error) {
@@ -70,7 +73,7 @@ const deleteAssessment = ({id}) => {
     return new Promise(async (Resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.findByIdAndDelete(id);
-            console.log("AssessmentModel line- 73",DBdata);
+            console.log("AssessmentModel line- 76",DBdata);
 
             Resolve(DBdata);
         } catch (error) {

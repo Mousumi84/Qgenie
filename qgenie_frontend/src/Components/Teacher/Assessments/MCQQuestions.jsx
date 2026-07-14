@@ -30,8 +30,8 @@ import { Col, Form, Input, Radio, Row, Checkbox, Collapse, InputNumber } from "a
 }
 */
 
-const MCQQuestions = ({ item, index, count, n }) => {
-    console.log("MCQ", index, n, count, item);
+const MCQQuestions = ({ item, count, n }) => {
+    // console.log("MCQ", n, count, item);
     let question = [];
     let questionCount = 0;
 
@@ -49,7 +49,6 @@ const MCQQuestions = ({ item, index, count, n }) => {
                 </Form.Item>
 
                 {[0, 1, 2, 3].map((optionIndex) => (
-                    // <Form.Item key={optionIndex} label={`Sample Option ${optionIndex + 1}`}>
                     <Row gutter={10} key={optionIndex}>
                         {/* label */}
                         <Col span={20}>
@@ -65,7 +64,6 @@ const MCQQuestions = ({ item, index, count, n }) => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    // </Form.Item>
                 ))}
 
                 {/* Hints */}
@@ -115,7 +113,7 @@ const MCQQuestions = ({ item, index, count, n }) => {
     return (
         <>
             <Collapse
-                defaultActiveKey={[]}
+                destroyOnHidden={false}
                 items={[
                     {
                         key: "1",
@@ -125,7 +123,7 @@ const MCQQuestions = ({ item, index, count, n }) => {
                                 <span>{`Total Questions: ${item.questionCount}`}</span>
                                 {/* <span>{`Marks: ${item.questionCount * item.marksperQtn}`}</span> */}
                             </div>
-                        ), // name={["questions", index, "question"]}
+                        ),
                         children: <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>{question}</div>,
                     },
                 ]}

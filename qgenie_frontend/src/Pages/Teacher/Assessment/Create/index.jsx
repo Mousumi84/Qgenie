@@ -18,12 +18,15 @@ function TeacherAssessmentCreate() {
     let location = useLocation();
     let state = location.state || null;
     let isEdit = state?._id ? true : false;
+    console.log(isEdit, state);
 
     let [tempDropdownOptions, setTempDropdownOptions] = useState([]);
     let [tempSelect, setTempSelect] = useState();
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
+
+    const [form] = Form.useForm();
 
     let gradeoption = [
         { label: "Class I", value: "Class 1" },
@@ -53,7 +56,7 @@ function TeacherAssessmentCreate() {
                 opt.push({label: item.title, value: item._id});
             })
 
-            console.log(opt)
+            // console.log(opt)
             setTempDropdownOptions(opt);
           
         } catch (error) {
@@ -62,7 +65,6 @@ function TeacherAssessmentCreate() {
     }
 
     const selectTempFun = async (id) => {
-        console.log(id);
         try {
            let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/template/get/${id}`,
@@ -74,8 +76,9 @@ function TeacherAssessmentCreate() {
         } catch (error) {
             console.log(error);
         }
-
     }
+
+    // console.log(tempSelect);
 
     const createAssessment = async (values) => {
         let totalMarks = 0;
@@ -111,12 +114,14 @@ function TeacherAssessmentCreate() {
         }
     }
   
-    const editAssessment = async (values) => {
+    const editAssessment = async () => {
+        let data = form.getFieldsValue(true);
+
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/assessment/edit/${state?._id}`,
                 method: "POST",
-                data: values,
+                data: data,
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
             })
 
@@ -134,14 +139,6 @@ function TeacherAssessmentCreate() {
             toast.error(error.message);
         }
     }
-  
-    useEffect(() => {
-        templateDropdown();
-    }, []);
-  
-    useEffect(() => { 
-        dispatch( headingUpdate({ heading: "Create Assessment", subheading: "This will help you create multiple assesments" }));
-    }, [dispatch]);
 
     function SubjectGradeUpdate() {
         return (
@@ -158,6 +155,18 @@ function TeacherAssessmentCreate() {
             </>
         )
     }
+  
+    useEffect(() => {
+        templateDropdown();
+
+        if(isEdit && state?.template) {  
+            selectTempFun(state?.template);
+        }  
+    }, []);
+  
+    useEffect(() => { 
+        dispatch( headingUpdate({ heading: "Create Assessment", subheading: "This will help you create multiple assesments" }));
+    }, [dispatch]);
 
     let questionCount = 0;
     let prevCount = 0;
@@ -165,7 +174,18 @@ function TeacherAssessmentCreate() {
     return (
         <div id="TeacherAssessmentCreate">
             <div className="border border-green-100 rounded-lg p-4">
-                <Form labelCol={{ span: 5 }} labelAlign="left" wrapperCol={{ span: 20 }} layout="horizontal" className="w-11/12 flex flex-col gap-2" onFinish={isEdit ? editAssessment : createAssessment} >
+                <Form form={form} labelCol={{ span: 5 }} labelAlign="left" wrapperCol={{ span: 20 }} layout="horizontal" className="w-11/12 flex flex-col gap-2" onFinish={isEdit ? editAssessment : createAssessment} 
+                initialValues={ isEdit ? {
+                    title: state.title,
+                    template: state.template,
+                    // subject: state.subject,
+                    // gradelevel: state.gradelevel,
+                    timeAllotted: state.timeAllotted,
+                    description: state.description,
+                    totalMarks: state.totalMarks,
+                    questions: state.questions,
+
+                } : {}}>
                     {/* Title */}
                     <Form.Item name="title" label="Title" rules={[{ required: true }]}>
                         <Input placeholder="Enter an assessment title" />
@@ -189,18 +209,18 @@ function TeacherAssessmentCreate() {
                     </Form.Item>
 
                     <div className="flex flex-col gap-4">
-                        {tempSelect?.questionTypeTemplate?.map((item,index) => {  
+                        {tempSelect?.questionTypeTemplate?.map((item) => {  
                             prevCount = questionCount;
                             questionCount += item.questionCount;
             
                             return (
                                 <div key={item?._id}>
-                                    {item.type == "MCQ" && <MCQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
-                                    {item.type == "MSQ" && <MSQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
-                                    {item.type == "TRUE_FALSE" && <TFQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
-                                    {item.type == "FILL_BLANK" && <FUQuestions item={item} index={index} count={questionCount} n={prevCount} />}
-                                    {item.type == "SAQ" && <SAQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
-                                    {item.type == "LAQ" && <LAQQuestions item={item} index={index} count={questionCount} n={prevCount} />}
+                                    {item.type == "MCQ" && <MCQQuestions item={item} count={questionCount} n={prevCount} />}
+                                    {item.type == "MSQ" && <MSQQuestions item={item} count={questionCount} n={prevCount} />}
+                                    {item.type == "TRUE_FALSE" && <TFQQuestions item={item} count={questionCount} n={prevCount} />}
+                                    {item.type == "FILL_BLANK" && <FUQuestions item={item} count={questionCount} n={prevCount} />}
+                                    {item.type == "SAQ" && <SAQQuestions item={item} count={questionCount} n={prevCount} />}
+                                    {item.type == "LAQ" && <LAQQuestions item={item} count={questionCount} n={prevCount} />}
                                 </div>
                             );
                         })}

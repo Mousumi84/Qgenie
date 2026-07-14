@@ -1,4 +1,4 @@
-import { deleteAssessment, fetchAllAssessments, fetchAssessmentById, saveAssessment } from "../../Models/TeacherModels/AssessmentModel.js";
+import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, saveAssessment } from "../../Models/TeacherModels/AssessmentModel.js";
 
 const createAssessmentController = async (req,res) => {
     // console.log("create assessment", req.body);
@@ -38,12 +38,16 @@ const createAssessmentusingAIController = async (req,res) => {
 }
 
 const editAssessmentController = async (req,res) => {
+    // console.log("Edit Assessment",req.params.id,req.body);
+    let id = req.params.id;
+    let assessmentInput = req.body;
+
     try {
-
-
+        const data = await editAssessment({id, assessmentInput});
         return res.send({
             status: 200,
-            message: "",
+            message: `Update assessment of id: ${data._id} successfully`,
+            data: data,
         })
     } catch (error) {
         return res.send({

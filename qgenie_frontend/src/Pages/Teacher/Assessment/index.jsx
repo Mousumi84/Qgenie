@@ -37,6 +37,16 @@ function TeacherAssessmentPage() {
             key: "subject",
         },
         {
+            title: "Time Allotted",
+            dataIndex: "timeAllotted",
+            key: "timeAllotted",
+        },
+        {
+            title: "Total Marks",
+            dataIndex: "totalMarks",
+            key: "totalMarks",
+        },
+        {
             title: "Status",
             dataIndex: "status",
             key: "status",
@@ -49,11 +59,6 @@ function TeacherAssessmentPage() {
                 };
                 return <span style={{ color: statusColors[status] }}>{status}</span>;
             },
-        },
-        {
-            title: "Total Marks",
-            dataIndex: "totalMarks",
-            key: "totalMarks",
         },
         {
             title: "Published On",

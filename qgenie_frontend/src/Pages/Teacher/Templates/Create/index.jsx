@@ -15,15 +15,15 @@ function TeacherTemplatesCreate() {
     let location = useLocation();
     let state = location.state || null;
     let isEdit = state?._id ? true : false;
-    // console.log(isEdit,state)
+    // console.log(isEdit,state);
 
     let [questionTypes, setQuestionTypes] = useState(state?.questionTypeTemplate || []);
     let [open, setOpen] = useState(false);
 
-    // let randomId = Math.floor(Math.random() * 900) + 100;   // Generate a random 3-digit number
-
     let dispatch = useDispatch();
     let navigate = useNavigate();
+
+    const [form] = Form.useForm();
   
     let gradeoption = [
         { label: "Class I", value: "Class 1" },
@@ -59,12 +59,9 @@ function TeacherTemplatesCreate() {
         ]);
         setOpen(!open);
     };
-
-    const [form] = Form.useForm();
   
     const removeQuestionType = (id) => {
         console.log("remove",id);
-        // setQuestionTypes((prev) => prev.filter((item) => item._id !== id));
 
         const removedIndex = questionTypes.findIndex(item => item._id === id);
 
@@ -78,18 +75,6 @@ function TeacherTemplatesCreate() {
         values.splice(removedIndex, 1);
     
         form.setFieldsValue({questionTypeTemplate: values});
-    };
-  
-    const Content = () => {
-        return (
-            <div className="p-2 w-full border border-gray-300 rounded-md flex flex-col gap-2 cursor-pointer" name="questionType">
-                {quesTypeOpt.map((option) => (
-                    <div key={option.value} className="hover:bg-gray-50" onClick={() => addQuestionType(option)} >
-                        {option.label}
-                    </div>
-                ))}
-            </div>
-        );
     };
   
     const createTemplate = async (values) => {
@@ -118,9 +103,8 @@ function TeacherTemplatesCreate() {
         }
     }
   
-    const editTemplate = async (values) => {
+    const editTemplate = async () => {
         let data = form.getFieldsValue(true);
-        console.log(values);
 
         try {
             let response = await axios({
@@ -144,6 +128,18 @@ function TeacherTemplatesCreate() {
             toast.error(error.message);
         }
     }
+
+    const Content = () => {
+        return (
+            <div className="p-2 w-full border border-gray-300 rounded-md flex flex-col gap-2 cursor-pointer" name="questionType">
+                {quesTypeOpt.map((option) => (
+                    <div key={option.value} className="hover:bg-gray-50" onClick={() => addQuestionType(option)} >
+                        {option.label}
+                    </div>
+                ))}
+            </div>
+        );
+    };
 
     useEffect(() => {
         dispatch(headingUpdate({ heading: "Create Template", subheading: "This will help you create multiple templates"}));

@@ -13,8 +13,8 @@ import { Col, Form, Input, Radio, Row, Checkbox, Collapse, InputNumber } from "a
 },
 */
 
-const TFQQuestions = ({ item, index, count, n }) => {
-    console.log("TF", index, n, count, item);
+const TFQQuestions = ({ item, count, n }) => {
+    // console.log("TF", n, count, item);
     let question = [];
     let questionCount = 0;
 
@@ -86,7 +86,7 @@ const TFQQuestions = ({ item, index, count, n }) => {
     return (
         <>
             <Collapse
-                defaultActiveKey={[]}
+                destroyOnHidden={false}
                 items={[
                     {
                         key: "1",
@@ -96,7 +96,7 @@ const TFQQuestions = ({ item, index, count, n }) => {
                                 <span>{`Total Questions: ${item.questionCount}`}</span>
                                 {/* <span>{`Marks: ${item.questionCount * item.marksperQtn}`}</span> */}
                             </div>
-                        ), // name={["questions", index, "question"]}
+                        ),
                         children: <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>{question}</div>,
                     },
                 ]}

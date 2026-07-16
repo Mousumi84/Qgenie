@@ -1,4 +1,4 @@
-import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, saveAssessment } from "../../Models/TeacherModels/AssessmentModel.js";
+import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, saveAssessment, updateStatusAssessment } from "../../Models/TeacherModels/AssessmentModel.js";
 
 const createAssessmentController = async (req,res) => {
     // console.log("create assessment", req.body);
@@ -46,7 +46,28 @@ const editAssessmentController = async (req,res) => {
         const data = await editAssessment({id, assessmentInput});
         return res.send({
             status: 200,
-            message: `Update assessment of id: ${data._id} successfully`,
+            message: `Update assessment successfully`,
+            data: data,
+        })
+    } catch (error) {
+        return res.send({
+            status: 500,
+            message: "Internal server error",
+            error: error,
+        })
+    }
+}
+
+const updateAssessmentStatusController = async (req,res) => {
+    console.log("Edit Assessment Status",req.params.id,req.body);
+    let id = req.params.id;
+    let {status, publishedAt} = req.body;
+
+    try {
+        const data = await updateStatusAssessment({id, status, publishedAt});
+        return res.send({
+            status: 200,
+            message: `Updated assessment status successfully`,
             data: data,
         })
     } catch (error) {
@@ -116,4 +137,4 @@ const deleteAssessmentController = async (req,res) => {
     }
 }
 
-export { createAssessmentController, createAssessmentusingAIController, editAssessmentController, getAllAssessmentController, getAssessmentByIdController, deleteAssessmentController};
+export { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentController, getAssessmentByIdController, deleteAssessmentController};

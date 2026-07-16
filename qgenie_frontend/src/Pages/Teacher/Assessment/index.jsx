@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { headingUpdate } from "../../../Redux/Slices/TeacherLayoutSlice";
-import { Button, Table, Modal } from "antd";
+import { Button, Table, Modal, DatePicker } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import { BiExpandAlt } from "react-icons/bi";
 import { MdDelete, MdEdit } from "react-icons/md";
 import ViewAssessmentDetails from "../../../Components/Teacher/Assessments/ViewAssessment";
+import dayjs from "dayjs";
+
 
     let {confirm} = Modal;
 
@@ -16,6 +18,7 @@ function TeacherAssessmentPage() {
     const [AssmData, setAssmData] = useState();
     const [viewDetails, setViewDetails] = useState(false);
     const [viewAssmId, setViewAssmId] = useState();
+    const [publishedDate, setPublishedDate] = useState('');
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
@@ -47,17 +50,17 @@ function TeacherAssessmentPage() {
             key: "totalMarks",
         },
         {
-            title: "Status",
-            dataIndex: "status",
+            title: "Status",      
+            dataIndex: "status",    // ["Pending", "Published", "Done", "Cancel"]
             key: "status",
-            render: (status) => {
+            render: (status,record) => {
                 const statusColors = {
                     Pending: "orange",
                     Published: "blue",
                     Done: "green",
                     Cancel: "red",
                 };
-                return <span style={{ color: statusColors[status] }}>{status}</span>;
+                return <span style={{ color: statusColors[status] }} onClick={() => changeStatus(record)}>{status}</span>;
             },
         },
         {
@@ -109,9 +112,51 @@ function TeacherAssessmentPage() {
         setViewAssmId(item?._id);
     };
 
+    const onChange = (date, dateString) => {
+        console.log(date, dateString);
+        setPublishedDate(date);
+    };
+
+    const changeStatus = (item) => {
+        confirm({
+            title: "Are you sure you want to publish this assessment?",
+            content: <div className="flex flex-col gap-5 m-2">
+                        <p>Once published, the assessment will be visible to students and cannot be edited.</p>
+                        <div>Select Date: <DatePicker format={{format: 'YYYY-MM-DD',type: 'mask' }} onChange={onChange} defaultValue={dayjs(item.publishedAt, 'YYYY-MM-DD')}/></div>
+                     </div>,
+            width: 600,
+            okText: "Publish",
+            okType: "primary",
+            cancelText: "No",
+            async onOk() {
+                try {
+                    let response = await axios({
+                        url: `${import.meta.env.VITE_API_URL}/assessment/updateStatus/${item._id}`,
+                        method: "POST",
+                        data: { status: "Published", publishedAt: publishedDate },
+                        headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
+                    });
+
+                    console.log(response);
+
+                    if (response?.data?.status == 200) {
+                        toast.success(response?.data?.message);
+                        fetchAssessmentData();
+                        return;
+                    }
+
+                    toast.error(response?.data?.message);
+                } catch (error) {
+                    console.log(error);
+                    toast.error(error.message);
+                }
+            },
+        });
+    };
+
     const showDeleteConfirm = (item) => {
         confirm({
-            title: "Are you sure delete this assessment?",
+            title: "Are you sure you want to delete this assessment?",
             // content: 'Some descriptions',
             okText: "Yes",
             okType: "danger",
@@ -167,9 +212,7 @@ function TeacherAssessmentPage() {
 
     return (
         <div id="TeacherAssessment" className="flex flex-col gap-5">
-            <Button type="primary" className="w-2/12" onClick={() => navigate("/teacher/assessments/create")}>
-                Create Assessment
-            </Button>
+            <Button type="primary" className="w-2/12" onClick={() => navigate("/teacher/assessments/create")}>Create Assessment</Button>
             <Table columns={columns} dataSource={AssmData} rowKey="_id" />
             {viewDetails && <ViewAssessmentDetails id={viewAssmId} setViewDetails={setViewDetails} />}
         </div>

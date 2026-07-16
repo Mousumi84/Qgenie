@@ -37,7 +37,7 @@ const editTemplateController = async (req,res) => {
         const data = await editTemplateInputs({id, templateInput});
         return res.send({
             status: 200,
-            message: `Update templat of id: ${data._id} successfully`,
+            message: `Update templat successfully`,
             data: data,
         });
     } catch (error) {

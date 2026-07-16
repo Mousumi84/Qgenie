@@ -43,6 +43,22 @@ const editAssessment = ({id, assessmentInput}) => {
     })
 }
 
+const updateStatusAssessment = ({id, status, publishedAt}) => {
+    return new Promise(async (Resolve, reject) => {
+        console.log("UPDATE",status, publishedAt)
+
+        try {
+            let DBdata = await AssessmentModel.findByIdAndUpdate(id, { status, publishedAt }, { new: true});
+            console.log("AssessmentModel line- 37",DBdata);
+
+            Resolve(DBdata);
+        } catch (error) {
+            console.log(error)
+            reject(error);
+        }
+    })
+}
+
 const fetchAllAssessments = () => {
     return new Promise(async (Resolve, reject) => {
         try {
@@ -82,4 +98,4 @@ const deleteAssessment = ({id}) => {
     })
 }
 
-export { saveAssessment, createAssessmentUsingAI, editAssessment, fetchAllAssessments, fetchAssessmentById, deleteAssessment }
+export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, deleteAssessment }

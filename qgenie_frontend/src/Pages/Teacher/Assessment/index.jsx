@@ -10,6 +10,7 @@ import { BiExpandAlt } from "react-icons/bi";
 import { MdDelete, MdEdit } from "react-icons/md";
 import ViewAssessmentDetails from "../../../Components/Teacher/Assessments/ViewAssessment";
 import dayjs from "dayjs";
+import { TbExclamationCircleFilled } from "react-icons/tb";
 
 
     let {confirm} = Modal;
@@ -18,7 +19,10 @@ function TeacherAssessmentPage() {
     const [AssmData, setAssmData] = useState();
     const [viewDetails, setViewDetails] = useState(false);
     const [viewAssmId, setViewAssmId] = useState();
-    const [publishedDate, setPublishedDate] = useState('');
+    const [selectedAssessment, setSelectedAssessment] = useState(null);
+    const [publishedDate, setPublishedDate] = useState();
+    const [dateError, setDateError] = useState("");
+    const [statusPopOpen, setStatusPopOpen] = useState(false);
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
@@ -60,7 +64,18 @@ function TeacherAssessmentPage() {
                     Done: "green",
                     Cancel: "red",
                 };
-                return <span style={{ color: statusColors[status] }} onClick={() => changeStatus(record)}>{status}</span>;
+                return <span style={{ color: statusColors[status] }} onClick={() => {
+                    setSelectedAssessment(record);
+
+                    if (record.publishedAt) {
+                        setPublishedDate(dayjs(record.publishedAt));
+                    } else {
+                        setPublishedDate(null);
+                    }
+
+                    setDateError("");
+                    setStatusPopOpen(true);
+                }}>{status}</span>;   
             },
         },
         {
@@ -115,49 +130,55 @@ function TeacherAssessmentPage() {
     const onChange = (date, dateString) => {
         console.log(date, dateString);
         setPublishedDate(date);
+
+        if (date) {
+            setDateError("");
+        }
     };
 
-    const changeStatus = (item) => {
-        confirm({
-            title: "Are you sure you want to publish this assessment?",
-            content: <div className="flex flex-col gap-5 m-2">
-                        <p>Once published, the assessment will be visible to students and cannot be edited.</p>
-                        <div>Select Date: <DatePicker format={{format: 'YYYY-MM-DD',type: 'mask' }} onChange={onChange} defaultValue={dayjs(item.publishedAt, 'YYYY-MM-DD')}/></div>
-                     </div>,
-            width: 600,
-            okText: "Publish",
-            okType: "primary",
-            cancelText: "No",
-            async onOk() {
-                try {
-                    let response = await axios({
-                        url: `${import.meta.env.VITE_API_URL}/assessment/updateStatus/${item._id}`,
-                        method: "POST",
-                        data: { status: "Published", publishedAt: publishedDate },
-                        headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
-                    });
+    const statusPublished = async () => {
+        console.log(publishedDate,dateError,selectedAssessment);
+        
+        if(!publishedDate) {
+            setDateError("Published date is required");
+            return;
+        }
 
-                    console.log(response);
+        try {
+            let response = await axios({
+                url: `${import.meta.env.VITE_API_URL}/assessment/updateStatus/${selectedAssessment._id}`,
+                method: "POST",
+                data: { status: "Published", publishedAt: publishedDate },
+                headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
+            });
+            console.log(response);
 
-                    if (response?.data?.status == 200) {
-                        toast.success(response?.data?.message);
-                        fetchAssessmentData();
-                        return;
-                    }
+            if (response?.data?.status == 200) {
+                toast.success(response?.data?.message);
+                fetchAssessmentData();
+                setStatusPopOpen(false);
+                setSelectedAssessment(null);
+                setPublishedDate(null);
+                setDateError("");
+            }else {
+                toast.error(response?.data?.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        } 
+    }
 
-                    toast.error(response?.data?.message);
-                } catch (error) {
-                    console.log(error);
-                    toast.error(error.message);
-                }
-            },
-        });
+    const closeModal = () => {
+        setStatusPopOpen(false);
+        setSelectedAssessment(null);
+        setPublishedDate(null);
+        setDateError("");
     };
 
     const showDeleteConfirm = (item) => {
         confirm({
             title: "Are you sure you want to delete this assessment?",
-            // content: 'Some descriptions',
             okText: "Yes",
             okType: "danger",
             cancelText: "No",
@@ -214,6 +235,28 @@ function TeacherAssessmentPage() {
         <div id="TeacherAssessment" className="flex flex-col gap-5">
             <Button type="primary" className="w-2/12" onClick={() => navigate("/teacher/assessments/create")}>Create Assessment</Button>
             <Table columns={columns} dataSource={AssmData} rowKey="_id" />
+            <Modal
+                closeIcon
+                title={ <div className="flex items-center gap-2">
+                            <TbExclamationCircleFilled style={{ color: "#faad14", fontSize: 20 }} />
+                            <span>Are you sure you want to publish this assessment?</span>
+                        </div>}
+                open={statusPopOpen}
+                onOk={statusPublished}
+                okText="Publish"
+                okType="primary"
+                cancelText="Cancel"
+                onCancel={closeModal}
+            >
+                <div className="flex flex-col gap-5 p-3">
+                    <p>Once published, the assessment will be visible to students and cannot be edited.</p>
+                    <div>
+                        <span>Select Date: </span>
+                        <DatePicker format='YYYY-MM-DD' onChange={onChange} value={publishedDate}/>
+                    </div>
+                    {dateError && ( <div className="text-red-500 text-xs mt-1">{dateError}</div>)}
+                </div>
+            </Modal>
             {viewDetails && <ViewAssessmentDetails id={viewAssmId} setViewDetails={setViewDetails} />}
         </div>
     );

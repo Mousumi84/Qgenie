@@ -22,7 +22,8 @@ function TeacherAssessmentPage() {
     const [selectedAssessment, setSelectedAssessment] = useState(null);
     const [publishedDate, setPublishedDate] = useState();
     const [dateError, setDateError] = useState("");
-    const [statusPopOpen, setStatusPopOpen] = useState(false);
+    const [statusPendingPopOpen, setStatusPendingPopOpen] = useState(false);
+    const [statusDoneCancelPopOpen, setStatusDoneCancelPopOpen] = useState(false);
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
@@ -60,22 +61,24 @@ function TeacherAssessmentPage() {
             render: (status,record) => {
                 const statusColors = {
                     Pending: "orange",
-                    Published: "blue",
-                    Done: "green",
+                    Published: "#0274ff",
+                    Done: "#06a506",
                     Cancel: "red",
                 };
-                return <span style={{ color: statusColors[status] }} onClick={() => {
-                    setSelectedAssessment(record);
-
-                    if (record.publishedAt) {
-                        setPublishedDate(dayjs(record.publishedAt));
-                    } else {
-                        setPublishedDate(null);
-                    }
-
-                    setDateError("");
-                    setStatusPopOpen(true);
-                }}>{status}</span>;   
+                return <span style={{ color: statusColors[status] }} 
+                            onClick={() => {
+                                setSelectedAssessment(record);
+            
+                                if (record.publishedAt) {
+                                    setPublishedDate(dayjs(record.publishedAt));
+                                } else {
+                                    setPublishedDate(null);
+                                }
+            
+                                setDateError("");
+                                console.log(status, status == "Published ")
+                                status == "Published" ? setStatusDoneCancelPopOpen(true) : setStatusPendingPopOpen(true);
+                            }}>{status}</span>;   
             },
         },
         {
@@ -127,6 +130,7 @@ function TeacherAssessmentPage() {
         setViewAssmId(item?._id);
     };
 
+    // Change Published Date
     const onChange = (date, dateString) => {
         console.log(date, dateString);
         setPublishedDate(date);
@@ -136,10 +140,14 @@ function TeacherAssessmentPage() {
         }
     };
 
-    const statusPublished = async () => {
-        console.log(publishedDate,dateError,selectedAssessment);
+    // On click of Published button
+    const statusPublished = async (e) => {
+        console.log(e, e.target.innerHTML);
+        // console.log(publishedDate,dateError,selectedAssessment, e.target.value);
+
+        let statusValue = e.target.innerHTML === "Publish" ? "Published" : e.target.innerHTML;
         
-        if(!publishedDate) {
+        if(statusValue === "Published" && !publishedDate) {
             setDateError("Published date is required");
             return;
         }
@@ -148,7 +156,7 @@ function TeacherAssessmentPage() {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/assessment/updateStatus/${selectedAssessment._id}`,
                 method: "POST",
-                data: { status: "Published", publishedAt: publishedDate },
+                data: { status: statusValue, publishedAt: publishedDate },
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });
             console.log(response);
@@ -156,7 +164,8 @@ function TeacherAssessmentPage() {
             if (response?.data?.status == 200) {
                 toast.success(response?.data?.message);
                 fetchAssessmentData();
-                setStatusPopOpen(false);
+                setStatusPendingPopOpen(false);
+                setStatusDoneCancelPopOpen(false);
                 setSelectedAssessment(null);
                 setPublishedDate(null);
                 setDateError("");
@@ -169,13 +178,23 @@ function TeacherAssessmentPage() {
         } 
     }
 
+    // Close Status modal
     const closeModal = () => {
-        setStatusPopOpen(false);
+        setStatusPendingPopOpen(false);
         setSelectedAssessment(null);
         setPublishedDate(null);
         setDateError("");
     };
 
+    // Close Status modal2
+    const closeModal2 = () => {
+        setStatusDoneCancelPopOpen(false);
+        setSelectedAssessment(null);
+        setPublishedDate(null);
+        setDateError("");
+    };
+
+    // Delete Assessment
     const showDeleteConfirm = (item) => {
         confirm({
             title: "Are you sure you want to delete this assessment?",
@@ -207,6 +226,7 @@ function TeacherAssessmentPage() {
         });
     };
 
+    // Fetch Assessmnet Details
     const fetchAssessmentData = async () => {
         try {
             let response = await axios({
@@ -236,22 +256,50 @@ function TeacherAssessmentPage() {
             <Button type="primary" className="w-2/12" onClick={() => navigate("/teacher/assessments/create")}>Create Assessment</Button>
             <Table columns={columns} dataSource={AssmData} rowKey="_id" />
             <Modal
-                closeIcon
                 title={ <div className="flex items-center gap-2">
                             <TbExclamationCircleFilled style={{ color: "#faad14", fontSize: 20 }} />
                             <span>Are you sure you want to publish this assessment?</span>
                         </div>}
-                open={statusPopOpen}
-                onOk={statusPublished}
-                okText="Publish"
-                okType="primary"
-                cancelText="Cancel"
+                open={statusPendingPopOpen}
                 onCancel={closeModal}
+                footer={() => (
+                        <div className="flex flex-row-reverse gap-2">
+                            <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px"  }}  onClick={closeModal}>Close</button>
+                            <button style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}>Publish</button>
+                        </div>
+                    )}
             >
                 <div className="flex flex-col gap-5 p-3">
                     <p>Once published, the assessment will be visible to students and cannot be edited.</p>
                     <div>
                         <span>Select Date: </span>
+                        <DatePicker format='YYYY-MM-DD' onChange={onChange} value={publishedDate}/>
+                    </div>
+                    {dateError && ( <div className="text-red-500 text-xs mt-1">{dateError}</div>)}
+                </div>
+            </Modal>
+
+            <Modal
+                width={600}
+                title={ <div className="flex items-center gap-2">
+                            <TbExclamationCircleFilled style={{ color: "#faad14", fontSize: 20 }} />
+                            <span>Are you sure you want to change the status of this assessment?</span>
+                        </div>}
+                open={statusDoneCancelPopOpen}
+                onCancel={closeModal2}
+                footer={() => (
+                        <div className="flex flex-row-reverse gap-2">
+                            <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px"  }}  onClick={closeModal2}>Close</button>
+                            <button style={{ backgroundColor: "red", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px"  }} onClick={(e) => statusPublished(e)}>Cancel</button>
+                            <button style={{ backgroundColor: "#06a506", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px"  }} onClick={(e) => statusPublished(e)}>Done</button>
+                            <button style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}>Publish</button>
+                        </div>
+                    )}
+            >
+                <div className="flex flex-col gap-5 p-3">
+                    <p></p>
+                    <div>
+                        <span>Change Date: </span>
                         <DatePicker format='YYYY-MM-DD' onChange={onChange} value={publishedDate}/>
                     </div>
                     {dateError && ( <div className="text-red-500 text-xs mt-1">{dateError}</div>)}

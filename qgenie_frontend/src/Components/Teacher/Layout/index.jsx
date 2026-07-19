@@ -9,13 +9,13 @@ function TeacherLayout() {
   let { collapse, heading, subheading } = useSelector((state) => state.teacher);
   let dispatch = useDispatch();
 
-  const collapsefun = () => {
+  const collapseFun = () => {
     dispatch(collapseUpdate());
   };
 
   return (
     <div id="TeacherLayout" className="flex flex-row">
-      <Sidebar Elements={teacherElements} collapse={collapse} collapsefun={collapsefun} role="teacher" />
+      <Sidebar Elements={teacherElements} collapse={collapse} collapseFun={collapseFun} role="teacher" />
 
       <main className={collapse ? " w-11/13 absolute right-0" : " w-19/20 absolute right-0"}>
         <Header heading={heading} subheading={subheading} role="teacher" />

@@ -84,7 +84,6 @@ const studentConfirmAccessController = async (req, res) => {
   let { userId } = req.body;
 
   try {
-    // let data = await confirmEmailUsernameStd({ email, username });
     let data = await findUserWithKeyStd({userId});
 
     if (!data) {
@@ -94,12 +93,12 @@ const studentConfirmAccessController = async (req, res) => {
       });
     }
 
-    let jwtToken = jwt.sign({data}, process.env.SECRET_KEY,{ expiresIn: "5m"});
+    let jwtToken = jwt.sign({data}, process.env.SECRET_KEY);           //   ,{ expiresIn: "5m"}
 
     return res.send({
       status: 200,
       message: "User details confirm",
-      token: jwtToken,
+      jwtToken: jwtToken,
     });
   } catch (error) {
     return res.send({
@@ -112,8 +111,18 @@ const studentConfirmAccessController = async (req, res) => {
 
 //Student Password update
 const studentUpdatePasswordController = async (req, res) => {
-  let { token, password } = req.body;
+  let { userId, token, password } = req.body;
   let decode = jwt.verify(token,process.env.SECRET_KEY);
+
+  console.log(decode,userId !== decode.data.username, userId !== decode.data.email, userId !== decode.data.username || userId !== decode.data.email )
+
+  if( userId !== decode.data.username && userId !== decode.data.email ) {
+    return res.send({
+      status: 404,
+      message: "User not found",
+    });
+  }
+
   let id = decode.data._id;
 
   try {
@@ -124,9 +133,10 @@ const studentUpdatePasswordController = async (req, res) => {
       message: "Password reset successfully ",
     });
   } catch (error) {
+    console.log("error =>",error)
     return res.send({
       status: 500,
-      message: "Internal server error",
+      message: error || "Internal server error",
       error: error,
     });
   }

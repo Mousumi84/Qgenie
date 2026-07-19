@@ -84,7 +84,6 @@ const teacherConfirmAccessController = async (req, res) => {
   let { userId } = req.body;
 
   try {
-    // let data = await confirmEmailUsername({ email, username });
     let data = await findUserWithKey({userId});
 
     if (!data) {
@@ -94,12 +93,12 @@ const teacherConfirmAccessController = async (req, res) => {
       });
     }
 
-    let jwtToken = jwt.sign({data}, process.env.SECRET_KEY,{ expiresIn: "5m"});
+    let jwtToken = jwt.sign({data}, process.env.SECRET_KEY);      // { expiresIn: "5m"}
 
     return res.send({
       status: 200,
       message: "User details confirm",
-      token: jwtToken,
+      jwtToken: jwtToken,
     });
   } catch (error) {
     return res.send({
@@ -112,8 +111,18 @@ const teacherConfirmAccessController = async (req, res) => {
 
 //Teacher Password update
 const teacherUpdatePasswordController = async (req, res) => {
-  let { token, password } = req.body;
+  let { userId, token, password } = req.body;
   let decode = jwt.verify(token,process.env.SECRET_KEY);
+
+  console.log(decode,userId !== decode.data.username, userId !== decode.data.email, userId !== decode.data.username || userId !== decode.data.email )
+
+  if( userId !== decode.data.username && userId !== decode.data.email ) {
+    return res.send({
+      status: 404,
+      message: "User not found",
+    });
+  }
+
   let id = decode.data._id;
 
   try {
@@ -126,7 +135,7 @@ const teacherUpdatePasswordController = async (req, res) => {
   } catch (error) {
     return res.send({
       status: 500,
-      message: "Internal server error",
+      message: error || "Internal server error",
       error: error,
     });
   }
@@ -177,7 +186,7 @@ const teacherLoginController = async (req, res) => {
         status: 200,
         message: "Login successful",
         data: user,
-        teacherToken: token,
+        token: token,
       });
   } catch (error) {
     return res.send({
@@ -191,7 +200,6 @@ const teacherLoginController = async (req, res) => {
 //Teacher Logout
 const teacherLogoutController = async (req, res) => {
   let { id } = req.body;
-
   try {
     await logoutUser({id});
 

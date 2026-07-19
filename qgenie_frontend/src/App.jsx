@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Welcome from "./Components/Common/Home/Welcome";
 import { Toaster } from "react-hot-toast";
 
+const ForgetPassword = lazy(() => import("./Components/Common/Auth/ForgetPassword"));
 const Login = lazy(() => import("./Components/Common/Auth/Login"));
 const Signup = lazy(() => import("./Components/Common/Auth/Signup"));
 const ProtectedRoute = lazy(() => import("./Components/Common/ProtectedRoute"));
@@ -32,6 +33,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />}>
                         <Route index element={<Welcome />} />
+                        <Route path="/forgetPassword" element={<ForgetPassword />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
                     </Route>

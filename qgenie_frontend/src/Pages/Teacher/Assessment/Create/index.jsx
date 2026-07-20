@@ -42,41 +42,40 @@ function TeacherAssessmentCreate() {
         { label: "Class XI", value: "Class 11" },
         { label: "Class XII", value: "Class 12" },
     ];
-  
+
     const templateDropdown = async () => {
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/template/getAll`,
                 method: "GET",
-                headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
+                headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });
-            
+
             let opt = [];
             response.data.data.map((item) => {
-                opt.push({label: item.title, value: item._id});
-            })
+                opt.push({ label: item.title, value: item._id });
+            });
 
             // console.log(opt)
             setTempDropdownOptions(opt);
-          
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const selectTempFun = async (id) => {
         try {
-           let response = await axios({
+            let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/template/get/${id}`,
                 method: "GET",
-                headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
+                headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });
 
             setTempSelect(response.data.data);
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     // console.log(tempSelect);
 
@@ -89,19 +88,19 @@ function TeacherAssessmentCreate() {
 
         values.totalMarks = totalMarks;
 
-        console.log(values)
+        console.log(values);
 
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/assessment/create`,
+                url: `${import.meta.env.VITE_API_URL}/teacher/assessment/create`,
                 method: "POST",
                 data: values,
-                headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
-            })
+                headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
+            });
 
             console.log(response);
 
-            if(response?.data?.status == 200) {
+            if (response?.data?.status == 200) {
                 toast.success(response?.data?.message);
                 navigate(-1);
                 return;
@@ -112,22 +111,22 @@ function TeacherAssessmentCreate() {
             // console.log(error);
             toast.error(error.message);
         }
-    }
-  
+    };
+
     const editAssessment = async () => {
         let data = form.getFieldsValue(true);
 
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/assessment/edit/${state?._id}`,
+                url: `${import.meta.env.VITE_API_URL}/teacher/assessment/edit/${state?._id}`,
                 method: "POST",
                 data: data,
-                headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
-            })
+                headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
+            });
 
             // console.log(response);
 
-            if(response?.data?.status == 200) {
+            if (response?.data?.status == 200) {
                 toast.success(response?.data?.message);
                 navigate(-1);
                 return;
@@ -138,7 +137,7 @@ function TeacherAssessmentCreate() {
             // console.log(error);
             toast.error(error.message);
         }
-    }
+    };
 
     function SubjectGradeUpdate() {
         return (
@@ -150,22 +149,22 @@ function TeacherAssessmentCreate() {
 
                 {/* Grade Level */}
                 <Form.Item name="gradelevel" label="Grade Level" initialValue={tempSelect?.gradelevel}>
-                    <Select options={gradeoption} placeholder="Select an grade option"/>
+                    <Select options={gradeoption} placeholder="Select an grade option" />
                 </Form.Item>
             </>
-        )
+        );
     }
-  
+
     useEffect(() => {
         templateDropdown();
 
-        if(isEdit && state?.template) {  
+        if (isEdit && state?.template) {
             selectTempFun(state?.template);
-        }  
+        }
     }, []);
-  
-    useEffect(() => { 
-        dispatch( headingUpdate({ heading: "Create Assessment", subheading: "This will help you create multiple assesments" }));
+
+    useEffect(() => {
+        dispatch(headingUpdate({ heading: "Create Assessment", subheading: "This will help you create multiple assesments" }));
     }, [dispatch]);
 
     let questionCount = 0;
@@ -174,26 +173,37 @@ function TeacherAssessmentCreate() {
     return (
         <div id="TeacherAssessmentCreate">
             <div className="border border-green-100 rounded-lg p-4">
-                <Form form={form} labelCol={{ span: 5 }} labelAlign="left" wrapperCol={{ span: 20 }} layout="horizontal" className="w-11/12 flex flex-col gap-2" onFinish={isEdit ? editAssessment : createAssessment} 
-                initialValues={ isEdit ? {
-                    title: state.title,
-                    template: state.template,
-                    // subject: state.subject,
-                    // gradelevel: state.gradelevel,
-                    timeAllotted: state.timeAllotted,
-                    description: state.description,
-                    totalMarks: state.totalMarks,
-                    questions: state.questions,
-
-                } : {}}>
+                <Form
+                    form={form}
+                    labelCol={{ span: 5 }}
+                    labelAlign="left"
+                    wrapperCol={{ span: 20 }}
+                    layout="horizontal"
+                    className="w-11/12 flex flex-col gap-2"
+                    onFinish={isEdit ? editAssessment : createAssessment}
+                    initialValues={
+                        isEdit
+                            ? {
+                                  title: state.title,
+                                  template: state.template,
+                                  // subject: state.subject,
+                                  // gradelevel: state.gradelevel,
+                                  timeAllotted: state.timeAllotted,
+                                  description: state.description,
+                                  totalMarks: state.totalMarks,
+                                  questions: state.questions,
+                              }
+                            : {}
+                    }
+                >
                     {/* Title */}
                     <Form.Item name="title" label="Title" rules={[{ required: true }]}>
                         <Input placeholder="Enter an assessment title" />
                     </Form.Item>
-                    
+
                     {/* Template */}
                     <Form.Item name="template" label="Template">
-                        <Select options={tempDropdownOptions} placeholder="Select an template option" onSelect={(e) => selectTempFun(e)}/>
+                        <Select options={tempDropdownOptions} placeholder="Select an template option" onSelect={(e) => selectTempFun(e)} />
                     </Form.Item>
 
                     <SubjectGradeUpdate />
@@ -209,10 +219,10 @@ function TeacherAssessmentCreate() {
                     </Form.Item>
 
                     <div className="flex flex-col gap-4">
-                        {tempSelect?.questionTypeTemplate?.map((item) => {  
+                        {tempSelect?.questionTypeTemplate?.map((item) => {
                             prevCount = questionCount;
                             questionCount += item.questionCount;
-            
+
                             return (
                                 <div key={item?._id}>
                                     {item.type == "MCQ" && <MCQQuestions item={item} count={questionCount} n={prevCount} />}
@@ -227,7 +237,9 @@ function TeacherAssessmentCreate() {
                     </div>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">Submit</Button>
+                        <Button type="primary" htmlType="submit">
+                            Submit
+                        </Button>
                     </Form.Item>
                 </Form>
             </div>

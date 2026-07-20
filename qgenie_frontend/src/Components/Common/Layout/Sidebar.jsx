@@ -29,7 +29,7 @@ function Sidebar({Elements, collapse, collapseFun, role}) {
     const logoutFun = async () => {
         try {
             let response = await axios({
-                url: role == "teacher" ? `${import.meta.env.VITE_API_URL}/teacher/logout` : `${import.meta.env.VITE_API_URL}/student/logout`,
+                url: `${import.meta.env.VITE_API_URL}/${role}/logout`,
                 data: {id: localStorage.getItem("LoginId")},
                 method: "POST",
                 headers: { Authorization: token },

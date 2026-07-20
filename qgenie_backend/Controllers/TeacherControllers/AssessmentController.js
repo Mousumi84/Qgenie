@@ -13,9 +13,8 @@ const createAssessmentController = async (req,res) => {
         })
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error,
+            status: error.status || 500,
+            message: error.message || "Internal server error",
         })
     }
 }
@@ -30,9 +29,8 @@ const createAssessmentusingAIController = async (req,res) => {
         })
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error,
+            status: error.status || 500,
+            message: error.message || "Internal server error",
         })
     }
 }
@@ -51,9 +49,8 @@ const editAssessmentController = async (req,res) => {
         })
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error,
+            status: error.status || 500,
+            message: error.message || "Internal server error",
         })
     }
 }
@@ -72,9 +69,8 @@ const updateAssessmentStatusController = async (req,res) => {
         })
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error,
+            status: error.status || 500,
+            message: error.message || "Internal server error",
         })
     }
 }
@@ -90,9 +86,8 @@ const getAllAssessmentController = async (req,res) => {
         })
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error,
+            status: error.status || 500,
+            message: error.message || "Internal server error",
         })
     }
 }
@@ -110,9 +105,8 @@ const getAssessmentByIdController = async (req,res) => {
         })
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error,
+            status: error.status || 500,
+            message: error.message || "Internal server error",
         })
     }
 }
@@ -130,9 +124,8 @@ const deleteAssessmentController = async (req,res) => {
         })
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error,
+            status: error.status || 500,
+            message: error.message || "Internal server error",
         })
     }
 }

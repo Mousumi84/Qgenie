@@ -30,7 +30,7 @@ function ForgetPassword() {
 
         try {
             const response = await axios({
-                url: state.role === "teacher" ? `${import.meta.env.VITE_API_URL}/teacher/confirmAccess` : `${import.meta.env.VITE_API_URL}/student/confirmAccess`,
+                url: `${import.meta.env.VITE_API_URL}/${state.role}/confirmAccess`,
                 method: "POST",
                 data: values,
                 headers: { Authorization: token },
@@ -53,7 +53,7 @@ function ForgetPassword() {
     const updatePassword = async (values) => {
         try {
             const response = await axios({
-                url: state.role === "teacher" ? `${import.meta.env.VITE_API_URL}/teacher/resetPassword` : `${import.meta.env.VITE_API_URL}/student/resetPassword`,
+                url: `${import.meta.env.VITE_API_URL}/${state.role}/resetPassword`,
                 method: "POST",
                 data: {
                     token: localStorage.getItem("ConfirmationToken"),

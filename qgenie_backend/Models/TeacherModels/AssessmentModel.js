@@ -3,14 +3,14 @@ import AssessmentModel from "../../Schemas/TeacherSchemas/AssessmentSchema.js";
 
 
 const saveAssessment = ({AssObj}) => {
-    return new Promise(async (Resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         console.log("AssessmentModel line- 7",AssObj);
 
         try {
             let DBdata = await AssessmentModel.create(AssObj);
             console.log("AssessmentModel line- 11",DBdata);
 
-            Resolve(DBdata);
+            resolve(DBdata);
         } catch (error) {
             reject(error);
         }
@@ -18,7 +18,7 @@ const saveAssessment = ({AssObj}) => {
 }
 
 const createAssessmentUsingAI = ({title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation, sampleAnswer, sampleOptions}) => {
-    return new Promise(async (Resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             
         } catch (error) {
@@ -28,7 +28,7 @@ const createAssessmentUsingAI = ({title, template, description, status, publishe
 }
 
 const editAssessment = ({id, assessmentInput}) => {
-    return new Promise(async (Resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         let update = assessmentInput;
         console.log("UPDATE",update)
 
@@ -36,7 +36,7 @@ const editAssessment = ({id, assessmentInput}) => {
             let DBdata = await AssessmentModel.findByIdAndUpdate(id, update,{ new: true});
             console.log("AssessmentModel line- 37",DBdata);
 
-            Resolve(DBdata);
+            resolve(DBdata);
         } catch (error) {
             reject(error);
         }
@@ -44,14 +44,14 @@ const editAssessment = ({id, assessmentInput}) => {
 }
 
 const updateStatusAssessment = ({id, status, publishedAt}) => {
-    return new Promise(async (Resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         console.log("UPDATE",status, publishedAt)
 
         try {
             let DBdata = await AssessmentModel.findByIdAndUpdate(id, { status, publishedAt }, { new: true});
             console.log("AssessmentModel line- 37",DBdata);
 
-            Resolve(DBdata);
+            resolve(DBdata);
         } catch (error) {
             console.log(error)
             reject(error);
@@ -60,12 +60,12 @@ const updateStatusAssessment = ({id, status, publishedAt}) => {
 }
 
 const fetchAllAssessments = () => {
-    return new Promise(async (Resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.find();
             console.log("AssessmentModel line- 50",DBdata);
 
-            Resolve(DBdata);
+            resolve(DBdata);
         } catch (error) {
             reject(error);
         }
@@ -73,12 +73,12 @@ const fetchAllAssessments = () => {
 }
 
 const fetchAssessmentById = ({id}) => {
-    return new Promise(async (Resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.findById(id);
             console.log("AssessmentModel line- 60",DBdata);
 
-            Resolve(DBdata);
+            resolve(DBdata);
         } catch (error) {
             reject(error);
         }
@@ -86,12 +86,12 @@ const fetchAssessmentById = ({id}) => {
 }
 
 const deleteAssessment = ({id}) => {
-    return new Promise(async (Resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.findByIdAndDelete(id);
             console.log("AssessmentModel line- 76",DBdata);
 
-            Resolve(DBdata);
+            resolve(DBdata);
         } catch (error) {
             reject(error);
         }

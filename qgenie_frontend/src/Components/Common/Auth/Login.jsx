@@ -13,7 +13,7 @@ function Login() {
         console.log(values);
         try {
             let response = await axios({
-                url: state.role == "teacher" ? `${import.meta.env.VITE_API_URL}/teacher/login` : `${import.meta.env.VITE_API_URL}/student/login`,
+                url: `${import.meta.env.VITE_API_URL}/${state.role}/login`,
                 method: "POST",
                 data: values,
             });

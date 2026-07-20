@@ -45,7 +45,7 @@ function Signup() {
         console.log(values);
         try {
             let response = await axios({
-                url: role == "teacher" ? `${import.meta.env.VITE_API_URL}/teacher/signup` : `${import.meta.env.VITE_API_URL}/student/signup`,
+                url: `${import.meta.env.VITE_API_URL}/${role}/signup`,
                 method: "POST",
                 data: values,
             });

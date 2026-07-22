@@ -1,4 +1,4 @@
-import AssessmentModel from "../../Schemas/TeacherSchemas/AssessmentSchema.js";
+import AssessmentModel from "../Schemas/AssessmentSchema.js";
 
 
 

@@ -1,6 +1,6 @@
-import TeacherModel from "../../Schemas/TeacherSchemas/AuthSchema.js";
+import TeacherModel from "../Schemas/TeacherAuthSchema.js";
 import bcrypt from "bcryptjs";
-import TeacherLoginModel from "../../Schemas/TeacherSchemas/LoginSchema.js";
+import TeacherLoginModel from "../Schemas/TeacherLoginSchema.js";
 
 
 

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import StudentModel from "../../Schemas/StudentSchemas/AuthSchema.js";
-import StudentLoginModel from "../../Schemas/StudentSchemas/LoginSchema.js";
+import StudentModel from "../Schemas/StudentAuthSchema.js";
+import StudentLoginModel from "../Schemas/StudentLoginSchema.js";
 
 
 

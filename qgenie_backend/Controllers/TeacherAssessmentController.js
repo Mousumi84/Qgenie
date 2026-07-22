@@ -1,4 +1,4 @@
-import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, saveAssessment, updateStatusAssessment } from "../../Models/TeacherModels/AssessmentModel.js";
+import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, saveAssessment, updateStatusAssessment } from "../Models/TeacherAssessmentModel.js";
 
 const createAssessmentController = async (req,res) => {
     // console.log("create assessment", req.body);

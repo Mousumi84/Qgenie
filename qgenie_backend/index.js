@@ -4,11 +4,11 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 // File import
-import TeacherAuthRouter from "./Routers/TeacherRouters/AuthRouter.js";
-import StudentAuthRouter from "./Routers/StudentRouters/AuthRouter.js";
+import TeacherAuthRouter from "./Routers/TeacherAuthRouter.js";
+import StudentAuthRouter from "./Routers/StudentAuthRouter.js";
 import TemplateRouter from "./Routers/TeacherRouters/TemplateRouter.js";
-import TeacherAssessmentRouter from "./Routers/TeacherRouters/AssessmentRouter.js";
-import StudentAssessmentRouter from "./Routers/StudentRouters/AssessmentRouter.js";
+import TeacherAssessmentRouter from "./Routers/TeacherAssessmentRouter.js";
+import StudentAssessmentRouter from "./Routers/StudentAssessmentRouter.js";
 
 // Constats & Initialization:
 const app = express();

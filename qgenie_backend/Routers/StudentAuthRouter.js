@@ -1,6 +1,6 @@
 import express from "express";
-import isAuth from "../../Middleware/isAuth.js";
-import { studentConfirmAccessController, studentEditProfileController, studentLoginController, studentLogoutController, studentSignupController, studentUpdatePasswordController } from "../../Controllers/StudentControllers/AuthController.js";
+import isAuth from "../Middleware/isAuth.js";
+import { studentConfirmAccessController, studentEditProfileController, studentLoginController, studentLogoutController, studentSignupController, studentUpdatePasswordController } from "../Controllers/StudentAuthController.js";
 const StudentAuthRouter = express.Router();
 
 StudentAuthRouter.post("/signup", studentSignupController);

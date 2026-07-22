@@ -1,6 +1,6 @@
 import express from 'express';
-import isAuth from '../../Middleware/isAuth.js';
-import { createAssessmentController, createAssessmentusingAIController, deleteAssessmentController, editAssessmentController, getAllAssessmentController, getAssessmentByIdController, updateAssessmentStatusController } from '../../Controllers/TeacherControllers/AssessmentController.js';
+import isAuth from '../Middleware/isAuth.js';
+import { createAssessmentController, createAssessmentusingAIController, deleteAssessmentController, editAssessmentController, getAllAssessmentController, getAssessmentByIdController, updateAssessmentStatusController } from '../Controllers/TeacherAssessmentController.js';
 
 const TeacherAssessmentRouter = express.Router();
 

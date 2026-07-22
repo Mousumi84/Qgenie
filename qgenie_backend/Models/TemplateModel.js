@@ -1,4 +1,4 @@
-import TemplateModel from "../../Schemas/TeacherSchemas/TemplatesSchema.js";
+import TemplateModel from "../../Schemas/TemplatesSchema.js";
 
 
 const saveTemplateInputs = ({templateInput}) => {

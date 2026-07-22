@@ -1,12 +1,12 @@
-import { alreadyLogedinCheck, confirmEmailUsername, editUser, emailUsernameAlreadyRegistered, findUserById, findUserWithKey, loginUser, logoutUser, passwordUpdate, registerUser } from "../../Models/TeacherModels/AuthModel.js";
-import { inputValidation1, inputValidation2 } from "../../Utils/Validation.js";
+import { inputValidation1, inputValidation2 } from "../Utils/Validation.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { alreadyLogedinCheckStd, editUserStd, emailUsernameAlreadyRegisteredStd, findUserWithKeyStd, loginUserStd, logoutUserStd, passwordUpdateStd, registerUserStd } from "../Models/StudentAuthModel.js";
 
-//Teacher Signup
-const teacherSignupController = async (req, res) => {
-  // console.log("Teacher Register",req.body);
-  let { name, email, username, password, confirm, role, gender, subject, institution, doj} = req.body;
+//Student Signup
+const studentSignupController = async (req, res) => {
+  // console.log("Student Register",req.body);
+  let { name, email, username, password, role, gender, gradelevel, institution, dob} = req.body;
 
   try {
     await inputValidation1({ name, email, username, password });
@@ -18,7 +18,7 @@ const teacherSignupController = async (req, res) => {
   }
 
   try {
-    let user = await emailUsernameAlreadyRegistered({ email, username });
+    let user = await emailUsernameAlreadyRegisteredStd({ email, username });
   } catch (error) {
     return res.send({
       status: error.code,
@@ -27,7 +27,7 @@ const teacherSignupController = async (req, res) => {
   }
 
   try {
-    let data = await registerUser({ name, email, username, password, role, gender, subject, institution, doj });
+    let data = await registerUserStd({ name, email, username, password, role, gender, gradelevel, institution, dob });
 
     return res.send({
       status: 201,
@@ -36,15 +36,15 @@ const teacherSignupController = async (req, res) => {
   } catch (error) {
     return res.send({
       status: 500,
-      message: "Internal server error",
+      message: "Internal server error 124",
       error: error,
     });
   }
 };
 
-//Teacher Details Edit
-const teacherEditProfileController = async (req, res) => {
-  let { id, name, email, role, gender, subject, institution, doj } = req.body;
+//Student Details Edit
+const studentEditProfileController = async (req, res) => {
+  let { id, name, email, role, gender, gradelevel, institution, dob } = req.body;
 
   try {
     if (!id) {
@@ -63,7 +63,7 @@ const teacherEditProfileController = async (req, res) => {
   }
 
   try {
-    let data = await editUser({ id, name, email, role, gender, subject, institution, doj });
+    let data = await editUserStd({ id, name, email, role, gender, gradelevel, institution, dob });
 
     return res.send({
       status: 200,
@@ -79,12 +79,12 @@ const teacherEditProfileController = async (req, res) => {
   }
 };
 
-//Teacher email , username confirm and generate jwttoken for password change
-const teacherConfirmAccessController = async (req, res) => {
+//Student email , username confirm and generate jwttoken for password change
+const studentConfirmAccessController = async (req, res) => {
   let { userId } = req.body;
 
   try {
-    let data = await findUserWithKey({userId});
+    let data = await findUserWithKeyStd({userId});
 
     if (!data) {
       return res.send({
@@ -93,7 +93,7 @@ const teacherConfirmAccessController = async (req, res) => {
       });
     }
 
-    let jwtToken = jwt.sign({data}, process.env.SECRET_KEY);      // { expiresIn: "5m"}
+    let jwtToken = jwt.sign({data}, process.env.SECRET_KEY);           //   ,{ expiresIn: "5m"}
 
     return res.send({
       status: 200,
@@ -109,8 +109,8 @@ const teacherConfirmAccessController = async (req, res) => {
   }
 };
 
-//Teacher Password update
-const teacherUpdatePasswordController = async (req, res) => {
+//Student Password update
+const studentUpdatePasswordController = async (req, res) => {
   let { userId, token, password } = req.body;
   let decode = jwt.verify(token,process.env.SECRET_KEY);
 
@@ -126,13 +126,14 @@ const teacherUpdatePasswordController = async (req, res) => {
   let id = decode.data._id;
 
   try {
-    let data = await passwordUpdate({ id, password });
+    let data = await passwordUpdateStd({ id, password });
 
     return res.send({
       status: 200,
       message: "Password reset successfully ",
     });
   } catch (error) {
+    console.log("error =>",error)
     return res.send({
       status: 500,
       message: error || "Internal server error",
@@ -141,8 +142,8 @@ const teacherUpdatePasswordController = async (req, res) => {
   }
 };
 
-//Teacher Login
-const teacherLoginController = async (req, res) => {
+//Student Login
+const studentLoginController = async (req, res) => {
   let { userId, password } = req.body;
 
   if (!userId || !password) { 
@@ -153,7 +154,7 @@ const teacherLoginController = async (req, res) => {
   }
 
   try {
-    let data = await findUserWithKey({userId});
+    let data = await findUserWithKeyStd({userId});
 
     if (!data) {
       return res.send({
@@ -172,11 +173,11 @@ const teacherLoginController = async (req, res) => {
       })
     }
 
-    await alreadyLogedinCheck({loginId: data._id});
+    await alreadyLogedinCheckStd({loginId: data._id});
 
     let token = jwt.sign({data},process.env.SECRET_KEY);       // ,{ expiresIn: "1d" });
 
-    await loginUser({loginId: data._id, token});
+    await loginUserStd({loginId: data._id, token});
 
       // remove password
       const user = data.toObject();
@@ -197,11 +198,12 @@ const teacherLoginController = async (req, res) => {
   }
 };
 
-//Teacher Logout
-const teacherLogoutController = async (req, res) => {
+//Student Logout
+const studentLogoutController = async (req, res) => {
   let { id } = req.body;
+
   try {
-    await logoutUser({id});
+    await logoutUserStd({id});
 
     return res.send({
       status: 200,
@@ -217,10 +219,10 @@ const teacherLogoutController = async (req, res) => {
 };
 
 export {
-  teacherSignupController,
-  teacherEditProfileController,
-  teacherConfirmAccessController,
-  teacherUpdatePasswordController,
-  teacherLoginController,
-  teacherLogoutController,
+  studentSignupController,
+  studentEditProfileController,
+  studentConfirmAccessController,
+  studentUpdatePasswordController,
+  studentLoginController,
+  studentLogoutController,
 };

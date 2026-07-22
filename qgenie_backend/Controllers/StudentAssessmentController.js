@@ -1,4 +1,4 @@
-import { fetchStudentAllAssessments, fetchStudentAssessmentById } from "../../Models/StudentModels/AssessmentModel.js";
+import { fetchStudentAllAssessments, fetchStudentAssessmentById } from "../Models/StudentAssessmentModel.js";
 
 const getStudentAllAssessmentController = async (req,res) => {
     let {gradelevel} = req.body;

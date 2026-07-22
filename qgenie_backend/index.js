@@ -7,7 +7,7 @@ import cors from "cors";
 import TeacherAuthRouter from "./Routers/TeacherAuthRouter.js";
 import StudentAuthRouter from "./Routers/StudentAuthRouter.js";
 import TemplateRouter from "./Routers/TeacherRouters/TemplateRouter.js";
-import TeacherAssessmentRouter from "./Routers/TeacherAssessmentRouter.js";
+import TeacherAssessmentRouter from "./Routers/AssessmentRouter.js";
 import StudentAssessmentRouter from "./Routers/StudentAssessmentRouter.js";
 
 // Constats & Initialization:

@@ -49,7 +49,7 @@ const updateStatusAssessment = ({id, status, publishedAt}) => {
 
         try {
             let DBdata = await AssessmentModel.findByIdAndUpdate(id, { status, publishedAt }, { new: true});
-            console.log("AssessmentModel line- 37",DBdata);
+            console.log("AssessmentModel line- 52",DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -63,7 +63,7 @@ const fetchAllAssessments = () => {
     return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.find();
-            console.log("AssessmentModel line- 50",DBdata);
+            console.log("AssessmentModel line- 66",DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -76,7 +76,44 @@ const fetchAssessmentById = ({id}) => {
     return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.findById(id);
-            console.log("AssessmentModel line- 60",DBdata);
+            console.log("AssessmentModel line- 79",DBdata);
+
+            resolve(DBdata);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+const fetchStudentAllAssessments = ({gradelevel}) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let DBdata = await AssessmentModel.find({ gradelevel });
+            console.log("AssessmentModel line- 92",DBdata);
+
+            resolve(DBdata);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+const fetchStudentAssessmentById = ({id, gradelevel}) => {
+    return new Promise(async (resolve, reject) => {
+        console.log(id,gradelevel)
+        try {
+            let DBdata = await AssessmentModel.findOne({
+                $and : [ {_id: id}, {gradelevel} ],
+            });
+            console.log("AssessmentModel line- 108",DBdata);
+
+            if(!DBdata) {
+                console.log("Yes")
+                reject({
+                    status: 404,
+                    message: "Assessment not found.",
+                });
+            }
 
             resolve(DBdata);
         } catch (error) {
@@ -89,7 +126,7 @@ const deleteAssessment = ({id}) => {
     return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.findByIdAndDelete(id);
-            console.log("AssessmentModel line- 76",DBdata);
+            console.log("AssessmentModel line- 129",DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -98,4 +135,4 @@ const deleteAssessment = ({id}) => {
     })
 }
 
-export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, deleteAssessment }
+export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAllAssessments, fetchStudentAssessmentById, deleteAssessment }

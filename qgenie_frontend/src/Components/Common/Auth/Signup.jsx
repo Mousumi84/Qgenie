@@ -43,6 +43,9 @@ function Signup() {
 
     const onSignupClick = async (values) => {
         console.log(values);
+        values.code = (Math.floor(Math.random() * 900) + 100).toString();
+        
+
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/${role}/signup`,

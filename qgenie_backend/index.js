@@ -8,6 +8,7 @@ import TeacherAuthRouter from "./Routers/TeacherAuthRouter.js";
 import StudentAuthRouter from "./Routers/StudentAuthRouter.js";
 import TemplateRouter from "./Routers/TemplateRouter.js";
 import AssessmentRouter from "./Routers/AssessmentRouter.js";
+import SubmissionRouter from "./Routers/SubmissionRouter.js";
 
 // Constats & Initialization:
 const app = express();
@@ -35,6 +36,7 @@ app.use("/teacher",TeacherAuthRouter);
 app.use("/student",StudentAuthRouter);
 app.use("/template",TemplateRouter);
 app.use("/assessment",AssessmentRouter);
+app.use("/submission",SubmissionRouter)
 
 // Listener
 app.listen(PORT, () => {

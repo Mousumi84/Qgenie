@@ -1,4 +1,4 @@
-import { editTemplateInputs, getTemplates, getTemplateById, saveTemplateInputs, deleteTemplateById } from "../../Models/TeacherModels/TemplateModel.js";
+import { editTemplateInputs, getTemplates, getTemplateById, saveTemplateInputs, deleteTemplateById } from "../Models/TemplateModel.js";
 
 const createTemplateController = async (req,res) => {
     console.log("Create Template");

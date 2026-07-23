@@ -1,7 +1,6 @@
 import express from "express";
-import { createTemplateController, deleteTemplateController, editTemplateController, getAllTemplateController, getTemplateByIdController } from "../../Controllers/TeacherControllers/TemplateController.js";
-import isAuth from "../../Middleware/isAuth.js";
-
+import { createTemplateController, deleteTemplateController, editTemplateController, getAllTemplateController, getTemplateByIdController } from "../Controllers/TemplateController.js";
+import isAuth from "../Middleware/isAuth.js";
 
 const TemplateRouter = express.Router();
 

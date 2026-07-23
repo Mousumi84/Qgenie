@@ -159,7 +159,7 @@ function TeacherAssessmentPage() {
 
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/teacher/assessment/updateStatus/${selectedAssessment._id}`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/updateStatus/${selectedAssessment._id}`,
                 method: "POST",
                 data: { status: statusValue, publishedAt: publishedDate },
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
@@ -209,7 +209,7 @@ function TeacherAssessmentPage() {
             async onOk() {
                 try {
                     let response = await axios({
-                        url: `${import.meta.env.VITE_API_URL}/teacher/assessment/delete/${item._id}`,
+                        url: `${import.meta.env.VITE_API_URL}/assessment/delete/${item._id}`,
                         method: "POST",
                         headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
                     });
@@ -235,7 +235,7 @@ function TeacherAssessmentPage() {
     const fetchAssessmentData = async () => {
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/teacher/assessment/getAll`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/getAll`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });

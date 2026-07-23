@@ -92,7 +92,7 @@ function TeacherAssessmentCreate() {
 
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/teacher/assessment/create`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/create`,
                 method: "POST",
                 data: values,
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
@@ -118,7 +118,7 @@ function TeacherAssessmentCreate() {
 
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/teacher/assessment/edit/${state?._id}`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/edit/${state?._id}`,
                 method: "POST",
                 data: data,
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },

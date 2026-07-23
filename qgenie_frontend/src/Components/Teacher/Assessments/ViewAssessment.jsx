@@ -19,7 +19,7 @@ const ViewAssessmentDetails = ({ id, setViewDetails }) => {
     const fetchAssessmentDetails = async () => {
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/teacher/assessment/get/${id}`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/get/${id}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });

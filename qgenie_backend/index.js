@@ -6,9 +6,8 @@ import cors from "cors";
 // File import
 import TeacherAuthRouter from "./Routers/TeacherAuthRouter.js";
 import StudentAuthRouter from "./Routers/StudentAuthRouter.js";
-import TemplateRouter from "./Routers/TeacherRouters/TemplateRouter.js";
-import TeacherAssessmentRouter from "./Routers/AssessmentRouter.js";
-import StudentAssessmentRouter from "./Routers/StudentAssessmentRouter.js";
+import TemplateRouter from "./Routers/TemplateRouter.js";
+import AssessmentRouter from "./Routers/AssessmentRouter.js";
 
 // Constats & Initialization:
 const app = express();
@@ -35,8 +34,7 @@ app.get("/", (req,res) => {
 app.use("/teacher",TeacherAuthRouter);
 app.use("/student",StudentAuthRouter);
 app.use("/template",TemplateRouter);
-app.use("/teacher/assessment",TeacherAssessmentRouter);
-app.use("/student/assessment",StudentAssessmentRouter);
+app.use("/assessment",AssessmentRouter);
 
 // Listener
 app.listen(PORT, () => {

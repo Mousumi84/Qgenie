@@ -35,10 +35,9 @@ const teacherSignupController = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      status: 500,
-      message: "Internal server error",
-      error: error,
-    });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
   }
 };
 
@@ -72,10 +71,9 @@ const teacherEditProfileController = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      status: 500,
-      message: "Internal server error",
-      error: error,
-    });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
   }
 };
 
@@ -102,10 +100,9 @@ const teacherConfirmAccessController = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      status: 500,
-      message: "Internal server error",
-      error: error,
-    });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
   }
 };
 
@@ -209,10 +206,9 @@ const teacherLogoutController = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      status: 500,
-      message: "Internal server error",
-      error: error,
-    });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
   }
 };
 

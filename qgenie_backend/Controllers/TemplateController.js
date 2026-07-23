@@ -21,10 +21,9 @@ const createTemplateController = async (req,res) => {
         });
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error
-        });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
     }
 }
 
@@ -42,10 +41,9 @@ const editTemplateController = async (req,res) => {
         });
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error
-        });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
     }
 } 
 
@@ -60,10 +58,9 @@ const getAllTemplateController = async (req,res) => {
         });
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error
-        });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
     }
 }
 
@@ -81,10 +78,9 @@ const getTemplateByIdController = async (req,res) => {
         });
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error
-        });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
     }
 }
 
@@ -101,10 +97,9 @@ const deleteTemplateController = async (req,res) => {
         });
     } catch (error) {
         return res.send({
-            status: 500,
-            message: "Internal server error",
-            error: error
-        });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
     }
 }
 

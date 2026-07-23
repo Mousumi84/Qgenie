@@ -35,10 +35,9 @@ const studentSignupController = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      status: 500,
-      message: "Internal server error 124",
-      error: error,
-    });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
   }
 };
 
@@ -72,10 +71,9 @@ const studentEditProfileController = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      status: 500,
-      message: "Internal server error",
-      error: error,
-    });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
   }
 };
 
@@ -102,10 +100,9 @@ const studentConfirmAccessController = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      status: 500,
-      message: "Internal server error",
-      error: error,
-    });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
   }
 };
 
@@ -211,10 +208,9 @@ const studentLogoutController = async (req, res) => {
     });
   } catch (error) {
     return res.send({
-      status: 500,
-      message: "Internal server error",
-      error: error,
-    });
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
   }
 };
 

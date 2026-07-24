@@ -21,8 +21,8 @@ function Login() {
             console.log(response);
 
             if (response?.data?.status == 200) {
-                state.role == "teacher" ? localStorage.setItem("teacherToken", response?.data?.token) : localStorage.setItem("studentToken", response?.data?.token);
-                localStorage.setItem("LoginId", response?.data?.data?._id);
+                localStorage.setItem(`${state.role}Token`, response?.data?.token);
+                localStorage.setItem("LoginDetails", response?.data?.data);
                 toast.success(response?.data?.message);
                 navigate(`/${state.role}/dashboard`);
                 return;

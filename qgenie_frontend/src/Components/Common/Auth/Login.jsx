@@ -18,11 +18,12 @@ function Login() {
                 data: values,
             });
 
-            console.log(response);
+            let details = response?.data?.data
+            console.log(details);
 
             if (response?.data?.status == 200) {
                 localStorage.setItem(`${state.role}Token`, response?.data?.token);
-                localStorage.setItem("LoginDetails", response?.data?.data);
+                localStorage.setItem("LoginDetails", JSON.stringify(details));
                 toast.success(response?.data?.message);
                 navigate(`/${state.role}/dashboard`);
                 return;

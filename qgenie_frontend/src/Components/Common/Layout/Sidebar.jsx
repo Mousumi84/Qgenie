@@ -27,10 +27,11 @@ function Sidebar({Elements, collapse, collapseFun, role}) {
     const currentStyle = styles[role];
 
     const logoutFun = async () => {
+        console.log(JSON.parse(localStorage.getItem("LoginDetails")));
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/${role}/logout`,
-                data: {id: localStorage.getItem("LoginId")},
+                data: { id: JSON.parse(localStorage.getItem("LoginDetails"))._id },
                 method: "POST",
                 headers: { Authorization: token },
             });
@@ -38,9 +39,8 @@ function Sidebar({Elements, collapse, collapseFun, role}) {
             console.log(response);
         
             if(response?.data?.status == 200) {
-                console.log(role == "teacher" ? "teacher" : "student")
                 role == "teacher" ? localStorage.removeItem("teacherToken") : localStorage.removeItem("studentToken");
-                localStorage.removeItem("LoginId");
+                localStorage.removeItem("LoginDetails");
                 toast.success(response?.data?.message);
                 navigate("/")
                 return;

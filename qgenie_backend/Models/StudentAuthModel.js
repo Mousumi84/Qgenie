@@ -163,8 +163,11 @@ const loginUserStd = ({ loginId, token }) => {
 
 const logoutUserStd = ({ id }) => {
     return new Promise(async (resolve, reject) => {
+        console.log(id);
         try {
-            let DBdata = await StudentLoginModel.deleteOne({ loginId: id });
+            let DBdata = await StudentLoginModel.findOneAndDelete({ loginId: id });
+
+            console.log("StudentLoginModel line-169",DBdata);
 
             resolve();
         } catch (error) {

@@ -24,7 +24,6 @@ const AnswerSchema = new mongoose.Schema({
 });
 
 const SubmissionSchema = new mongoose.Schema({
-
     assessmentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Assessment",
@@ -50,10 +49,10 @@ const SubmissionSchema = new mongoose.Schema({
         enum: [ "In Progress", "Submitted", "Evaluated" ],
         default: "In Progress"
     },
-    attemptNo: {
-        type: Number,
-        default: 1
-    },
+    // attemptNo: {
+    //     type: Number,
+    //     default: 1
+    // },
     startedAt: {
         type: Date
     },
@@ -65,6 +64,27 @@ const SubmissionSchema = new mongoose.Schema({
     },
     answers: {
         type: [AnswerSchema]
+    },
+    ipAddress: {
+        type: String
+    },
+    deviceType: {
+        type: String
+    },
+    browser: {
+        type: String
+    },
+    tabSwitchCount: {
+        type: Number
+    },
+    copyPasteCount: {
+        type: Number
+    },
+    autoSubmitted: {
+        type: Boolean
+    },
+    teacherRemarks: {
+        type: String
     }
 },
 // {
@@ -72,6 +92,11 @@ const SubmissionSchema = new mongoose.Schema({
 // }
 );
 
-const SubmissionModal = mongoose.model("Submission",SubmissionSchema);
+SubmissionSchema.index(
+    { studentId: 1, assessmentId: 1 },
+    { unique: true }
+);
 
-export default SubmissionModal;
+const SubmissionModel = mongoose.model("Submission",SubmissionSchema);
+
+export default SubmissionModel;

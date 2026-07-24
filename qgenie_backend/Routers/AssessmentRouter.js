@@ -10,8 +10,8 @@ AssessmentRouter.post("/edit/:id", isAuth, editAssessmentController);
 AssessmentRouter.post("/updateStatus/:id", isAuth, updateAssessmentStatusController); 
 AssessmentRouter.get("/getAll", isAuth, getAllAssessmentController);
 AssessmentRouter.get("/get/:id", isAuth, getAssessmentByIdController);
-AssessmentRouter.get("/getAll", getStudentAllAssessmentController);   // isAuth
-AssessmentRouter.get("/get/:id", getStudentAssessmentByIdController);     //   isAuth
+AssessmentRouter.get("/getAll/studentAssessment", getStudentAllAssessmentController);   // isAuth
+AssessmentRouter.get("/get/studentAssessment/:id", getStudentAssessmentByIdController);     //   isAuth
 AssessmentRouter.post("/delete/:id", isAuth, deleteAssessmentController);
 
 export default AssessmentRouter;

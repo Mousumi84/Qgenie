@@ -8,26 +8,69 @@ function Signup() {
     let navigate = useNavigate();
     let state = useLocation().state;
     let [role, setRole] = useState(state?.role || "");
+    let randomId = (Math.floor(Math.random() * 9000000) + 1000000).toString();
+    let username = role == "teacher" ? `T${randomId}` : `S${randomId}`;
 
-    let gradeoption = [
-        { label: "Class I", value: "class 1" },
-        { label: "Class II", value: "class 2" },
-        { label: "Class III", value: "class 3" },
-        { label: "Class IV", value: "class 4" },
-        { label: "Class V", value: "class 5" },
-        { label: "Class VI", value: "class 6" },
-        { label: "Class VII", value: "class 7" },
-        { label: "Class VIII", value: "class 8" },
-        { label: "Class IX", value: "class 9" },
-        { label: "Class X", value: "class 10" },
-        { label: "Class XI", value: "class 11" },
-        { label: "Class XII", value: "class 12" },
+    let gradeOptions = [
+        { label: "Class I", value: "Class 1" },
+        { label: "Class II", value: "Class 2" },
+        { label: "Class III", value: "Class 3" },
+        { label: "Class IV", value: "Class 4" },
+        { label: "Class V", value: "Class 5" },
+        { label: "Class VI", value: "Class 6" },
+        { label: "Class VII", value: "Class 7" },
+        { label: "Class VIII", value: "Class 8" },
+        { label: "Class IX", value: "Class 9" },
+        { label: "Class X", value: "Class 10" },
+        { label: "Class XI", value: "Class 11" },
+        { label: "Class XII", value: "Class 12" },
     ];
 
-    let genderoption = [
+    let genderOptions = [
         { label: "Male", value: "male" },
         { label: "Female", value: "female" },
         { label: "Other", value: "other" },
+    ];
+
+    const subjectOptions = [
+        { label: "English", value: "english" },
+        { label: "Hindi", value: "hindi" },
+        { label: "Bengali", value: "bengali" },
+        { label: "Sanskrit", value: "sanskrit" },
+        { label: "Urdu", value: "urdu" },
+        { label: "French", value: "french" },
+        { label: "German", value: "german" },
+        { label: "Spanish", value: "spanish" },
+    
+        { label: "Mathematics", value: "mathematics" },
+        { label: "Science", value: "science" },
+        { label: "Environmental Studies (EVS)", value: "evs" },
+    
+        { label: "Physics", value: "physics" },
+        { label: "Chemistry", value: "chemistry" },
+        { label: "Biology", value: "biology" },
+    
+        { label: "Social Science", value: "social_science" },
+        { label: "History", value: "history" },
+        { label: "Geography", value: "geography" },
+        { label: "Political Science", value: "political_science" },
+        { label: "Economics", value: "economics" },
+    
+        { label: "Computer Science", value: "computer_science" },
+        { label: "Information Technology", value: "information_technology" },
+        { label: "Artificial Intelligence", value: "artificial_intelligence" },
+    
+        { label: "Accountancy", value: "accountancy" },
+        { label: "Business Studies", value: "business_studies" },
+        { label: "Entrepreneurship", value: "entrepreneurship" },
+    
+        { label: "Physical Education", value: "physical_education" },
+        { label: "General Knowledge", value: "general_knowledge" },
+        { label: "Moral Science", value: "moral_science" },
+        { label: "Art & Craft", value: "art_craft" },
+        { label: "Music", value: "music" },
+        { label: "Dance", value: "dance" },
+        { label: "Health & Wellness", value: "health_wellness" },
     ];
 
     const passwordValidator = ({ getFieldValue }) => {
@@ -43,9 +86,6 @@ function Signup() {
 
     const onSignupClick = async (values) => {
         console.log(values);
-        values.code = (Math.floor(Math.random() * 900) + 100).toString();
-        
-
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/${role}/signup`,
@@ -83,8 +123,8 @@ function Signup() {
                 <Form.Item name="email" label="Email" rules={[ { type: "email", message: "The input is not valid Email!" }, { required: true, message: "Please input your Email!" } ]}>
                     <Input placeholder="Enter your email" />
                 </Form.Item>
-                <Form.Item name="username" label="Username" rules={[{ required: true, message: "Please input your username!" }]}>
-                    <Input placeholder="Enter your username" />
+                <Form.Item name="username" label="Username" rules={[{ required: true, message: "Please input your username!" }]} initialValue={username}>
+                    <Input placeholder="Enter your username" disabled />
                 </Form.Item>
                 <Form.Item name="password" label="Password" rules={[{ required: true, message: "Please input your password!" }]} hasFeedback>
                     <Input.Password placeholder="Enter your password" />
@@ -102,7 +142,7 @@ function Signup() {
                 {role === "teacher" ? (
                     <>
                         <Form.Item name="subject" label="Subject Expertise">
-                            <Input placeholder="Enter your subject expertise" />
+                            <Select mode="multiple" placeholder="Select your subject expertise" options={subjectOptions} />
                         </Form.Item>
                         <Form.Item name="institution" label="Institution Name">
                             <Input placeholder="Enter your institution name" />
@@ -111,13 +151,13 @@ function Signup() {
                             <DatePicker className="w-full" placeholder="Select your date of joining" />
                         </Form.Item>
                         <Form.Item name="gender" label="Gender">
-                            <Select options={genderoption} placeholder="Select your gender" />
+                            <Select options={genderOptions} placeholder="Select your gender" />
                         </Form.Item>
                     </>
                 ) : (
                     <>
                         <Form.Item name="gradelevel" label="Grade Level">
-                            <Select options={gradeoption} placeholder="Select an grade option" />
+                            <Select options={gradeOptions} placeholder="Select an grade option" />
                         </Form.Item>
                         <Form.Item name="institution" label="Institution Name">
                             <Input placeholder="Enter your institution name" />
@@ -126,7 +166,7 @@ function Signup() {
                             <DatePicker className="w-full" placeholder="Select your date of birth" />
                         </Form.Item>
                         <Form.Item name="gender" label="Gender">
-                            <Select options={genderoption} placeholder="Select your gender" />
+                            <Select options={genderOptions} placeholder="Select your gender" />
                         </Form.Item>
                     </>
                 )}

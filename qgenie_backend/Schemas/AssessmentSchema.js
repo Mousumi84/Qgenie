@@ -66,6 +66,9 @@ const AssessmentSchema = new mongoose.Schema({
     },
     questions: {
         type: [QuestionPaperSchema],
+    },
+    createdBy: {
+        type: String,
     }
 },
 {

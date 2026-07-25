@@ -1,17 +1,18 @@
 import express from 'express';
 import isAuth from '../Middleware/isAuth.js';
-import { createAssessmentController, createAssessmentusingAIController, deleteAssessmentController, editAssessmentController, getAllAssessmentController, getAssessmentByIdController, getStudentAllAssessmentController, getStudentAssessmentByIdController, updateAssessmentStatusController } from '../Controllers/AssessmentController.js';
+import { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentsController, getAssessmentByIdController, getTeacherAssessmentsController, getStudentAssessmentController, deleteAssessmentController } from '../Controllers/AssessmentController.js';   
 
 const AssessmentRouter = express.Router();
 
-AssessmentRouter.post("/create",isAuth, createAssessmentController);
+AssessmentRouter.post("/create", isAuth, createAssessmentController);
 AssessmentRouter.post("/createAi", createAssessmentusingAIController);   // isAuth
 AssessmentRouter.post("/edit/:id", isAuth, editAssessmentController);
-AssessmentRouter.post("/updateStatus/:id", isAuth, updateAssessmentStatusController); 
-AssessmentRouter.get("/getAll", isAuth, getAllAssessmentController);
+AssessmentRouter.post("/updateStatus/:id", isAuth, updateAssessmentStatusController);
+AssessmentRouter.get("/getAll", isAuth, getAllAssessmentsController);
 AssessmentRouter.get("/get/:id", isAuth, getAssessmentByIdController);
-AssessmentRouter.get("/getAll/studentAssessment", getStudentAllAssessmentController);   // isAuth
-AssessmentRouter.get("/get/studentAssessment/:id", getStudentAssessmentByIdController);     //   isAuth
+AssessmentRouter.get("/get/teacher/:username", isAuth, getTeacherAssessmentsController);
+AssessmentRouter.get("/get/student", isAuth, getStudentAssessmentController);
+// AssessmentRouter.get("/get/studentAssessment/:id", getStudentAssessmentByIdController);     //   isAuth
 AssessmentRouter.post("/delete/:id", isAuth, deleteAssessmentController);
 
 export default AssessmentRouter;

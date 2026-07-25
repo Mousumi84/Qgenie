@@ -1,10 +1,10 @@
-import { editTemplateInputs, getTemplates, getTemplateById, saveTemplateInputs, deleteTemplateById } from "../Models/TemplateModel.js";
+import { editTemplateInputs, fetchTemplates, fetchTemplateById, saveTemplateInputs, deleteTemplateById, fetchTemplatesByTeacher } from "../Models/TemplateModel.js";
 
-const createTemplateController = async (req,res) => {
+const createTemplateController = async (req, res) => {
     console.log("Create Template");
     let templateInput = req.body;
 
-    if(!templateInput) {
+    if (!templateInput) {
         return res.send({
             status: 400,
             message: "Required fields are missing",
@@ -12,8 +12,8 @@ const createTemplateController = async (req,res) => {
     }
 
     try {
-        const data = await saveTemplateInputs({templateInput});
-        
+        const data = await saveTemplateInputs({ templateInput });
+
         return res.send({
             status: 201,
             message: "Template created successfully",
@@ -27,13 +27,13 @@ const createTemplateController = async (req,res) => {
     }
 }
 
-const editTemplateController = async (req,res) => {
-    console.log("Edit Template",req.params.id,req.body);
+const editTemplateController = async (req, res) => {
+    console.log("Edit Template", req.params.id, req.body);
     let id = req.params.id;
     let templateInput = req.body;
 
     try {
-        const data = await editTemplateInputs({id, templateInput});
+        const data = await editTemplateInputs({ id, templateInput });
         return res.send({
             status: 200,
             message: `Update templat successfully`,
@@ -45,11 +45,11 @@ const editTemplateController = async (req,res) => {
             message: error.message || "Internal server error",
         })
     }
-} 
+}
 
-const getAllTemplateController = async (req,res) => {
+const getAllTemplatesController = async (req, res) => {
     try {
-        const data = await getTemplates();
+        const data = await fetchTemplates();
 
         return res.send({
             status: 200,
@@ -64,12 +64,11 @@ const getAllTemplateController = async (req,res) => {
     }
 }
 
-const getTemplateByIdController = async (req,res) => {
-    console.log("get template by id: =>",req.params.id);
-    const id = req.params.id;
-
+// Fetch all the templates created by a specific teacher
+const getTeacherTemplatesController = async (req, res) => {
+    let username = req.params.username;
     try {
-        const data = await getTemplateById({id});
+        const data = await fetchTemplatesByTeacher({ username });
 
         return res.send({
             status: 200,
@@ -84,13 +83,33 @@ const getTemplateByIdController = async (req,res) => {
     }
 }
 
-const deleteTemplateController = async (req,res) => {
-    console.log("delete template by id: =>",req.params.id);
+const getTemplateByIdController = async (req, res) => {
+    console.log("get template by id: =>", req.params.id);
     const id = req.params.id;
 
     try {
-        const data = await deleteTemplateById({id});
-        
+        const data = await fetchTemplateById({ id });
+
+        return res.send({
+            status: 200,
+            message: "Data fetched",
+            data: data,
+        });
+    } catch (error) {
+        return res.send({
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
+    }
+}
+
+const deleteTemplateController = async (req, res) => {
+    console.log("delete template by id: =>", req.params.id);
+    const id = req.params.id;
+
+    try {
+        const data = await deleteTemplateById({ id });
+
         return res.send({
             status: 200,
             message: "Template deleted successfully",
@@ -103,4 +122,4 @@ const deleteTemplateController = async (req,res) => {
     }
 }
 
-export {createTemplateController, editTemplateController, getAllTemplateController, getTemplateByIdController, deleteTemplateController};
+export { createTemplateController, editTemplateController, getAllTemplatesController, getTeacherTemplatesController, getTemplateByIdController, deleteTemplateController };

@@ -31,9 +31,9 @@ const TeacherSchema = new mongoose.Schema({
     role : {
         type: String,
     },
-    subject : {
+    subject : [{
         type: String,
-    },
+    }],
 })
 
 const TeacherModel = mongoose.model("Teacher",TeacherSchema);

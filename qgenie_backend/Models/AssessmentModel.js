@@ -2,13 +2,13 @@ import AssessmentModel from "../Schemas/AssessmentSchema.js";
 
 
 
-const saveAssessment = ({AssObj}) => {
+const saveAssessment = ({ AssObj }) => {
     return new Promise(async (resolve, reject) => {
-        console.log("AssessmentModel line- 7",AssObj);
+        console.log("AssessmentModel line- 7", AssObj);
 
         try {
             let DBdata = await AssessmentModel.create(AssObj);
-            console.log("AssessmentModel line- 11",DBdata);
+            console.log("AssessmentModel line- 11", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -17,24 +17,24 @@ const saveAssessment = ({AssObj}) => {
     })
 }
 
-const createAssessmentUsingAI = ({title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation, sampleAnswer, sampleOptions}) => {
+const createAssessmentUsingAI = ({ title, template, description, status, publishedAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation, sampleAnswer, sampleOptions }) => {
     return new Promise(async (resolve, reject) => {
         try {
-            
+
         } catch (error) {
             reject(error);
         }
     })
 }
 
-const editAssessment = ({id, assessmentInput}) => {
+const editAssessment = ({ id, assessmentInput }) => {
     return new Promise(async (resolve, reject) => {
         let update = assessmentInput;
-        console.log("UPDATE",update)
+        console.log("UPDATE", update)
 
         try {
-            let DBdata = await AssessmentModel.findByIdAndUpdate(id, update,{ new: true});
-            console.log("AssessmentModel line- 37",DBdata);
+            let DBdata = await AssessmentModel.findByIdAndUpdate(id, update, { new: true });
+            console.log("AssessmentModel line- 37", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -43,13 +43,13 @@ const editAssessment = ({id, assessmentInput}) => {
     })
 }
 
-const updateStatusAssessment = ({id, status, publishedAt}) => {
+const updateStatusAssessment = ({ id, status, publishedAt }) => {
     return new Promise(async (resolve, reject) => {
-        console.log("UPDATE",status, publishedAt)
+        console.log("UPDATE", status, publishedAt)
 
         try {
-            let DBdata = await AssessmentModel.findByIdAndUpdate(id, { status, publishedAt }, { new: true});
-            console.log("AssessmentModel line- 52",DBdata);
+            let DBdata = await AssessmentModel.findByIdAndUpdate(id, { status, publishedAt }, { new: true });
+            console.log("AssessmentModel line- 52", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -63,7 +63,7 @@ const fetchAllAssessments = () => {
     return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.find();
-            console.log("AssessmentModel line- 66",DBdata);
+            console.log("AssessmentModel line- 66", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -72,11 +72,11 @@ const fetchAllAssessments = () => {
     })
 }
 
-const fetchAssessmentById = ({id}) => {
+const fetchAssessmentById = ({ id }) => {
     return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await AssessmentModel.findById(id);
-            console.log("AssessmentModel line- 79",DBdata);
+            console.log("AssessmentModel line- 79", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -85,30 +85,14 @@ const fetchAssessmentById = ({id}) => {
     })
 }
 
-const fetchStudentAllAssessments = ({gradelevel}) => {
+const fetchTemplatesByTeacher = ({ username }) => {
     return new Promise(async (resolve, reject) => {
+        console.log(id, gradelevel)
         try {
-            let DBdata = await AssessmentModel.find({ gradelevel });
-            console.log("AssessmentModel line- 92",DBdata);
+            let DBdata = await AssessmentModel.find({ createdBy : username });
+            console.log("AssessmentModel line- 108", DBdata);
 
-            resolve(DBdata);
-        } catch (error) {
-            reject(error);
-        }
-    })
-}
-
-const fetchStudentAssessmentById = ({id, gradelevel}) => {
-    return new Promise(async (resolve, reject) => {
-        console.log(id,gradelevel)
-        try {
-            let DBdata = await AssessmentModel.findOne({
-                $and : [ {_id: id}, {gradelevel} ],
-            });
-            console.log("AssessmentModel line- 108",DBdata);
-
-            if(!DBdata) {
-                console.log("Yes")
+            if (!DBdata) {
                 reject({
                     status: 404,
                     message: "Assessment not found.",
@@ -122,11 +106,11 @@ const fetchStudentAssessmentById = ({id, gradelevel}) => {
     })
 }
 
-const deleteAssessment = ({id}) => {
+const fetchStudentAssessments = ({ gradelevel }) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let DBdata = await AssessmentModel.findByIdAndDelete(id);
-            console.log("AssessmentModel line- 129",DBdata);
+            let DBdata = await AssessmentModel.find({ gradelevel, status: "Published" });
+            console.log("AssessmentModel line- 92", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -135,4 +119,41 @@ const deleteAssessment = ({id}) => {
     })
 }
 
-export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAllAssessments, fetchStudentAssessmentById, deleteAssessment }
+// const fetchStudentAssessmentById = ({ id, gradelevel }) => {
+//     return new Promise(async (resolve, reject) => {
+//         console.log(id, gradelevel)
+//         try {
+//             let DBdata = await AssessmentModel.findOne({
+//                 $and: [{ _id: id }, { gradelevel }],
+//             });
+//             console.log("AssessmentModel line- 108", DBdata);
+
+//             if (!DBdata) {
+//                 console.log("Yes")
+//                 reject({
+//                     status: 404,
+//                     message: "Assessment not found.",
+//                 });
+//             }
+
+//             resolve(DBdata);
+//         } catch (error) {
+//             reject(error);
+//         }
+//     })
+// }
+
+const deleteAssessment = ({ id }) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let DBdata = await AssessmentModel.findByIdAndDelete(id);
+            console.log("AssessmentModel line- 129", DBdata);
+
+            resolve(DBdata);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, deleteAssessment }   // fetchStudentAssessmentById

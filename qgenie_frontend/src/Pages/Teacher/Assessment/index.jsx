@@ -235,7 +235,7 @@ function TeacherAssessmentPage() {
     const fetchAssessmentData = async () => {
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/assessment/getAll`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/getAll`,    //   /teacherAssessment
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });
@@ -273,15 +273,8 @@ function TeacherAssessmentPage() {
                 onCancel={closeModal}
                 footer={() => (
                     <div className="flex flex-row-reverse gap-2">
-                        <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={closeModal}>
-                            Close
-                        </button>
-                        <button
-                            style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }}
-                            onClick={(e) => statusPublished(e)}
-                        >
-                            Publish
-                        </button>
+                        <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={closeModal}> Close</button>
+                        <button style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}> Publish</button>
                     </div>
                 )}
             >
@@ -307,27 +300,10 @@ function TeacherAssessmentPage() {
                 onCancel={closeModal2}
                 footer={() => (
                     <div className="flex flex-row-reverse gap-2">
-                        <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={closeModal2}>
-                            Close
-                        </button>
-                        <button
-                            style={{ backgroundColor: "red", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }}
-                            onClick={(e) => statusPublished(e)}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            style={{ backgroundColor: "#06a506", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }}
-                            onClick={(e) => statusPublished(e)}
-                        >
-                            Done
-                        </button>
-                        <button
-                            style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }}
-                            onClick={(e) => statusPublished(e)}
-                        >
-                            Publish
-                        </button>
+                        <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={closeModal2}>Close</button>
+                        <button style={{ backgroundColor: "red", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}> Cancel</button>
+                        <button style={{ backgroundColor: "#06a506", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}> Done</button>
+                        <button style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}> Publish</button>
                     </div>
                 )}
             >

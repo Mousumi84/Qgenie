@@ -1,11 +1,11 @@
-import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAllAssessments, fetchStudentAssessmentById, saveAssessment, updateStatusAssessment } from "../Models/AssessmentModel.js";
+import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, saveAssessment, updateStatusAssessment } from "../Models/AssessmentModel.js";             //   fetchStudentAssessmentById
 
-const createAssessmentController = async (req,res) => {
+const createAssessmentController = async (req, res) => {
     // console.log("create assessment", req.body);
     let AssObj = req.body;
 
     try {
-        let data = await saveAssessment({AssObj});
+        let data = await saveAssessment({ AssObj });
 
         return res.send({
             status: 200,
@@ -19,7 +19,7 @@ const createAssessmentController = async (req,res) => {
     }
 }
 
-const createAssessmentusingAIController = async (req,res) => {
+const createAssessmentusingAIController = async (req, res) => {
     try {
 
 
@@ -35,13 +35,13 @@ const createAssessmentusingAIController = async (req,res) => {
     }
 }
 
-const editAssessmentController = async (req,res) => {
+const editAssessmentController = async (req, res) => {
     // console.log("Edit Assessment",req.params.id,req.body);
     let id = req.params.id;
     let assessmentInput = req.body;
 
     try {
-        const data = await editAssessment({id, assessmentInput});
+        const data = await editAssessment({ id, assessmentInput });
         return res.send({
             status: 200,
             message: `Update assessment successfully`,
@@ -55,13 +55,13 @@ const editAssessmentController = async (req,res) => {
     }
 }
 
-const updateAssessmentStatusController = async (req,res) => {
-    console.log("Edit Assessment Status",req.params.id,req.body);
+const updateAssessmentStatusController = async (req, res) => {
+    console.log("Edit Assessment Status", req.params.id, req.body);
     let id = req.params.id;
-    let {status, publishedAt} = req.body;
+    let { status, publishedAt } = req.body;
 
     try {
-        const data = await updateStatusAssessment({id, status, publishedAt});
+        const data = await updateStatusAssessment({ id, status, publishedAt });
         return res.send({
             status: 200,
             message: `Updated assessment status successfully`,
@@ -75,7 +75,7 @@ const updateAssessmentStatusController = async (req,res) => {
     }
 }
 
-const getAllAssessmentController = async (req,res) => {
+const getAllAssessmentsController = async (req, res) => {
     try {
         let data = await fetchAllAssessments();
 
@@ -92,11 +92,11 @@ const getAllAssessmentController = async (req,res) => {
     }
 }
 
-const getAssessmentByIdController = async (req,res) => {
+const getAssessmentByIdController = async (req, res) => {
     let id = req.params.id;
 
     try {
-        let data = await fetchAssessmentById({id});
+        let data = await fetchAssessmentById({ id });
 
         return res.send({
             status: 200,
@@ -111,12 +111,33 @@ const getAssessmentByIdController = async (req,res) => {
     }
 }
 
-const getStudentAllAssessmentController = async (req,res) => {
-    let {gradelevel} = req.body;
+// Fetch all the assessments created by a specific teacher
+const getTeacherAssessmentsController = async (req, res) => {
+    let username = req.params.username;
+
+    try {
+        let data = await fetchTemplatesByTeacher({ username });
+
+        return res.send({
+            status: 200,
+            message: "Data fetched",
+            data: data,
+        })
+    } catch (error) {
+        return res.send({
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
+    }
+}
+
+// Fetch all the assessments of students in specific gradelevel 
+const getStudentAssessmentController = async (req, res) => {
+    let { gradelevel } = req.user.data;
     console.log("gradelevel =>", gradelevel);
 
     try {
-        let data = await fetchStudentAllAssessments({gradelevel});
+        let data = await fetchStudentAssessments({ gradelevel });
 
         return res.send({
             status: 200,
@@ -131,33 +152,33 @@ const getStudentAllAssessmentController = async (req,res) => {
     }
 }
 
-const getStudentAssessmentByIdController = async (req,res) => {
-    let id = req.params.id;
-    let {gradelevel} = req.body;
-    console.log("gradelevel =>",id, gradelevel);
+// const getStudentAssessmentByIdController = async (req, res) => {
+//     let id = req.params.id;
+//     let { gradelevel } = req.body;
+//     console.log("gradelevel =>", id, gradelevel);
 
-    try {
-        let data = await fetchStudentAssessmentById({id,gradelevel});
+//     try {
+//         let data = await fetchStudentAssessmentById({ id, gradelevel });
 
-        return res.send({
-            status: 200,
-            message: "Data fetched",
-            data: data,
-        })
-    } catch (error) {
-        return res.send({
-            status: error.status || 500,
-            message: error.message || "Internal server error",
-        })
-    }
-}
+//         return res.send({
+//             status: 200,
+//             message: "Data fetched",
+//             data: data,
+//         })
+//     } catch (error) {
+//         return res.send({
+//             status: error.status || 500,
+//             message: error.message || "Internal server error",
+//         })
+//     }
+// }
 
-const deleteAssessmentController = async (req,res) => {
+const deleteAssessmentController = async (req, res) => {
     let id = req.params.id;
     console.log("Delete assessment:", id);
 
     try {
-        let data = await deleteAssessment({id});
+        let data = await deleteAssessment({ id });
 
         return res.send({
             status: 200,
@@ -171,4 +192,4 @@ const deleteAssessmentController = async (req,res) => {
     }
 }
 
-export { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentController, getAssessmentByIdController, getStudentAllAssessmentController, getStudentAssessmentByIdController, deleteAssessmentController};
+export { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentsController, getAssessmentByIdController, getTeacherAssessmentsController, getStudentAssessmentController, deleteAssessmentController };    // getStudentAssessmentByIdController

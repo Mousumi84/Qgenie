@@ -3,32 +3,32 @@ import mongoose from "mongoose";
 const QuestionTypeSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ["MCQ", "MSQ","TRUE_FALSE","FILL_BLANK", "SAQ", "LAQ"]
-    }, 
+        enum: ["MCQ", "MSQ", "TRUE_FALSE", "FILL_BLANK", "SAQ", "LAQ"]
+    },
     questionCount: {
         type: Number,
     },
     marksperQtn: {
         type: Number,
-    }, 
+    },
     difficultyLevel: {
         type: String,
         enum: ["easy", "medium", "hard"],
-    }, 
+    },
     aiprompt: {
         type: String,
-    }, 
+    },
     options: {
         type: [
             {
                 type: String,
-            }  
+            }
         ],
     }
 },
-// {
-//     _id: false
-// }
+    // {
+    //     _id: false
+    // }
 );
 
 const TemplateSchema = new mongoose.Schema({
@@ -50,14 +50,17 @@ const TemplateSchema = new mongoose.Schema({
         default: []
     },
     totalMarks: {
-      type: Number,
+        type: Number,
     },
+    createdBy: {
+        type: String,
+    }
 },
-{
-    timestamps: true
-}
+    {
+        timestamps: true
+    }
 );
 
-const TemplateModel = mongoose.model("Template",TemplateSchema);
+const TemplateModel = mongoose.model("Template", TemplateSchema);
 
 export default TemplateModel;

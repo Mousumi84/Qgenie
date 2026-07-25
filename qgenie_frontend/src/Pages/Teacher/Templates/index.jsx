@@ -105,9 +105,11 @@ function TeacherTemplatesPage() {
     };
 
     const fetchTemplateData = async () => {
+        let teacherUsername = JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
+
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/template/getAll`,
+                url: `${import.meta.env.VITE_API_URL}/template/get/teacher/${teacherUsername}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` }
             })

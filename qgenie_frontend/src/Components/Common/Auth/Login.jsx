@@ -23,7 +23,7 @@ function Login() {
 
             if (response?.data?.status == 200) {
                 localStorage.setItem(`${state.role}Token`, response?.data?.token);
-                localStorage.setItem("LoginDetails", JSON.stringify(details));
+                localStorage.setItem(`${state.role}LoginDetails`, JSON.stringify(details));
                 toast.success(response?.data?.message);
                 navigate(`/${state.role}/dashboard`);
                 return;

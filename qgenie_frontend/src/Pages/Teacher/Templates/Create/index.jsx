@@ -49,6 +49,7 @@ function TeacherTemplatesCreate() {
         { label: "Long Answer Question", value: "LAQ" }, 
     ];
   
+    // Add Question Type in the template form
     const addQuestionType = (type) => {
         setQuestionTypes((prev) => [
             ...prev,
@@ -60,6 +61,7 @@ function TeacherTemplatesCreate() {
         setOpen(!open);
     };
   
+    // Remove Question Type in the template form
     const removeQuestionType = (id) => {
         console.log("remove",id);
 
@@ -77,9 +79,10 @@ function TeacherTemplatesCreate() {
         form.setFieldsValue({questionTypeTemplate: values});
     };
   
+    // Create a new Template
     const createTemplate = async (values) => {
+        values.createdBy = JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
 
-        console.log(values);
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/template/create`,
@@ -102,10 +105,10 @@ function TeacherTemplatesCreate() {
             toast.error(error.message);
         }
     }
-  
+
+    // Edit an existing Template  
     const editTemplate = async () => {
         let data = form.getFieldsValue(true);
-
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/template/edit/${state?._id}`,

@@ -145,6 +145,7 @@ const getStudentAssessmentController = async (req, res) => {
             data: data,
         })
     } catch (error) {
+        console.log(error)
         return res.send({
             status: error.status || 500,
             message: error.message || "Internal server error",

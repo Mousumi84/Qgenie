@@ -87,7 +87,6 @@ const fetchAssessmentById = ({ id }) => {
 
 const fetchTemplatesByTeacher = ({ username }) => {
     return new Promise(async (resolve, reject) => {
-        console.log(id, gradelevel)
         try {
             let DBdata = await AssessmentModel.find({ createdBy : username });
             console.log("AssessmentModel line- 108", DBdata);

@@ -8,9 +8,13 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import { PiExamLight } from "react-icons/pi";
+import { BiExpandAlt } from "react-icons/bi";
+import ViewAssessmentBrief from "../../../Components/Student/Assessments/ViewAssessmentBrief";
 
 function StudentAssessment() {
 	const [AssmData, setAssmData] = useState();
+    const [viewDetails, setViewDetails] = useState(false);
+    const [viewAssmId, setViewAssmId] = useState();
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
@@ -48,6 +52,7 @@ function StudentAssessment() {
 			render: (_, record) => {
 				return (
 					<div className="flex flex-row gap-4">
+                        <BiExpandAlt className="text-green-300" onClick={() => viewAssmDetails(record)} />
 						<PiExamLight className="text-blue-300" onClick={() => navigate("", { state: record })} />
 					</div>
 				);
@@ -55,17 +60,21 @@ function StudentAssessment() {
 		},
     ];
 
+    const viewAssmDetails = (item) => {
+        setViewDetails(!viewDetails);
+        setViewAssmId(item?._id);
+    };
+
     // Fetch Assessmnet Details
     const fetchAssessmentData = async () => {
-		console.log(JSON.parse(localStorage.getItem("studentLoginDetails")).gradelevel )
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/assessment/getAll/studentAssessment`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/getstudent`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("studentToken")}` },
             });
 
-            // console.log(response);
+            console.log(response);
             setAssmData(response?.data?.data);
         } catch (error) {
             console.log(error);
@@ -84,6 +93,7 @@ function StudentAssessment() {
     return (
         <div id="StudentAssessment">
             <Table dataSource={AssmData} columns={columns} rowKey="_id" />
+            {viewDetails && <ViewAssessmentBrief id={viewAssmId} setViewDetails={setViewDetails} />}
         </div>
     );
 }

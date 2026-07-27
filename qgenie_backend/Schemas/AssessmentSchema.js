@@ -51,7 +51,7 @@ const AssessmentSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["Pending", "Published", "Done", "Cancel"],
+        enum: ["Pending", "Published", "Completed", "Cancelled"],    // ["Pending", "Published", "Done", "Cancel"]
         default: "Pending",
     },
     publishedAt: {

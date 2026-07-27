@@ -44,9 +44,10 @@ function TeacherAssessmentCreate() {
     ];
 
     const templateDropdown = async () => {
+        let teacherUsername = JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/template/getAll`,
+                url: `${import.meta.env.VITE_API_URL}/template/getteacher/${teacherUsername}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });
@@ -87,6 +88,7 @@ function TeacherAssessmentCreate() {
         });
 
         values.totalMarks = totalMarks;
+        values.createdBy = JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
 
         console.log(values);
 

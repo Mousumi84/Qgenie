@@ -55,14 +55,14 @@ function TeacherAssessmentPage() {
         },
         {
             title: "Status",
-            dataIndex: "status", // ["Pending", "Published", "Done", "Cancel"]
+            dataIndex: "status", // ["Pending", "Published", "Completed", "Cancelled"]
             key: "status",
             render: (status, record) => {
                 const statusColors = {
                     Pending: "orange",
                     Published: "#0274ff",
-                    Done: "#06a506",
-                    Cancel: "red",
+                    Completed: "#06a506",
+                    Cancelled: "red",
                 };
                 return (
                     <span
@@ -77,7 +77,7 @@ function TeacherAssessmentPage() {
                             }
 
                             setDateError("");
-                            console.log(status, status == "Published ");
+                            console.log(status, status == "Published");
                             status == "Published" ? setStatusDoneCancelPopOpen(true) : setStatusPendingPopOpen(true);
                         }}
                     >
@@ -147,10 +147,7 @@ function TeacherAssessmentPage() {
 
     // On click of Published button
     const statusPublished = async (e) => {
-        console.log(e, e.target.innerHTML);
-        // console.log(publishedDate,dateError,selectedAssessment, e.target.value);
-
-        let statusValue = e.target.innerHTML === "Publish" ? "Published" : e.target.innerHTML;
+        let statusValue = e.target.innerHTML ;
 
         if (statusValue === "Published" && !publishedDate) {
             setDateError("Published date is required");
@@ -161,7 +158,7 @@ function TeacherAssessmentPage() {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/assessment/updateStatus/${selectedAssessment._id}`,
                 method: "POST",
-                data: { status: statusValue, publishedAt: publishedDate },
+                data: { status: statusValue, publishedAt: statusValue === "Published" ? publishedDate : null},
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });
             console.log(response);
@@ -233,9 +230,11 @@ function TeacherAssessmentPage() {
 
     // Fetch Assessmnet Details
     const fetchAssessmentData = async () => {
+        let teacherUsername = JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
+
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/assessment/getAll`,    //   /teacherAssessment
+                url: `${import.meta.env.VITE_API_URL}/assessment/getteacher/${teacherUsername}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });
@@ -256,12 +255,15 @@ function TeacherAssessmentPage() {
         dispatch(headingUpdate({ heading: "Assessment", subheading: "Create and manage your assessments here" }));
     }, [dispatch]);
 
+    console.log(publishedDate)
     return (
         <div id="TeacherAssessment" className="flex flex-col gap-5">
             <Button type="primary" className="w-2/12" onClick={() => navigate("/teacher/assessments/create")}>
                 Create Assessment
             </Button>
             <Table columns={columns} dataSource={AssmData} rowKey="_id" />
+
+            {/* Modal 1 */}
             <Modal
                 title={
                     <div className="flex items-center gap-2">
@@ -273,8 +275,15 @@ function TeacherAssessmentPage() {
                 onCancel={closeModal}
                 footer={() => (
                     <div className="flex flex-row-reverse gap-2">
-                        <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={closeModal}> Close</button>
-                        <button style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}> Publish</button>
+                        <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={closeModal}>
+                            Close
+                        </button>
+                        <button
+                            style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }}
+                            onClick={(e) => statusPublished(e)}
+                        >
+                            Published
+                        </button>
                     </div>
                 )}
             >
@@ -288,6 +297,7 @@ function TeacherAssessmentPage() {
                 </div>
             </Modal>
 
+            {/* Modal 2 */}
             <Modal
                 width={600}
                 title={
@@ -300,10 +310,27 @@ function TeacherAssessmentPage() {
                 onCancel={closeModal2}
                 footer={() => (
                     <div className="flex flex-row-reverse gap-2">
-                        <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={closeModal2}>Close</button>
-                        <button style={{ backgroundColor: "red", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}> Cancel</button>
-                        <button style={{ backgroundColor: "#06a506", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}> Done</button>
-                        <button style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={(e) => statusPublished(e)}> Publish</button>
+                        <button style={{ width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }} onClick={closeModal2}>
+                            Close
+                        </button>
+                        <button
+                            style={{ backgroundColor: "red", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }}
+                            onClick={(e) => statusPublished(e)}
+                        >
+                            Cancelled
+                        </button>
+                        <button
+                            style={{ backgroundColor: "#06a506", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }}
+                            onClick={(e) => statusPublished(e)}
+                        >
+                            Completed
+                        </button>
+                        <button
+                            style={{ backgroundColor: "#0274ff", color: "white", width: "80px", height: "30px", outline: "1px solid #12121226", borderRadius: "5px" }}
+                            onClick={(e) => statusPublished(e)}
+                        >
+                            Published
+                        </button>
                     </div>
                 )}
             >

@@ -11,7 +11,7 @@ const registerUserStd = ({ name, email, username, password, role, gender, gradel
             console.log(hashpassword);
 
             const DBdata = await StudentModel.create({ name, email, username, password: hashpassword, role, gender, gradelevel, institution, dob });
-            console.log("AuthModel line - 14 DBdata =>", DBdata);
+            console.log("StudentAuthModel line - 14 DBdata =>", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -27,7 +27,7 @@ const emailUsernameAlreadyRegisteredStd = ({ email, username }) => {
             const DBdata = await StudentModel.findOne({
                 $or: [{ email: email }, { username: username }],
             });
-            console.log("AuthModel line - 30 DBdata =>", DBdata);
+            console.log("StudentAuthModel line - 30 DBdata =>", DBdata);
 
             if (DBdata && DBdata.email === email) {
                 console.log("Email");
@@ -61,7 +61,7 @@ const editUserStd = ({ id, name, email, role, gender, gradelevel, institution, d
                 },
                 { new: true },
             );
-            console.log("AuthModel line - 64 DBdata =>", DBdata);
+            console.log("StudentAuthModel line - 64 DBdata =>", DBdata);
 
             if (!DBdata) {
                 throw { code: 404, message: "User not found" };
@@ -80,7 +80,7 @@ const confirmEmailUsernameStd = ({ email, username }) => {
             const DBdata = await StudentModel.findOne({
                 $and: [{ email: email }, { username: username }],
             });
-            console.log("AuthModel line - 83 DBdata =>", DBdata);
+            console.log("StudentAuthModel line - 83 DBdata =>", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -93,7 +93,7 @@ const findUserByIdStd = ({ id }) => {
     return new Promise(async (resolve, reject) => {
         try {
             const DBdata = await StudentModel.findById(id);
-            console.log("AuthModel line - 96 DBdata =>", DBdata);
+            console.log("StudentAuthModel line - 96 DBdata =>", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -108,7 +108,7 @@ const passwordUpdateStd = ({ id, password }) => {
             let hashpassword = await bcrypt.hash(password, Number(process.env.SALT));
 
             let DBdata = await StudentModel.findByIdAndUpdate(id, { password: hashpassword });
-            console.log("AuthModel line 111-Update password", DBdata)
+            console.log("StudentAuthModel line 111-Update password", DBdata)
             resolve();
         } catch (error) {
             reject(error);
@@ -123,7 +123,7 @@ const findUserWithKeyStd = ({ userId }) => {
             const DBdata = await StudentModel.findOne({
                 $or: [{ email: userId }, { username: userId }],
             });
-            console.log("AuthModel line - 126 DBdata =>", DBdata);
+            console.log("StudentAuthModel line - 126 DBdata =>", DBdata);
 
             resolve(DBdata);
         } catch (error) {
@@ -136,7 +136,7 @@ const alreadyLogedinCheckStd = ({ loginId }) => {
     return new Promise(async (resolve, reject) => {
         try {
             let DBdata = await StudentLoginModel.findOne({ loginId });
-            console.log("AuthModel line - 139 DBdata =>", DBdata);
+            console.log("StudentAuthModel line - 139 DBdata =>", DBdata);
 
             if (DBdata) {
                 throw { code: 409, message: "User already logedin" };

@@ -53,7 +53,12 @@ const TemplateSchema = new mongoose.Schema({
         type: Number,
     },
     createdBy: {
-        type: String,
+        name: {
+            type: String,
+        },
+        username: {
+            type: String,
+        }
     }
 },
     {

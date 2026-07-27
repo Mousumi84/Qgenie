@@ -51,10 +51,14 @@ const AssessmentSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["Pending", "Published", "Completed", "Cancelled"],    // ["Pending", "Published", "Done", "Cancel"]
+        enum: ["Pending", "Published", "Completed", "Cancelled"],
         default: "Pending",
     },
     publishedAt: {
+        type: Date,
+        default: null,
+    },
+    lastDateAt: {
         type: Date,
         default: null,
     },
@@ -68,7 +72,12 @@ const AssessmentSchema = new mongoose.Schema({
         type: [QuestionPaperSchema],
     },
     createdBy: {
-        type: String,
+        name: {
+            type: String,
+        },
+        username: {
+            type: String,
+        }
     }
 },
 {

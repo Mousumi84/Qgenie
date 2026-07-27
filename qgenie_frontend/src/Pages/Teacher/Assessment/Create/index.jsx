@@ -88,7 +88,11 @@ function TeacherAssessmentCreate() {
         });
 
         values.totalMarks = totalMarks;
-        values.createdBy = JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
+        let obj = {
+            name: JSON.parse(localStorage.getItem("teacherLoginDetails")).name,
+            username: JSON.parse(localStorage.getItem("teacherLoginDetails")).username
+        }
+        values.createdBy = obj ;            // JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
 
         console.log(values);
 

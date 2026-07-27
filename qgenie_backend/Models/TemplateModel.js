@@ -54,7 +54,7 @@ const fetchTemplates = () => {
 const fetchTemplatesByTeacher = ({ username }) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const DBdata = await TemplateModel.find({ createdBy: username });
+            const DBdata = await TemplateModel.find({ "createdBy.username": username });
             console.log("TemplateModel line- 58", DBdata);
 
             resolve(DBdata)

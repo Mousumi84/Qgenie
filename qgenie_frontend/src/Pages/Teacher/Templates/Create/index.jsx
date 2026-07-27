@@ -81,8 +81,12 @@ function TeacherTemplatesCreate() {
   
     // Create a new Template
     const createTemplate = async (values) => {
-        values.createdBy = JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
-
+        let obj = {
+            name: JSON.parse(localStorage.getItem("teacherLoginDetails")).name,
+            username: JSON.parse(localStorage.getItem("teacherLoginDetails")).username
+        }
+        values.createdBy = obj ;            // JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
+        
         try {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/template/create`,

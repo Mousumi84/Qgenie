@@ -10,35 +10,22 @@ import { MdEdit } from "react-icons/md";
 import { PiExamLight } from "react-icons/pi";
 import { BiExpandAlt } from "react-icons/bi";
 import ViewAssessmentBrief from "../../../Components/Student/Assessments/ViewAssessmentBrief";
+import TimeCounter from "../../../Components/Common/TimeCounter";
 
 function StudentAssessment() {
-	const [AssmData, setAssmData] = useState();
+    const [AssmData, setAssmData] = useState();
     const [viewDetails, setViewDetails] = useState(false);
     const [viewAssmId, setViewAssmId] = useState();
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
 
-// {
-//     "createdBy": {
-//         "name": "Teacher",
-//         "username": "T5691673"
-//     },
-//     "_id": "6a6739c1d9e6128fc38eeeae",
-//     "title": "Math Exam - CA1",
-//     "subject": "Math",
-//     "gradelevel": "Class 2",
-//     "publishedAt": "2026-07-29T18:30:00.000Z",
-//     "totalMarks": 10,
-//     "timeAllotted": 15,
-//     "lastDateAt": "2026-07-29T18:30:00.000Z"
-// }
-
-        const columns = [
+    const columns = [
         {
             title: "Title",
             dataIndex: "title",
             key: "title",
+            fixed: "start",
         },
         {
             title: "Subject",
@@ -51,34 +38,6 @@ function StudentAssessment() {
         //     key: "description",
         // },
         {
-            title: "Published On",
-            dataIndex: "publishedAt",
-            key: "publishedAt",
-            render: (publishedAt) => {
-                const date = new Date(publishedAt);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return publishedAt !== null ? `${day}/${month}/${year}` : "----";
-            },
-        },
-        {
-            title: "Last Date",
-            dataIndex: "lastDateAt",
-            key: "lastDateAt",
-            render: (lastDateAt) => {
-                const date = new Date(lastDateAt);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return lastDateAt !== null ? `${day}/${month}/${year}` : "----";
-            },
-        },
-		{
             title: "Time Allotted",
             dataIndex: "timeAllotted",
             key: "timeAllotted",
@@ -88,19 +47,30 @@ function StudentAssessment() {
             dataIndex: "totalMarks",
             key: "totalMarks",
         },
-		{
-			title: "Actions",
-			key: "actions",
-			width: "120px",
-			render: (_, record) => {
-				return (
-					<div className="flex flex-row gap-4">
+        {
+            title: "Submission Within",
+            dataIndex: "assessmentDate",
+            key: "assessmentDate",
+            render: (assessmentDate) => {
+                let endtime = new Date(assessmentDate[1]).getTime();
+                
+                return (<TimeCounter endtime={endtime} />)
+            },
+        },
+        {
+            title: "Actions",
+            fixed: "end",
+            key: "actions",
+            width: "120px",
+            render: (_, record) => {
+                return (
+                    <div className="flex flex-row gap-4">
                         <BiExpandAlt className="text-green-300" onClick={() => viewAssmDetails(record)} />
-						<PiExamLight className="text-blue-300" onClick={() => navigate("", { state: record })} />
-					</div>
-				);
-			},
-		},
+                        <PiExamLight className="text-blue-300" onClick={() => navigate("", { state: record })} />
+                    </div>
+                );
+            },
+        },
     ];
 
     const viewAssmDetails = (item) => {
@@ -135,7 +105,7 @@ function StudentAssessment() {
 
     return (
         <div id="StudentAssessment">
-            <Table dataSource={AssmData} columns={columns} rowKey="_id" />
+            <Table scroll={{ x: "max-content" }} dataSource={AssmData} columns={columns} rowKey="_id" />
             {viewDetails && <ViewAssessmentBrief id={viewAssmId} setViewDetails={setViewDetails} />}
         </div>
     );

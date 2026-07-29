@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const QuestionPaperSchema = new mongoose.Schema({
     questionType: {
         type: String,
-        enum: ["MCQ", "MSQ","TRUE_FALSE","FILL_BLANK", "SAQ", "LAQ"],
+        enum: ["MCQ", "MSQ", "TRUE_FALSE", "FILL_BLANK", "SAQ", "LAQ"],
     },
     question: {
         type: String,
@@ -17,7 +17,7 @@ const QuestionPaperSchema = new mongoose.Schema({
     },
     negativeMarks: {
         type: Number,
-        default: 0 ,
+        default: 0,
     },
     hints: {
         type: String,
@@ -26,9 +26,9 @@ const QuestionPaperSchema = new mongoose.Schema({
         type: String,
     },
 },
-{
-    discriminatorKey: "questionType",
-});
+    {
+        discriminatorKey: "questionType",
+    });
 
 const AssessmentSchema = new mongoose.Schema({
     title: {
@@ -58,15 +58,15 @@ const AssessmentSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
-    lastDateAt: {
-        type: Date,
-        default: null,
+    assessmentDate: {
+        type: [Date],
+        // required: true,
     },
     totalMarks: {
         type: Number
-    }, 
+    },
     timeAllotted: {
-        type: Number, 
+        type: Number,
     },
     questions: {
         type: [QuestionPaperSchema],
@@ -80,9 +80,9 @@ const AssessmentSchema = new mongoose.Schema({
         }
     }
 },
-{
-    timestamps: true,
-});
+    {
+        timestamps: true,
+    });
 
 // Check Question Type on  ["MCQ", "MSQ","TRUE_FALSE","FILL_BLANK", "SAQ", "LAQ"]
 
@@ -101,7 +101,7 @@ AssessmentSchema.path('questions').discriminator(
             }],
             validate: (e) => e.length === 4,
         }
-    }) 
+    })
 );
 
 AssessmentSchema.path('questions').discriminator(
@@ -119,7 +119,7 @@ AssessmentSchema.path('questions').discriminator(
             }],
             validate: (e) => e.length === 6,
         }
-    }) 
+    })
 );
 
 AssessmentSchema.path('questions').discriminator(
@@ -128,7 +128,7 @@ AssessmentSchema.path('questions').discriminator(
             type: Boolean,
             required: true,
         }
-    }) 
+    })
 );
 
 AssessmentSchema.path('questions').discriminator(
@@ -137,7 +137,7 @@ AssessmentSchema.path('questions').discriminator(
             type: [String],
             required: true,
         }
-    }) 
+    })
 );
 
 AssessmentSchema.path('questions').discriminator(
@@ -146,7 +146,7 @@ AssessmentSchema.path('questions').discriminator(
             type: String,
             required: true,
         }
-    }) 
+    })
 );
 
 AssessmentSchema.path('questions').discriminator(
@@ -159,6 +159,6 @@ AssessmentSchema.path('questions').discriminator(
 );
 
 
-const AssessmentModel = mongoose.model("Assessment",AssessmentSchema);
+const AssessmentModel = mongoose.model("Assessment", AssessmentSchema);
 
 export default AssessmentModel;

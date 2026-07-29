@@ -58,10 +58,10 @@ const editAssessmentController = async (req, res) => {
 const updateAssessmentStatusController = async (req, res) => {
     console.log("Edit Assessment Status", req.params.id, req.body);
     let id = req.params.id;
-    let { status, publishedAt, lastDateAt } = req.body;
+    let { status, publishedAt, assessmentDate } = req.body;
 
     try {
-        const data = await updateStatusAssessment({ id, status, publishedAt, lastDateAt });
+        const data = await updateStatusAssessment({ id, status, publishedAt, assessmentDate });
         return res.send({
             status: 200,
             message: `Updated assessment status successfully`,

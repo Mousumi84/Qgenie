@@ -25,6 +25,7 @@ function TeacherTemplatesPage() {
             title: "Title",
             dataIndex: "title",
             key: "title",
+            fixed: "start",
         },
         {
             title: "Subject",
@@ -52,6 +53,7 @@ function TeacherTemplatesPage() {
         },
         {
             title: "Actions",
+            fixed: "end",
             key: "actions",
             width: "120px",
             render: (_, record) => {
@@ -134,7 +136,7 @@ function TeacherTemplatesPage() {
             <Button type="primary" className="w-2/12" onClick={() => navigate("/teacher/templates/create")}>
                 Create Template
             </Button>
-            <Table columns={columns} dataSource={TempData} rowKey="_id" />
+            <Table scroll={{ x: "max-content" }} columns={columns} dataSource={TempData} rowKey="_id" />
             {viewDetails && <ViewTemplateDetails id={viewTempId} setViewDetails={setViewDetails} />}
         </div>
     );

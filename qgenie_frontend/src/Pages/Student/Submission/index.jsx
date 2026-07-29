@@ -8,59 +8,60 @@ function StudentSubmission() {
 
     const columns = [
         {
-          title: 'Assessment',
-          dataIndex: 'assessment',
-          key: 'assessment',
+            title: "Assessment",
+            dataIndex: "assessment",
+            key: "assessment",
         },
         {
-          title: 'Subject',
-          dataIndex: 'subject',
-          key: 'subject',
+            title: "Subject",
+            dataIndex: "subject",
+            key: "subject",
         },
         {
-          title: 'Status',
-          dataIndex: 'status',
-          key: 'status',
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
         },
         {
-          title: 'Started At',
-          dataIndex: 'startedAt',
-          key: 'startedAt',
+            title: "Started At",
+            dataIndex: "startedAt",
+            key: "startedAt",
         },
         {
-          title: 'Submitted At',
-          dataIndex: 'submittedAt',
-          key: 'submittedAt',
+            title: "Submitted At",
+            dataIndex: "submittedAt",
+            key: "submittedAt",
         },
         {
-          title: 'Score',
-          dataIndex: 'score',
-          key: 'score',
+            title: "Score",
+            dataIndex: "score",
+            key: "score",
         },
         {
-          title: 'Actions',
-          key: 'actions',
-          width: "120px",
-                      render: () => {
-                          return(
-                              <div className="flex flex-row gap-4">
-                                  <MdOutlineModeEditOutline />
-                                  <MdOutlineDeleteOutline />
-                              </div>
-                          )
-                      }
+            title: "Actions",
+            fixed: "end",
+            key: "actions",
+            width: "120px",
+            render: () => {
+                return (
+                    <div className="flex flex-row gap-4">
+                        <MdOutlineModeEditOutline />
+                        <MdOutlineDeleteOutline />
+                    </div>
+                );
+            },
         },
     ];
-    
+
     useEffect(() => {
-        dispatch(headingUpdate({heading:"Submission", subheading:"View all submissions here"}));
-    },[dispatch]);
+        dispatch(headingUpdate({ heading: "Submission", subheading: "View all submissions here" }));
+    }, [dispatch]);
 
     return (
         <div id="StudentSubmission">
-            <Table dataSource={[]} columns={columns} />
+            <Table scroll={{ x: "max-content" }} dataSource={[]} columns={columns} />
         </div>
-    )
+    );
 }
 
 export default StudentSubmission;

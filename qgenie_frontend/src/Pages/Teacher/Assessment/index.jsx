@@ -13,16 +13,15 @@ import dayjs from "dayjs";
 import { TbExclamationCircleFilled } from "react-icons/tb";
 
 let { confirm } = Modal;
+let { RangePicker } = DatePicker;
 
 function TeacherAssessmentPage() {
-    const [AssmData, setAssmData] = useState();
+    const [assRecord, setAssRecord] = useState();
     const [viewDetails, setViewDetails] = useState(false);
     const [viewAssmId, setViewAssmId] = useState();
     const [selectedAssessment, setSelectedAssessment] = useState(null);
-    const [publishedDate, setPublishedDate] = useState();
-    const [lastDate, setLastDate] = useState();
-    const [PubDateError, setPubDateError] = useState("");
-    const [LastDateError, setLastDateError] = useState("");
+    const [assDate, setAssDate] = useState(null);
+    const [assDateError, setAssDateError] = useState("");
     const [statusPendingPopOpen, setStatusPendingPopOpen] = useState(false);
     const [statusDoneCancelPopOpen, setStatusDoneCancelPopOpen] = useState(false);
 
@@ -34,6 +33,7 @@ function TeacherAssessmentPage() {
             title: "Title",
             dataIndex: "title",
             key: "title",
+            fixed: "start",
         },
         {
             title: "Grade Level",
@@ -56,6 +56,42 @@ function TeacherAssessmentPage() {
             key: "totalMarks",
         },
         {
+            title: "Start Date",
+            dataIndex: "assessmentDate",
+            key: "assessmentDate",
+            render: (assessmentDate) => {
+                if (!assessmentDate || assessmentDate.length === 0) {
+                    return "----";
+                }
+
+                const date = new Date(assessmentDate[0]);
+
+                const day = String(date.getDate()).padStart(2, "0");
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const year = String(date.getFullYear()).slice(-2);
+
+                return `${day}/${month}/${year}`;
+            },
+        },
+        {
+            title: "Last Date",
+            dataIndex: "assessmentDate",
+            key: "assessmentDate",
+            render: (assessmentDate) => {
+                if (!assessmentDate || assessmentDate.length === 0) {
+                    return "----";
+                }
+
+                const date = new Date(assessmentDate[1]);
+
+                const day = String(date.getDate()).padStart(2, "0");
+                const month = String(date.getMonth() + 1).padStart(2, "0");
+                const year = String(date.getFullYear()).slice(-2);
+
+                return `${day}/${month}/${year}`;
+            },
+        },
+        {
             title: "Status",
             dataIndex: "status", // ["Pending", "Published", "Completed", "Cancelled"]
             key: "status",
@@ -71,18 +107,13 @@ function TeacherAssessmentPage() {
                         style={{ color: statusColors[status] }}
                         onClick={() => {
                             setSelectedAssessment(record);
-
                             if (record.publishedAt) {
-                                setPublishedDate(dayjs(record.publishedAt));
-                                setLastDate(dayjs(record.lastDateAt));
+                                setAssDate([dayjs(record.assessmentDate[0]), dayjs(record.assessmentDate[1])]);
                             } else {
-                                setPublishedDate(null);
-                                setLastDate(null);
+                                setAssDate(null);
                             }
 
-                            setPubDateError("");
-                            setLastDateError("");
-                            console.log(status, status == "Published");
+                            setAssDateError("");
                             status == "Published" ? setStatusDoneCancelPopOpen(true) : setStatusPendingPopOpen(true);
                         }}
                     >
@@ -106,20 +137,6 @@ function TeacherAssessmentPage() {
             },
         },
         {
-            title: "Last Date",
-            dataIndex: "lastDateAt",
-            key: "lastDateAt",
-            render: (lastDateAt) => {
-                const date = new Date(lastDateAt);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return lastDateAt !== null ? `${day}/${month}/${year}` : "----";
-            },
-        },
-        {
             title: "Created On",
             dataIndex: "createdAt",
             key: "createdAt",
@@ -135,6 +152,7 @@ function TeacherAssessmentPage() {
         },
         {
             title: "Actions",
+            fixed: "end",
             key: "actions",
             width: "120px",
             render: (_, record) => {
@@ -154,33 +172,22 @@ function TeacherAssessmentPage() {
         setViewAssmId(item?._id);
     };
 
-    // Change Published Date
-    const handlePublishedDateChange = (date, dateString) => {
-        console.log(date, dateString);
-        setPublishedDate(date);
+    const assessmentChange = (dates) => {
+        console.log(dates);
+        setAssDate(dates);
 
-        if (date) {
-            setPubDateError("");
-        }
-    };
-
-    // Change lastdate Date
-    const handleLastDateChange = (date, dateString) => {
-        console.log(date, dateString);
-        setLastDate(date);
-
-        if(date) {
-            setLastDateError("");
+        if (dates) {
+            setAssDateError("");
         }
     };
 
     // On click of Published button
     const statusPublished = async (e) => {
-        let statusValue = e.target.innerHTML ;
+        let statusValue = e.target.innerHTML;
+        const now = new Date();
 
-        if (statusValue === "Published" && ( !publishedDate || !lastDate)) {
-            !publishedDate && setPubDateError("Published date is required");
-            !lastDate && setLastDateError("Last date is required");
+        if (statusValue === "Published" && !assDate) {
+            setAssDateError("Select Assessment Start & End Dates");
             return;
         }
 
@@ -188,7 +195,11 @@ function TeacherAssessmentPage() {
             let response = await axios({
                 url: `${import.meta.env.VITE_API_URL}/assessment/updateStatus/${selectedAssessment._id}`,
                 method: "POST",
-                data: { status: statusValue, publishedAt: statusValue === "Published" ? publishedDate : null, lastDateAt: lastDate},
+                data: {
+                    status: statusValue,
+                    publishedAt: statusValue === "Published" ? now : null,
+                    assessmentDate: assDate && assDate.length === 2 ? assDate : null,
+                },
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });
             console.log(response);
@@ -199,10 +210,8 @@ function TeacherAssessmentPage() {
                 setStatusPendingPopOpen(false);
                 setStatusDoneCancelPopOpen(false);
                 setSelectedAssessment(null);
-                setPublishedDate(null);
-                setLastDate(null);
-                setPubDateError("");
-                setLastDateError("");
+                setAssDate(null);
+                setAssDateError("");
             } else {
                 toast.error(response?.data?.message);
             }
@@ -216,20 +225,16 @@ function TeacherAssessmentPage() {
     const closeModal = () => {
         setStatusPendingPopOpen(false);
         setSelectedAssessment(null);
-        setPublishedDate(null);
-        setLastDate(null);
-        setPubDateError("");
-        setLastDateError("");
+        setAssDate(null);
+        setAssDateError("");
     };
 
     // Close Status modal2
     const closeModal2 = () => {
         setStatusDoneCancelPopOpen(false);
         setSelectedAssessment(null);
-        setPublishedDate(null);
-        setLastDate(null);
-        setPubDateError("");
-        setLastDateError("");
+        setAssDate(null);
+        setAssDateError("");
     };
 
     // Delete Assessment
@@ -276,7 +281,7 @@ function TeacherAssessmentPage() {
             });
 
             // console.log(response);
-            setAssmData(response?.data?.data);
+            setAssRecord(response?.data?.data);
         } catch (error) {
             console.log(error);
             toast.error(error.message);
@@ -296,7 +301,7 @@ function TeacherAssessmentPage() {
             <Button type="primary" className="w-2/12" onClick={() => navigate("/teacher/assessments/create")}>
                 Create Assessment
             </Button>
-            <Table columns={columns} dataSource={AssmData} rowKey="_id" />
+            <Table scroll={{ x: "max-content" }} columns={columns} dataSource={assRecord} rowKey="_id" />
 
             {/* Modal 1 */}
             <Modal
@@ -325,17 +330,10 @@ function TeacherAssessmentPage() {
             >
                 <div className="flex flex-col gap-5 p-3">
                     <p>Once published, the assessment will be visible to students.</p>
-                    <div className="flex flex-row gap-10">
-                        <div>
-                            <span>Published Date: </span>
-                            <DatePicker format="YYYY-MM-DD" onChange={handlePublishedDateChange} value={publishedDate} />
-                            {PubDateError && <div className="text-red-500 text-xs mt-1">{PubDateError}</div>}
-                        </div>
-                        <div>
-                            <span>Last Date: </span>
-                            <DatePicker format="YYYY-MM-DD" onChange={handleLastDateChange} value={lastDate} />
-                            {LastDateError && <div className="text-red-500 text-xs mt-1">{LastDateError}</div>}
-                        </div>
+                    <div>
+                        <span>Assessment: </span>
+                        <RangePicker showTime onChange={assessmentChange} value={assDate} />
+                        {assDateError && <div className="text-red-500 text-xs pl-30">{assDateError}</div>}
                     </div>
                 </div>
             </Modal>
@@ -379,17 +377,10 @@ function TeacherAssessmentPage() {
             >
                 <div className="flex flex-col gap-5 p-3">
                     <p></p>
-                    <div className="flex flex-row gap-10">
-                        <div>
-                            <span>Change Published Date: </span>
-                            <DatePicker format="YYYY-MM-DD" onChange={handlePublishedDateChange} value={publishedDate} />
-                            {PubDateError && <div className="text-red-500 text-xs mt-1">{PubDateError}</div>}
-                        </div>
-                        <div>
-                            <span>Change Last Date: </span>
-                            <DatePicker format="YYYY-MM-DD" onChange={handleLastDateChange} value={lastDate} />
-                            {LastDateError && <div className="text-red-500 text-xs mt-1">{LastDateError}</div>}
-                        </div>
+                    <div>
+                        <span>Change Dates: </span>
+                        <RangePicker showTime onChange={assessmentChange} value={assDate} />
+                        {assDateError && <div className="text-red-500 text-xs pl-30">{assDateError}</div>}
                     </div>
                 </div>
             </Modal>

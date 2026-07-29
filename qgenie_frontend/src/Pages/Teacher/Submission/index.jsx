@@ -8,51 +8,50 @@ function TeacherSubmission() {
 
     const columns = [
         {
-          title: 'Assessment',
-          dataIndex: 'assessment',
-          key: 'assessment',
+            title: "Assessment",
+            dataIndex: "assessment",
+            key: "assessment",
         },
         {
-          title: 'Status',
-          dataIndex: 'status',
-          key: 'status',
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
         },
         {
-          title: 'Started At',
-          dataIndex: 'startedAt',
-          key: 'startedAt',
+            title: "Started At",
+            dataIndex: "startedAt",
+            key: "startedAt",
         },
         {
-          title: 'Submitted At',
-          dataIndex: 'submittedAt',
-          key: 'submittedAt',
+            title: "Submitted At",
+            dataIndex: "submittedAt",
+            key: "submittedAt",
         },
         {
-          title: 'Actions',
-          key: 'actions',
-          width: "120px",
-                      render: () => {
-                          return(
-                              <div className="flex flex-row gap-4">
-                                  <MdOutlineModeEditOutline />
-                                  <MdOutlineDeleteOutline />
-                              </div>
-                          )
-                      }
+            title: "Actions",
+            fixed: "end",
+            key: "actions",
+            width: "120px",
+            render: () => {
+                return (
+                    <div className="flex flex-row gap-4">
+                        <MdOutlineModeEditOutline />
+                        <MdOutlineDeleteOutline />
+                    </div>
+                );
+            },
         },
     ];
-    
+
     useEffect(() => {
-        dispatch(headingUpdate({heading:"Submission", subheading:"View all submissions here"}));
-    },[dispatch]);
+        dispatch(headingUpdate({ heading: "Submission", subheading: "View all submissions here" }));
+    }, [dispatch]);
 
     return (
         <div id="TeacherSubmission">
-            <Table dataSource={[]} columns={columns} />
+            <Table scroll={{ x: "max-content" }} dataSource={[]} columns={columns} />
         </div>
-    )
+    );
 }
-
-
 
 export default TeacherSubmission;

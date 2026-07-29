@@ -17,7 +17,7 @@ const saveAssessment = ({ AssObj }) => {
     })
 }
 
-const createAssessmentUsingAI = ({ title, template, description, status, publishedAt, lastDateAt, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation, sampleAnswer, sampleOptions }) => {
+const createAssessmentUsingAI = ({ title, template, description, status, publishedAt, assessmentDate, totalMarks, questions, questionType, question, marks, negativeMarks, hints, explanation, sampleAnswer, sampleOptions }) => {
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -43,12 +43,12 @@ const editAssessment = ({ id, assessmentInput }) => {
     })
 }
 
-const updateStatusAssessment = ({ id, status, publishedAt, lastDateAt }) => {
+const updateStatusAssessment = ({ id, status, publishedAt, assessmentDate }) => {
     return new Promise(async (resolve, reject) => {
-        console.log("UPDATE", status, publishedAt, lastDateAt)
+        console.log("UPDATE", status, publishedAt, assessmentDate)
 
         try {
-            let DBdata = await AssessmentModel.findByIdAndUpdate(id, { status, publishedAt, lastDateAt }, { new: true });
+            let DBdata = await AssessmentModel.findByIdAndUpdate(id, { status, publishedAt, assessmentDate }, { new: true });
             console.log("AssessmentModel line- 52", DBdata);
 
             resolve(DBdata);
@@ -88,7 +88,7 @@ const fetchAssessmentById = ({ id }) => {
 const fetchTemplatesByTeacher = ({ username }) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let DBdata = await AssessmentModel.find({ "createdBy.username" : username });
+            let DBdata = await AssessmentModel.find({ "createdBy.username": username });
             console.log("AssessmentModel line- 108", DBdata);
 
             if (!DBdata) {
@@ -107,9 +107,11 @@ const fetchTemplatesByTeacher = ({ username }) => {
 
 const fetchStudentAssessments = ({ gradelevel }) => {
     return new Promise(async (resolve, reject) => {
-        try {
-            let DBdata = await AssessmentModel.find({ gradelevel, status: "Published" }).select("title subject gradelevel description publishedAt lastDateAt totalMarks timeAllotted createdBy");
-            console.log("AssessmentModel line- 92", DBdata);
+        let now = new Date();
+
+        try {   //    gradelevel, status: "Published", 
+            let DBdata = await AssessmentModel.find({ "assessmentDate.0" : { $gte : now } }).select("title subject gradelevel description publishedAt assessmentDate totalMarks timeAllotted createdBy");
+            console.log("AssessmentModel line- 114", DBdata);
 
             resolve(DBdata);
         } catch (error) {

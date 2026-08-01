@@ -1,6 +1,6 @@
 import express from 'express';
 import isAuth from '../Middleware/isAuth.js';
-import { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentsController, getAssessmentByIdController, getTeacherAssessmentsController, getStudentAssessmentController, deleteAssessmentController } from '../Controllers/AssessmentController.js';   
+import { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentsController, getAssessmentByIdController, getTeacherAssessmentsController, getStudentAssessmentController, deleteAssessmentController, getStudentAssessmentByIdController } from '../Controllers/AssessmentController.js';   
 
 const AssessmentRouter = express.Router();
 
@@ -12,7 +12,7 @@ AssessmentRouter.get("/getAll", isAuth, getAllAssessmentsController);
 AssessmentRouter.get("/get/:id", isAuth, getAssessmentByIdController);
 AssessmentRouter.get("/getteacher/:username", isAuth, getTeacherAssessmentsController);
 AssessmentRouter.get("/getstudent", isAuth, getStudentAssessmentController);
-// AssessmentRouter.get("/get/studentAssessment/:id", getStudentAssessmentByIdController);     //   isAuth
+AssessmentRouter.get("/get/studentAssessment/:id", isAuth, getStudentAssessmentByIdController);
 AssessmentRouter.post("/delete/:id", isAuth, deleteAssessmentController);
 
 export default AssessmentRouter;

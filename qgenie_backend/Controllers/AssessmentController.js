@@ -1,4 +1,4 @@
-import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, saveAssessment, updateStatusAssessment } from "../Models/AssessmentModel.js";             //   fetchStudentAssessmentById
+import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, saveAssessment, updateStatusAssessment, fetchStudentAssessmentById } from "../Models/AssessmentModel.js";
 
 const createAssessmentController = async (req, res) => {
     // console.log("create assessment", req.body);
@@ -153,26 +153,24 @@ const getStudentAssessmentController = async (req, res) => {
     }
 }
 
-// const getStudentAssessmentByIdController = async (req, res) => {
-//     let id = req.params.id;
-//     let { gradelevel } = req.body;
-//     console.log("gradelevel =>", id, gradelevel);
+const getStudentAssessmentByIdController = async (req, res) => {
+    let id = req.params.id;
 
-//     try {
-//         let data = await fetchStudentAssessmentById({ id, gradelevel });
+    try {
+        let data = await fetchStudentAssessmentById({ id });
 
-//         return res.send({
-//             status: 200,
-//             message: "Data fetched",
-//             data: data,
-//         })
-//     } catch (error) {
-//         return res.send({
-//             status: error.status || 500,
-//             message: error.message || "Internal server error",
-//         })
-//     }
-// }
+        return res.send({
+            status: 200,
+            message: "Data fetched",
+            data: data,
+        })
+    } catch (error) {
+        return res.send({
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
+    }
+}
 
 const deleteAssessmentController = async (req, res) => {
     let id = req.params.id;
@@ -193,4 +191,4 @@ const deleteAssessmentController = async (req, res) => {
     }
 }
 
-export { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentsController, getAssessmentByIdController, getTeacherAssessmentsController, getStudentAssessmentController, deleteAssessmentController };    // getStudentAssessmentByIdController
+export { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentsController, getAssessmentByIdController, getTeacherAssessmentsController, getStudentAssessmentController, getStudentAssessmentByIdController, deleteAssessmentController };

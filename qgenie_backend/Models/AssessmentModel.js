@@ -107,10 +107,10 @@ const fetchTemplatesByTeacher = ({ username }) => {
 
 const fetchStudentAssessments = ({ gradelevel }) => {
     return new Promise(async (resolve, reject) => {
-        let now = new Date();
+        // let now = new Date();
 
-        try {   //    gradelevel, status: "Published", 
-            let DBdata = await AssessmentModel.find({ "assessmentDate.0" : { $gte : now } }).select("title subject gradelevel description publishedAt assessmentDate totalMarks timeAllotted createdBy");
+        try {
+            let DBdata = await AssessmentModel.find({ gradelevel, status: "Published", "assessmentDate.0" : { $lte : Date.now() }}).select("title subject gradelevel description publishedAt assessmentDate totalMarks timeAllotted createdBy");
             console.log("AssessmentModel line- 114", DBdata);
 
             resolve(DBdata);
@@ -120,29 +120,33 @@ const fetchStudentAssessments = ({ gradelevel }) => {
     })
 }
 
-// const fetchStudentAssessmentById = ({ id, gradelevel }) => {
-//     return new Promise(async (resolve, reject) => {
-//         console.log(id, gradelevel)
-//         try {
-//             let DBdata = await AssessmentModel.findOne({
-//                 $and: [{ _id: id }, { gradelevel }],
-//             });
-//             console.log("AssessmentModel line- 108", DBdata);
+const fetchStudentAssessmentById = ({ id }) => {
+    return new Promise(async (resolve, reject) => {
+        console.log(id)
+        try {
+            let DBdata = await AssessmentModel
+                                .findById(id)
+                                .select("title subject gradelevel description publishedAt assessmentDate totalMarks timeAllotted createdBy template")
+                                .populate({
+                                    path: "template",
+                                    select: "questionTypeTemplate"
+                                });
+            console.log("AssessmentModel line- 108", DBdata);
 
-//             if (!DBdata) {
-//                 console.log("Yes")
-//                 reject({
-//                     status: 404,
-//                     message: "Assessment not found.",
-//                 });
-//             }
+            if (!DBdata) {
+                console.log("Yes")
+                reject({
+                    status: 404,
+                    message: "Assessment not found.",
+                });
+            }
 
-//             resolve(DBdata);
-//         } catch (error) {
-//             reject(error);
-//         }
-//     })
-// }
+            resolve(DBdata);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
 
 const deleteAssessment = ({ id }) => {
     return new Promise(async (resolve, reject) => {
@@ -157,4 +161,4 @@ const deleteAssessment = ({ id }) => {
     })
 }
 
-export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, deleteAssessment }   // fetchStudentAssessmentById
+export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, fetchStudentAssessmentById, deleteAssessment }

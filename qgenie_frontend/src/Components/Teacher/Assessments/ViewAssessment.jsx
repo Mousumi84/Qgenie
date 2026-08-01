@@ -57,7 +57,7 @@ const ViewAssessmentDetails = ({ id, setViewDetails }) => {
                         <div>{record?.totalMarks}</div>
                     </div>
                     <div className="flex row gap-4 w-90 pb-2">
-                        <strong>Time Allotted :</strong>
+                        <strong>Duration :</strong>
                         <div>{record?.timeAllotted}</div>
                     </div>
                 </div>

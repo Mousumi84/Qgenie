@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-const TimeCounter = ({ endtime }) => {
+const TimeCounter = ({ style, endtime }) => {
     let [remainTime, setRemainTime] = useState(endtime - Date.now());
 
     const timerFun = (ms) => {
@@ -18,16 +18,7 @@ const TimeCounter = ({ endtime }) => {
 
         const seconds = Math.floor(ms / 1000);
 
-        let result = [];
-
-        if (days) result.push(`${days} d : `);
-        if (hours) result.push(`${hours} h : `);
-        if (minutes) result.push(`${minutes} m : `);
-        if (seconds || result.length === 0) {
-            result.push(`${seconds} s`);
-        }
-
-        return result.join(" ");
+        return `${String(days).padStart(2, "0")} d : ${String(hours).padStart(2, "0")} h : ${String(minutes).padStart(2, "0")} m : ${String(seconds).padStart(2, "0")} s`; 
     };
 
     useEffect(() => {
@@ -40,7 +31,7 @@ const TimeCounter = ({ endtime }) => {
 
     return (
         <>
-            <span>{timerFun(remainTime)}</span>
+            <span className={style}>{timerFun(remainTime)}</span>
         </>
     );
 };

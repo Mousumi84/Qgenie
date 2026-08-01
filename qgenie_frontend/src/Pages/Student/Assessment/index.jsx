@@ -22,7 +22,7 @@ function StudentAssessment() {
 
     const columns = [
         {
-            title: "Title",
+            title: "Assessment",
             dataIndex: "title",
             key: "title",
             fixed: "start",
@@ -32,33 +32,48 @@ function StudentAssessment() {
             dataIndex: "subject",
             key: "subject",
         },
-        // {
-        //     title: "Description",
-        //     dataIndex: "description",
-        //     key: "description",
-        // },
         {
-            title: "Time Allotted",
-            dataIndex: "timeAllotted",
-            key: "timeAllotted",
+            title: "Teacher",
+            dataIndex: ["createdBy", "name"],
+            key: "teacher",
         },
         {
-            title: "Total Marks",
+            title: "Duration",
+            dataIndex: "timeAllotted",
+            key: "timeAllotted",
+            render: (time) => { 
+                if(time > 60) {
+                    let hr = Math.floor(time / 60);
+                    let min = time % 60 ;
+
+                    return `${hr} h ${min} mins`;
+                }
+
+                return `${time} mins`;
+            }
+        },
+        {
+            title: "Marks",
             dataIndex: "totalMarks",
             key: "totalMarks",
         },
+        // {
+        //     title: "Status",
+        //     dataIndex: "",
+        //     key: "status",
+        // },
         {
-            title: "Submission Within",
+            title: "Time Remaining",
             dataIndex: "assessmentDate",
             key: "assessmentDate",
             render: (assessmentDate) => {
                 let endtime = new Date(assessmentDate[1]).getTime();
                 
-                return (<TimeCounter endtime={endtime} />)
+                return (<TimeCounter style={"text-[10px] border border-red-100 bg-red-100 p-1"} endtime={endtime} /> )
             },
         },
         {
-            title: "Actions",
+            title: "Action",
             fixed: "end",
             key: "actions",
             width: "120px",

@@ -9,6 +9,7 @@ import { useState } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { BiExpandAlt } from "react-icons/bi";
 import ViewTemplateDetails from "../../../Components/Teacher/Templates/ViewTemplate";
+import dayjs from "dayjs";
 
 let { confirm } = Modal;
 
@@ -22,7 +23,7 @@ function TeacherTemplatesPage() {
 
     const columns = [
         {
-            title: "Title",
+            title: "Templates",
             dataIndex: "title",
             key: "title",
             fixed: "start",
@@ -41,15 +42,7 @@ function TeacherTemplatesPage() {
             title: "Created On",
             dataIndex: "createdAt",
             key: "createdAt",
-            render: (createdAt) => {
-                const date = new Date(createdAt);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return `${day}/${month}/${year}`;
-            },
+            render: (createdAt) => dayjs(createdAt).format("DD/MM/YY")
         },
         {
             title: "Actions",

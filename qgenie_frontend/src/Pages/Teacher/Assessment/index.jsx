@@ -30,13 +30,13 @@ function TeacherAssessmentPage() {
 
     const columns = [
         {
-            title: "Title",
+            title: "Assessment",
             dataIndex: "title",
             key: "title",
             fixed: "start",
         },
         {
-            title: "Grade Level",
+            title: "Grade",
             dataIndex: "gradelevel",
             key: "gradelevel",
         },
@@ -46,51 +46,48 @@ function TeacherAssessmentPage() {
             key: "subject",
         },
         {
-            title: "Time Allotted",
+            title: "Duration",
             dataIndex: "timeAllotted",
             key: "timeAllotted",
         },
         {
-            title: "Total Marks",
+            title: "Marks",
             dataIndex: "totalMarks",
             key: "totalMarks",
         },
         {
-            title: "Start Date",
+            title: "Available From",
             dataIndex: "assessmentDate",
             key: "assessmentDate",
-            render: (assessmentDate) => {
+            render: (assessmentDate,record) => {
                 if (!assessmentDate || assessmentDate.length === 0) {
                     return "----";
                 }
-
-                const date = new Date(assessmentDate[0]);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return `${day}/${month}/${year}`;
+                return dayjs(record.assessmentDate[0]).format("DD/MM/YY hh:mm A");
             },
         },
         {
-            title: "Last Date",
+            title: "Available Until",
             dataIndex: "assessmentDate",
             key: "assessmentDate",
-            render: (assessmentDate) => {
+            render: (assessmentDate,record) => {
                 if (!assessmentDate || assessmentDate.length === 0) {
                     return "----";
                 }
 
-                const date = new Date(assessmentDate[1]);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return `${day}/${month}/${year}`;
+                return dayjs(record.assessmentDate[1]).format("DD/MM/YY hh:mm A");
             },
         },
+        {
+            title: "Attempts",
+            dataIndex: "attempts",
+            key: "attempts",
+        },
+        // {
+        //     title: "Average Score",
+        //     dataIndex: "attempts",
+        //     key: "attempts",
+        // },
         {
             title: "Status",
             dataIndex: "status", // ["Pending", "Published", "Completed", "Cancelled"]
@@ -126,29 +123,13 @@ function TeacherAssessmentPage() {
             title: "Published On",
             dataIndex: "publishedAt",
             key: "publishedAt",
-            render: (publishedAt) => {
-                const date = new Date(publishedAt);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return publishedAt !== null ? `${day}/${month}/${year}` : "----";
-            },
+            render: (publishedAt) => dayjs(publishedAt).format("DD/MM/YY hh:mm A")
         },
         {
             title: "Created On",
             dataIndex: "createdAt",
             key: "createdAt",
-            render: (createdAt) => {
-                const date = new Date(createdAt);
-
-                const day = String(date.getDate()).padStart(2, "0");
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const year = String(date.getFullYear()).slice(-2);
-
-                return `${day}/${month}/${year}`;
-            },
+            render: (createdAt) => dayjs(createdAt).format("DD/MM/YY")
         },
         {
             title: "Actions",

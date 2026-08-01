@@ -26,9 +26,10 @@ const QuestionPaperSchema = new mongoose.Schema({
         type: String,
     },
 },
-    {
-        discriminatorKey: "questionType",
-    });
+{
+    discriminatorKey: "questionType",
+}
+);
 
 const AssessmentSchema = new mongoose.Schema({
     title: {

@@ -46,13 +46,9 @@ const SubmissionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: [ "In Progress", "Submitted", "Evaluated" ],
+        enum: [ "In Progress", "Submitted", "Evaluated", "Auto Submitted" ],
         default: "In Progress"
     },
-    // attemptNo: {
-    //     type: Number,
-    //     default: 1
-    // },
     startedAt: {
         type: Date
     },
@@ -60,7 +56,7 @@ const SubmissionSchema = new mongoose.Schema({
         type: Date
     },
     timeUsed: {
-        type: Number
+        type: Number      // Seconds
     },
     answers: {
         type: [AnswerSchema]
@@ -80,9 +76,9 @@ const SubmissionSchema = new mongoose.Schema({
     copyPasteCount: {
         type: Number
     },
-    autoSubmitted: {
-        type: Boolean
-    },
+    // autoSubmitted: {
+    //     type: Boolean
+    // },
     teacherRemarks: {
         type: String
     }
@@ -100,3 +96,20 @@ SubmissionSchema.index(
 const SubmissionModel = mongoose.model("Submission",SubmissionSchema);
 
 export default SubmissionModel;
+
+
+
+//            Start Assessment
+//                 │
+//                 ▼
+//             In Progress
+//             /          \
+//            /            \
+//      Submit             Timer Ends
+//         │                    │
+//         ▼                    ▼
+//    Submitted         Auto Submitted
+//           \              /
+//            \            /
+//             ▼          ▼
+//              Evaluated

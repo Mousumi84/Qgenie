@@ -47,7 +47,7 @@ function TeacherAssessmentCreate() {
         let teacherUsername = JSON.parse(localStorage.getItem("teacherLoginDetails")).username;
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/template/getteacher/${teacherUsername}`,
+                url: `${import.meta.env.VITE_API_URL}/template/getTeacher/${teacherUsername}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });

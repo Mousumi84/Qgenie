@@ -21,6 +21,8 @@ const StudentLayout = lazy(() => import("./Components/Student/Layout"));
 const StudentDashboard = lazy(() => import("./Pages/Student/Dashboard"));
 const StudentAssessment = lazy(() => import("./Pages/Student/Assessment"));
 const StudentSubmission = lazy(() => import("./Pages/Student/Submission"));
+const ExamAssessment = lazy(() => import("./Pages/Student/ExamAssessment"));
+
 
 function App() {
     // let [isTeacherLoggedIn, setIsTeacherLoggedIn] = React.useState(false);
@@ -55,6 +57,7 @@ function App() {
                             <Route path="/student/assessments" element={<StudentAssessment />} />
                             <Route path="/student/submissions" element={<StudentSubmission />} />
                         </Route>
+                        <Route path="/student/exam" element={<ExamAssessment />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

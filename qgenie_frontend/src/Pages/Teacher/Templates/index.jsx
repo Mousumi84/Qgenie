@@ -42,7 +42,7 @@ function TeacherTemplatesPage() {
             title: "Created On",
             dataIndex: "createdAt",
             key: "createdAt",
-            render: (createdAt) => dayjs(createdAt).format("DD/MM/YY")
+            render: (createdAt) => dayjs(createdAt).format("DD/MM/YY"),
         },
         {
             title: "Actions",
@@ -52,9 +52,9 @@ function TeacherTemplatesPage() {
             render: (_, record) => {
                 return (
                     <div className="flex flex-row gap-4">
-                        <BiExpandAlt className="text-green-300" onClick={() => viewTempDetails(record)} />
-                        <MdEdit className="text-blue-300" onClick={() => navigate("/teacher/templates/create", { state: record })} />
-                        <MdDelete className="text-red-300" onClick={() => showDeleteConfirm(record)} />
+                        <BiExpandAlt className="text-green-500" onClick={() => viewTempDetails(record)} />
+                        <MdEdit className="text-blue-400" onClick={() => navigate("/teacher/templates/create", { state: record })} />
+                        <MdDelete className="text-red-400" onClick={() => showDeleteConfirm(record)} />
                     </div>
                 );
             },
@@ -103,7 +103,7 @@ function TeacherTemplatesPage() {
 
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/template/getteacher/${teacherUsername}`,
+                url: `${import.meta.env.VITE_API_URL}/template/getTeacher/${teacherUsername}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });

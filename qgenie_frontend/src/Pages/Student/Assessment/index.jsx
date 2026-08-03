@@ -41,16 +41,16 @@ function StudentAssessment() {
             title: "Duration",
             dataIndex: "timeAllotted",
             key: "timeAllotted",
-            render: (time) => { 
-                if(time > 60) {
+            render: (time) => {
+                if (time > 60) {
                     let hr = Math.floor(time / 60);
-                    let min = time % 60 ;
+                    let min = time % 60;
 
                     return `${hr} h ${min} mins`;
                 }
 
                 return `${time} mins`;
-            }
+            },
         },
         {
             title: "Marks",
@@ -58,7 +58,7 @@ function StudentAssessment() {
             key: "totalMarks",
         },
         // {
-        //     title: "Status",
+        //     title: "Status",     //  [ Not Attempted (Red), Attempted (Blue), Evaluated (Green), Late (Orange)    Upcoming, Available, Expired, Submitted ]
         //     dataIndex: "",
         //     key: "status",
         // },
@@ -68,20 +68,20 @@ function StudentAssessment() {
             key: "assessmentDate",
             render: (assessmentDate) => {
                 let endtime = new Date(assessmentDate[1]).getTime();
-                
-                return (<TimeCounter style={"text-[10px] border border-red-100 bg-red-100 p-1"} endtime={endtime} /> )
+
+                return <TimeCounter style={"text-[10px] border border-red-100 bg-red-100 p-1"} endtime={endtime} />;
             },
         },
         {
-            title: "Action",
+            title: "Actions",
             fixed: "end",
             key: "actions",
             width: "120px",
             render: (_, record) => {
                 return (
                     <div className="flex flex-row gap-4">
-                        <BiExpandAlt className="text-green-300" onClick={() => viewAssmDetails(record)} />
-                        <PiExamLight className="text-blue-300" onClick={() => navigate("", { state: record })} />
+                        <BiExpandAlt className="text-green-500" onClick={() => viewAssmDetails(record)} />
+                        {new Date(record?.assessmentDate[1]).getTime() > Date.now() && <PiExamLight className="text-yellow-500" size={18} onClick={() => attemptAssessment(record)} />}
                     </div>
                 );
             },
@@ -91,6 +91,11 @@ function StudentAssessment() {
     const viewAssmDetails = (item) => {
         setViewDetails(!viewDetails);
         setViewAssmId(item?._id);
+    };
+
+    const attemptAssessment = (item) => {
+        navigate("/student/exam", { state: item });
+        document.documentElement.requestFullscreen();
     };
 
     // Fetch Assessmnet Details

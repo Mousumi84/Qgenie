@@ -59,7 +59,7 @@ function TeacherAssessmentPage() {
             title: "Available From",
             dataIndex: "assessmentDate",
             key: "assessmentDate",
-            render: (assessmentDate,record) => {
+            render: (assessmentDate, record) => {
                 if (!assessmentDate || assessmentDate.length === 0) {
                     return "----";
                 }
@@ -70,7 +70,7 @@ function TeacherAssessmentPage() {
             title: "Available Until",
             dataIndex: "assessmentDate",
             key: "assessmentDate",
-            render: (assessmentDate,record) => {
+            render: (assessmentDate, record) => {
                 if (!assessmentDate || assessmentDate.length === 0) {
                     return "----";
                 }
@@ -123,13 +123,13 @@ function TeacherAssessmentPage() {
             title: "Published On",
             dataIndex: "publishedAt",
             key: "publishedAt",
-            render: (publishedAt) => dayjs(publishedAt).format("DD/MM/YY hh:mm A")
+            render: (publishedAt) => dayjs(publishedAt).format("DD/MM/YY hh:mm A"),
         },
         {
             title: "Created On",
             dataIndex: "createdAt",
             key: "createdAt",
-            render: (createdAt) => dayjs(createdAt).format("DD/MM/YY")
+            render: (createdAt) => dayjs(createdAt).format("DD/MM/YY"),
         },
         {
             title: "Actions",
@@ -139,9 +139,9 @@ function TeacherAssessmentPage() {
             render: (_, record) => {
                 return (
                     <div className="flex flex-row gap-4">
-                        <BiExpandAlt className="text-green-300" onClick={() => viewAssmDetails(record)} />
-                        <MdEdit className="text-blue-300" onClick={() => navigate("/teacher/assessments/create", { state: record })} />
-                        <MdDelete className="text-red-300" onClick={() => showDeleteConfirm(record)} />
+                        <BiExpandAlt className="text-green-500" onClick={() => viewAssmDetails(record)} />
+                        <MdEdit className="text-blue-400" onClick={() => navigate("/teacher/assessments/create", { state: record })} />
+                        <MdDelete className="text-red-400" onClick={() => showDeleteConfirm(record)} />
                     </div>
                 );
             },

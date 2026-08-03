@@ -7,7 +7,7 @@ const TemplateRouter = express.Router();
 TemplateRouter.post("/create", isAuth, createTemplateController);
 TemplateRouter.post("/edit/:id", isAuth, editTemplateController);
 TemplateRouter.get("/getAll", isAuth, getAllTemplatesController);
-TemplateRouter.get("/getteacher/:username", isAuth, getTeacherTemplatesController);
+TemplateRouter.get("/getTeacher/:username", isAuth, getTeacherTemplatesController);
 TemplateRouter.get("/get/:id", isAuth, getTemplateByIdController);
 TemplateRouter.post("/delete/:id", isAuth, deleteTemplateController);
 

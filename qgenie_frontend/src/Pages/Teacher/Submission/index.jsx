@@ -39,7 +39,7 @@ function TeacherSubmission() {
             key: "marks",
         },
         {
-            title: "Status",               // [ "In Progress", "Submitted", "Evaluated", "Auto Submitted" ],
+            title: "Status",               // [ "In Progress", "Submitted", "Evaluated", "Auto Submitted", "Not Attempted" ],
             dataIndex: "status",
             key: "status",
             render: (status, record) => {
@@ -47,7 +47,8 @@ function TeacherSubmission() {
                     "Submitted": "orange",
                     "In Progress": "#0274ff",
                     "Evaluated": "#06a506",
-                    "Auto Submitted": "red",
+                    "Auto Submitted": "#fff700",
+                    "Not Attempted": "#ff0000",
                 };
                 console.log("record", record);
                 return (

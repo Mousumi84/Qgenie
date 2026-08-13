@@ -256,7 +256,7 @@ function TeacherAssessmentPage() {
 
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/assessment/getteacher/${teacherUsername}`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/getTeacher/${teacherUsername}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("teacherToken")}` },
             });

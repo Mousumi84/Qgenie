@@ -1,16 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import APIStatus from "../../Utils/APIStats";
 
 const TeacherLayoutElementsSlices = createSlice({
     name: "teacher",
     initialState: {
-        collapse: true,
+        collapse: JSON.parse(localStorage.getItem("Collapsed"))|| "true",
         heading: "",
         subheading: ""
     },
     reducers: {
-        collapseUpdate: (state,action) => {
-            state.collapse = action.payload ?? !state.collapse;
+        collapseUpdate: (state) => {
+            state.collapse = !state.collapse;
+            console.log("Collapse ",state.collapse)
+
+            localStorage.setItem("Collapsed", JSON.stringify(state.collapse));
         },
         headingUpdate: (state,action) => {
             state.heading = action.payload.heading;

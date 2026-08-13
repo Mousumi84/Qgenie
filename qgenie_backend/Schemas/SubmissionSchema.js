@@ -46,7 +46,7 @@ const SubmissionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: [ "In Progress", "Submitted", "Evaluated", "Auto Submitted" ],
+        enum: [ "In Progress", "Submitted", "Evaluated", "Auto Submitted", "Not Attempted"],
         default: "In Progress"
     },
     startedAt: {

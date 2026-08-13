@@ -1,4 +1,4 @@
-import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, saveAssessment, updateStatusAssessment, fetchStudentAssessmentById } from "../Models/AssessmentModel.js";
+import { deleteAssessment, editAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, saveAssessment, updateStatusAssessment, fetchStudentAssessmentById, fetchQuestionPaperById } from "../Models/AssessmentModel.js";
 
 const createAssessmentController = async (req, res) => {
     // console.log("create assessment", req.body);
@@ -172,6 +172,25 @@ const getStudentAssessmentByIdController = async (req, res) => {
     }
 }
 
+const getAssessmentQuestionPaperById = async (req, res) => {
+    let id = req.params.id;
+
+    try {
+        let data = await fetchQuestionPaperById({ id });
+
+        return res.send({
+            status: 200,
+            message: "Data fetched",
+            data: data,
+        })
+    } catch (error) {
+        return res.send({
+            status: error.status || 500,
+            message: error.message || "Internal server error",
+        })
+    }
+}
+
 const deleteAssessmentController = async (req, res) => {
     let id = req.params.id;
     console.log("Delete assessment:", id);
@@ -191,4 +210,4 @@ const deleteAssessmentController = async (req, res) => {
     }
 }
 
-export { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentsController, getAssessmentByIdController, getTeacherAssessmentsController, getStudentAssessmentController, getStudentAssessmentByIdController, deleteAssessmentController };
+export { createAssessmentController, createAssessmentusingAIController, editAssessmentController, updateAssessmentStatusController, getAllAssessmentsController, getAssessmentByIdController, getTeacherAssessmentsController, getStudentAssessmentController, getStudentAssessmentByIdController, getAssessmentQuestionPaperById, deleteAssessmentController };

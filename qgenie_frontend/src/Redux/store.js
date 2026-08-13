@@ -1,4 +1,4 @@
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import TeacherLayoutElementsSlices from './Slices/TeacherLayoutSlice';
 import StudentLayoutElementsSlices from './Slices/StudentLayoutSlice';
 

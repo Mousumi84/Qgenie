@@ -65,8 +65,8 @@ function Sidebar({Elements, collapse, collapseFun, role}) {
                     return (
                         <NavLink to={i.to} key={i.heading} className={({isActive}) => (isActive ? `${currentStyle.activeText}` : `text-gray-400 ${currentStyle.hoverText}`)}>
                             <div className="flex flex-row items-center gap-2.5 font-bold text-xl pb-9">
-                                <i.icons />
-                                {collapse && <div>{i.heading}</div>}
+                                <i.icons size={26}/>
+                                {collapse && <div className="text-xl">{i.heading}</div>}
                             </div>
                         </NavLink>
                     )

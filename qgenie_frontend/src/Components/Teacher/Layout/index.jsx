@@ -8,6 +8,9 @@ import { teacherElements } from "./Elements";
 function TeacherLayout() {
   let { collapse, heading, subheading } = useSelector((state) => state.teacher);
   let dispatch = useDispatch();
+  let localCollapse = JSON.parse(localStorage.getItem("Collapsed"));
+
+  console.log("Teacher Layout", collapse, localCollapse);
 
   const collapseFun = () => {
     dispatch(collapseUpdate());
@@ -15,9 +18,9 @@ function TeacherLayout() {
 
   return (
     <div id="TeacherLayout" className="flex flex-row">
-      <Sidebar Elements={teacherElements} collapse={collapse} collapseFun={collapseFun} role="teacher" />
+      <Sidebar Elements={teacherElements} collapse={localCollapse} collapseFun={collapseFun} role="teacher" />
 
-      <main className={collapse ? " w-11/13 absolute right-0" : " w-19/20 absolute right-0"}>
+      <main className={localCollapse ? " w-11/13 absolute right-0" : " w-19/20 absolute right-0"}>
         <Header heading={heading} subheading={subheading} role="teacher" />
         <div className="p-4 relative top-16">
           <Outlet />

@@ -57,11 +57,11 @@ function StudentAssessment() {
             dataIndex: "totalMarks",
             key: "totalMarks",
         },
-        // {
-        //     title: "Status",     //  [ Not Attempted (Red), Attempted (Blue), Evaluated (Green), Late (Orange)    Upcoming, Available, Expired, Submitted ]
-        //     dataIndex: "",
-        //     key: "status",
-        // },
+        {
+            title: "Status", //  [ "In Progress", "Submitted", "Evaluated", "Auto Submitted", "Not Attempted" ]
+            dataIndex: "status",
+            key: "status",
+        },
         {
             title: "Time Remaining",
             dataIndex: "assessmentDate",
@@ -94,7 +94,7 @@ function StudentAssessment() {
     };
 
     const attemptAssessment = (item) => {
-        navigate("/student/exam", { state: item });
+        navigate("/student/exam", { state: item._id });
         document.documentElement.requestFullscreen();
     };
 
@@ -102,12 +102,11 @@ function StudentAssessment() {
     const fetchAssessmentData = async () => {
         try {
             let response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/assessment/getstudent`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/getStudent`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("studentToken")}` },
             });
 
-            console.log(response);
             setAssmData(response?.data?.data);
         } catch (error) {
             console.log(error);

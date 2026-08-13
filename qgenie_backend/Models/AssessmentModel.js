@@ -131,7 +131,35 @@ const fetchStudentAssessmentById = ({ id }) => {
                                     path: "template",
                                     select: "questionTypeTemplate"
                                 });
-            console.log("AssessmentModel line- 108", DBdata);
+            console.log("AssessmentModel line- 134", DBdata);
+
+            if (!DBdata) {
+                console.log("Yes")
+                reject({
+                    status: 404,
+                    message: "Assessment not found.",
+                });
+            }
+
+            resolve(DBdata);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+const fetchQuestionPaperById = ({ id }) => {
+    return new Promise(async (resolve, reject) => {
+        console.log(id)
+        try {
+            let DBdata = await AssessmentModel
+                                .findById(id)
+                                .select("title subject gradelevel assessmentDate totalMarks timeAllotted questions")
+                                .populate({
+                                    path: "template",
+                                    select: "questionTypeTemplate"
+                                });
+            console.log("AssessmentModel line- 162", DBdata);
 
             if (!DBdata) {
                 console.log("Yes")
@@ -161,4 +189,4 @@ const deleteAssessment = ({ id }) => {
     })
 }
 
-export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, fetchStudentAssessmentById, deleteAssessment }
+export { saveAssessment, createAssessmentUsingAI, editAssessment, updateStatusAssessment, fetchAllAssessments, fetchAssessmentById, fetchStudentAssessments, fetchTemplatesByTeacher, fetchStudentAssessmentById, fetchQuestionPaperById, deleteAssessment }

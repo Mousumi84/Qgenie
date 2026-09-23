@@ -43,11 +43,12 @@ const SubmissionSchema = new mongoose.Schema({
     },
     percentage: {
         type: Number,
+        default: 0
     },
     status: {
         type: String,
-        enum: [ "In Progress", "Submitted", "Evaluated", "Auto Submitted", "Not Attempted"],
-        default: "In Progress"
+        enum: ["In Progress", "Submitted", "Evaluated", "Not Submitted", "Expired"],
+        default: "Not Submitted"
     },
     startedAt: {
         type: Date
@@ -71,21 +72,23 @@ const SubmissionSchema = new mongoose.Schema({
         type: String
     },
     tabSwitchCount: {
-        type: Number
+        type: Number,
+        default: 0
     },
     copyPasteCount: {
-        type: Number
+        type: Number,
+        default: 0
     },
-    // autoSubmitted: {
-    //     type: Boolean
-    // },
+    autoSubmitted: {
+        type: Boolean
+    },
     teacherRemarks: {
         type: String
     }
 },
-// {
-//     timestamps: true
-// }
+    {
+        timestamps: true
+    }
 );
 
 SubmissionSchema.index(
@@ -93,7 +96,7 @@ SubmissionSchema.index(
     { unique: true }
 );
 
-const SubmissionModel = mongoose.model("Submission",SubmissionSchema);
+const SubmissionModel = mongoose.model("Submission", SubmissionSchema);
 
 export default SubmissionModel;
 

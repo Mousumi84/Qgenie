@@ -43,7 +43,7 @@ function Login() {
             <div className="w-6/12">
                 <img src="/Qgenie_transparent.png" alt="Qgenie-logo" />
             </div>
-            <div className={`text-2xl font-bold text-center ${textcolor}`}>Log in</div>
+            <div className={`text-2xl font-bold text-center ${textcolor}`}>{`Log in as ${state.role}`}</div>
             <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 20 }} labelAlign="left" style={{ maxWidth: 600 }} initialValues={{ remember: true }} onFinish={onLoginClick} autoComplete="off">
                 <Form.Item label="UserId" name="userId" rules={[{ required: true, message: "Please input your username or email!" }]}>
                     <Input placeholder="Enter your username or email" />

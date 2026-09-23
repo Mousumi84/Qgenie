@@ -16,6 +16,7 @@ function ExamAssessment() {
     const [quesClk, setQuesClk] = useState({});
 
     let state = useLocation().state;
+    let assessmentStartId = useLocation().state.assessmentStartId;
 
     let quesTypeOpt = [
         { label: "Multiple Choice Question", value: "MCQ" },
@@ -26,10 +27,10 @@ function ExamAssessment() {
         { label: "Long Answer Question", value: "LAQ" },
     ];
 
-    const fetchAssessmentData = async () => {
+     const fetchAssessmentData = async () => {
         try {
             const response = await axios({
-                url: `${import.meta.env.VITE_API_URL}/assessment/get/assessmentPaper/${state}`,
+                url: `${import.meta.env.VITE_API_URL}/assessment/get/assessmentPaper/${state.id}`,
                 method: "GET",
                 headers: { Authorization: `${localStorage.getItem("studentToken")}` },
             });
@@ -42,9 +43,9 @@ function ExamAssessment() {
             toast.error(error.message);
         }
     };
-
+    
     const timeLimit = (value) => {
-        if(value > 60) {
+        if (value > 60) {
             let hours = Math.floor(value / 60);
             let minutes = value % 60;
             return `${hours} hours ${minutes} minutes`;
@@ -59,7 +60,7 @@ function ExamAssessment() {
     useEffect(() => {
         if (!assessmentData) return;
 
-        const storageKey = `examEndTime_${state}`;
+        const storageKey = `examEndTime_${state.id}`;
 
         let endTime = localStorage.getItem(storageKey);
 
@@ -105,13 +106,37 @@ function ExamAssessment() {
     }, []);
 
     useEffect(() => {
-        let Obj = questions?.filter((item) => {
-            return item.questionType === selectedQuestionType
-        })
-        setQuesClk( {item: Obj[0], index: 0} );
-    },[selectedQuestionType]);
 
+        if (!questions?.length || !template?.length) return;
 
+        // If no section is selected, select the first section
+        if (!selectedQuestionType) {
+            const firstQuestionType = template[0]?.type;
+
+            setSelectedQuestionType(firstQuestionType);
+            return;
+        }
+
+        // Get questions belonging to the selected section
+        const filteredQuestions = questions.filter(
+            (item) => item.questionType === selectedQuestionType
+        );
+
+        console.log("Filtered Questions:", filteredQuestions);
+
+        if (filteredQuestions.length > 0) {
+            // Open the first question of this section
+            setQuesClk({
+                item: filteredQuestions[0],
+                index: 0,
+            });
+        }
+    }, [questions, template, selectedQuestionType]);
+
+    if (document.hidden) {
+        console.log("Document is hidden. User may have switched tabs or minimized the window.");
+    }
+     
     return (
         <div className="h-screen flex flex-col overflow-hidden">
             {/* HEADER */}
@@ -134,7 +159,7 @@ function ExamAssessment() {
 
                     {selectedQuestionType ?
                         (<div className="flex flex-col h-full text-xl p-5 overflow-auto" >
-                            <MainBody item={quesClk} />
+                            <MainBody item={quesClk} setQuesClk={setQuesClk} questions={questions} selectedQuestionType={selectedQuestionType} />
                         </div>)
                         :
                         (<div className="flex flex-col items-center justify-center h-full text-2xl text-gray-400">Please select a question section to view the questions.</div>)
@@ -143,7 +168,7 @@ function ExamAssessment() {
 
                 {/* RIGHT SIDE */}
                 <aside className="border-l-4 border-gray-200 w-1/6 min-h-0 overflow-hidden" >
-                    <SideBody selectedQuestionType={selectedQuestionType} questions={questions} remainTime={remainTime} quesClk={quesClk} setQuesClk={setQuesClk} />
+                    <SideBody assessmentStartId={assessmentStartId} selectedQuestionType={selectedQuestionType} questions={questions} remainTime={remainTime} quesClk={quesClk} setQuesClk={setQuesClk} assessmentData={assessmentData} />
                 </aside>
             </section>
 

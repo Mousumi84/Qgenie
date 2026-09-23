@@ -39,16 +39,17 @@ function TeacherSubmission() {
             key: "marks",
         },
         {
-            title: "Status",               // [ "In Progress", "Submitted", "Evaluated", "Auto Submitted", "Not Attempted" ],
+            title: "Status",             //  [ "Not Submitted", "In Progress", "Submitted", "Auto Submitted", "Evaluated", "Expired" ]
             dataIndex: "status",
             key: "status",
-            render: (status, record) => {
+            render: (record) => {
                 const statusColors = {
-                    "Submitted": "orange",
-                    "In Progress": "#0274ff",
-                    "Evaluated": "#06a506",
-                    "Auto Submitted": "#fff700",
-                    "Not Attempted": "#ff0000",
+                    "Not Submitted": "#ff6600",
+                    "In Progress": "#0d00ff",
+                    "Submitted": "#a02ed1",
+                    "Auto Submitted": "#ffd900",
+                    "Evaluated": "#22ff00",
+                    "Expired": "#ff0004",
                 };
                 console.log("record", record);
                 return (
